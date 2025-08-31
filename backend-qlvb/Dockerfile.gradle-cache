@@ -1,0 +1,23 @@
+# Fast Gradle Build Dockerfile
+# This creates a base image with Gradle dependencies pre-cached
+
+FROM eclipse-temurin:17-jdk-alpine AS gradle-cache
+
+WORKDIR /app
+
+# Install tools for faster builds
+RUN apk add --no-cache wget curl
+
+# Copy Gradle wrapper and config
+COPY gradle/ gradle/
+COPY gradlew gradle.properties settings.gradle build.gradle ./
+RUN chmod +x ./gradlew
+
+# Pre-download Gradle and dependencies
+RUN ./gradlew dependencies --no-daemon --refresh-dependencies --stacktrace
+
+# This creates a cached layer with all dependencies
+# Use this as base: docker build -f Dockerfile.gradle-cache -t qlvb-gradle-cache:latest .
+
+# Then modify main Dockerfile to use:
+# FROM qlvb-gradle-cache:latest AS builder

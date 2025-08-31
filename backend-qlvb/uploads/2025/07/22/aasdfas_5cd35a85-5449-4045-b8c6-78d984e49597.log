@@ -1,0 +1,186 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=0x00007f2754182876, pid=7117, tid=7228
+#
+# JRE version: OpenJDK Runtime Environment Temurin-21.0.5+11 (21.0.5+11) (build 21.0.5+11-LTS)
+# Java VM: OpenJDK 64-Bit Server VM Temurin-21.0.5+11 (21.0.5+11-LTS, mixed mode, tiered, compressed oops, compressed class ptrs, g1 gc, linux-amd64)
+# Problematic frame:
+# C  [libc.so.6+0x46876]
+#
+# Core dump will be written. Default location: core.7117 (may not exist)
+#
+# If you would like to submit a bug report, please visit:
+#   https://github.com/adoptium/adoptium-support/issues
+# The crash happened outside the Java Virtual Machine in native code.
+# See problematic frame for where to report the bug.
+#
+
+---------------  S U M M A R Y ------------
+
+Command Line: -XX:+IgnoreUnrecognizedVMOptions -Dosgi.requiredJavaVersion=17 -Dfile.encoding=UTF-8 --add-opens=java.base/java.io=ALL-UNNAMED --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.net=ALL-UNNAMED --add-opens=java.base/java.nio=ALL-UNNAMED --add-opens=java.base/java.nio.charset=ALL-UNNAMED --add-opens=java.base/java.text=ALL-UNNAMED --add-opens=java.base/java.time=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.util.concurrent=ALL-UNNAMED --add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED --add-opens=java.base/jdk.internal.vm=ALL-UNNAMED --add-opens=java.base/jdk.internal.misc=ALL-UNNAMED --add-opens=java.base/sun.nio.ch=ALL-UNNAMED --add-opens=java.base/sun.nio.fs=ALL-UNNAMED --add-opens=java.base/sun.security.ssl=ALL-UNNAMED --add-opens=java.base/sun.security.action=ALL-UNNAMED --add-opens=java.base/sun.security.util=ALL-UNNAMED --add-opens=java.security.jgss/sun.security.jgss=ALL-UNNAMED --add-opens=java.security.jgss/sun.security.krb5=ALL-UNNAMED --add-opens=java.desktop/java.awt=ALL-UNNAMED --add-opens=java.desktop/java.awt.peer=ALL-UNNAMED --add-opens=java.sql/java.sql=ALL-UNNAMED -Xms64m -Xmx1024m -Ddbeaver.distribution.type=deb -Duser.home=/home/admin_c75/snap/dbeaver-ce/357 -Dorg.eclipse.swt.browser.DefaultType=webkit -Dorg.eclipse.swt.browser.UseWebKitGTK=true -Ddbeaver.io.tmpdir=/home/admin_c75/Downloads /snap/dbeaver-ce/357/usr/share/dbeaver-ce//plugins/org.jkiss.dbeaver.launcher_1.0.24.202503021833.jar -os linux -ws gtk -arch x86_64 -showsplash -launcher /snap/dbeaver-ce/357/usr/share/dbeaver-ce/dbeaver -name Dbeaver --launcher.library /snap/dbeaver-ce/357/usr/share/dbeaver-ce//plugins/org.eclipse.equinox.launcher.gtk.linux.x86_64_1.2.1200.v20240924-2302/eclipse_11905.so -startup /snap/dbeaver-ce/357/usr/share/dbeaver-ce//plugins/org.jkiss.dbeaver.launcher_1.0.24.202503021833.jar --launcher.overrideVmargs -exitdata 33 -vm /snap/dbeaver-ce/357/usr/share/dbeaver-ce/jre/bin/java -vmargs -XX:+IgnoreUnrecognizedVMOptions -Dosgi.requiredJavaVersion=17 -Dfile.encoding=UTF-8 --add-opens=java.base/java.io=ALL-UNNAMED --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.net=ALL-UNNAMED --add-opens=java.base/java.nio=ALL-UNNAMED --add-opens=java.base/java.nio.charset=ALL-UNNAMED --add-opens=java.base/java.text=ALL-UNNAMED --add-opens=java.base/java.time=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.util.concurrent=ALL-UNNAMED --add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED --add-opens=java.base/jdk.internal.vm=ALL-UNNAMED --add-opens=java.base/jdk.internal.misc=ALL-UNNAMED --add-opens=java.base/sun.nio.ch=ALL-UNNAMED --add-opens=java.base/sun.nio.fs=ALL-UNNAMED --add-opens=java.base/sun.security.ssl=ALL-UNNAMED --add-opens=java.base/sun.security.action=ALL-UNNAMED --add-opens=java.base/sun.security.util=ALL-UNNAMED --add-opens=java.security.jgss/sun.security.jgss=ALL-UNNAMED --add-opens=java.security.jgss/sun.security.krb5=ALL-UNNAMED --add-opens=java.desktop/java.awt=ALL-UNNAMED --add-opens=java.desktop/java.awt.peer=ALL-UNNAMED --add-opens=java.sql/java.sql=ALL-UNNAMED -Xms64m -Xmx1024m -Ddbeaver.distribution.type=deb -jar /snap/dbeaver-ce/357/usr/share/dbeaver-ce//plugins/org.jkiss.dbeaver.launcher_1.0.24.202503021833.jar
+
+Host: 12th Gen Intel(R) Core(TM) i9-12900K, 24 cores, 62G, Ubuntu 20.04.6 LTS
+Time: Thu Mar 13 18:03:50 2025 +07 elapsed time: 10481.779275 seconds (0d 2h 54m 41s)
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x00007f274d9184f0):  JavaThread "AWT-XAWT"  daemon [_thread_in_native, id=7228, stack(0x00007f261a399000,0x00007f261a49a000) (1028K)]
+
+Stack: [0x00007f261a399000,0x00007f261a49a000],  sp=0x00007f261a498790,  free space=1021k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+C  [libc.so.6+0x46876]
+Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)
+J 11146  sun.awt.X11.XlibWrapper.XEventsQueued(JI)I java.desktop@21.0.5 (0 bytes) @ 0x00007f27450db374 [0x00007f27450db320+0x0000000000000054]
+j  sun.awt.X11.XToolkit.run(Z)V+63 java.desktop@21.0.5
+j  sun.awt.X11.XToolkit.run()V+5 java.desktop@21.0.5
+j  java.lang.Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V+5 java.base@21.0.5
+j  java.lang.Thread.run()V+19 java.base@21.0.5
+v  ~StubRoutines::call_stub 0x00007f274445fcc6
+
+siginfo: si_signo: 11 (SIGSEGV), si_code: 128 (SI_KERNEL), si_addr: 0x0000000000000000
+
+Registers:
+RAX=0x00103a9bdedc79a0, RBX=0x00007f2754328718, RCX=0x0000000000000007, RDX=0x0000000000000001
+RSP=0x00007f261a498790, RBP=0x0000000000000001, RSI=0x0000000000000001, RDI=0x00007f27541095a0
+R8 =0x0000000000000006, R9 =0x00007f2754328bdf, R10=0x0000000000000000, R11=0x0000000000000246
+R12=0x0000000000000000, R13=0x0000000000000040, R14=0x00007f275432d2e8, R15=0x000055b1588afdc0
+RIP=0x00007f2754182876, EFLAGS=0x0000000000010206, CSGSFS=0x002b000000000033, ERR=0x0000000000000000
+  TRAPNO=0x000000000000000d
+
+
+Register to memory mapping:
+
+RAX=0x00103a9bdedc79a0 is an unknown value
+RBX=0x00007f2754328718: <offset 0x00000000001ec718> in /lib/x86_64-linux-gnu/libc.so.6 at 0x00007f275413c000
+RCX=0x0000000000000007 is an unknown value
+RDX=0x0000000000000001 is an unknown value
+RSP=0x00007f261a498790 is pointing into the stack for thread: 0x00007f274d9184f0
+RBP=0x0000000000000001 is an unknown value
+RSI=0x0000000000000001 is an unknown value
+RDI=0x00007f27541095a0: <offset 0x000000000154f5a0> in /snap/dbeaver-ce/357/usr/share/dbeaver-ce/jre/lib/server/libjvm.so at 0x00007f2752bba000
+R8 =0x0000000000000006 is an unknown value
+R9 =0x00007f2754328bdf: <offset 0x00000000001ecbdf> in /lib/x86_64-linux-gnu/libc.so.6 at 0x00007f275413c000
+R10=0x0 is null
+R11=0x0000000000000246 is an unknown value
+R12=0x0 is null
+R13=0x0000000000000040 is an unknown value
+R14=0x00007f275432d2e8: <offset 0x00000000001f12e8> in /lib/x86_64-linux-gnu/libc.so.6 at 0x00007f275413c000
+R15=0x000055b1588afdc0 points into unknown readable memory: 0x000055b1588b0210 | 10 02 8b 58 b1 55 00 00
+
+Top of Stack: (sp=0x00007f261a498790)
+0x00007f261a498790:   00007f25fc00d230 0000000129fcd6ae
+0x00007f261a4987a0:   00007f261a4987d0 00007f271b591a48
+0x00007f261a4987b0:   00007f274e4b1130 0000000000000001
+0x00007f261a4987c0:   0000000000000000 00007f261a498860
+0x00007f261a4987d0:   00007f274d9184f0 00007f2754182a60
+0x00007f261a4987e0:   0000000000000000 00007f2729fd049c
+0x00007f261a4987f0:   00007f274e4b1130 00007f2729fcdb4d
+0x00007f261a498800:   00007f274e4b1130 00007f2729fbf2b8
+0x00007f261a498810:   00007f261a498870 0000000000000000
+0x00007f261a498820:   00007f261a498880 00007f27450db3ee
+0x00007f261a498830:   00000000ff2e8c80 00000000c28fdf38
+0x00007f261a498840:   00000000c2019d60 00000000c2019eb0
+0x00007f261a498850:   00000000c30f0f30 0000000000000009
+0x00007f261a498860:   00000000c30f0f30 0000000000000000
+0x00007f261a498870:   00007f261a4988e0 00007f2744467296
+0x00007f261a498880:   0000000000000001 00007f274e4b1130
+0x00007f261a498890:   0000000000000000 00007f261a498898
+0x00007f261a4988a0:   00007f271b55f29f 0000000000000009
+0x00007f261a4988b0:   00007f271b57f1d0 0000000000000000
+0x00007f261a4988c0:   00000000c2800078 00007f271b55f438
+0x00007f261a4988d0:   00007f261a498880 00007f261a498920
+0x00007f261a4988e0:   00007f261a498978 00007f274446716e
+0x00007f261a4988f0:   0000000000000000 0000000000000000
+0x00007f261a498900:   0000000000000000 0000000000000000
+0x00007f261a498910:   0000000000000000 00000000c2800220
+0x00007f261a498920:   0000000000000000 00000000c28001d0
+0x00007f261a498930:   00007f261a498930 00007f271b55f1c5
+0x00007f261a498940:   0000000000000002 00007f271b57f1d0
+0x00007f261a498950:   0000000000000000 00000000c2800078
+0x00007f261a498960:   00007f271b55f1d0 00007f261a498920
+0x00007f261a498970:   00007f261a498988 00007f261a4989d8
+0x00007f261a498980:   00007f2744467602 00000000c28001d0 
+
+Instructions: (pc=0x00007f2754182876)
+0x00007f2754182776:   de 04 00 e9 53 ff ff ff 66 90 f3 0f 1e fa 48 8b
+0x00007f2754182786:   05 95 56 1a 00 8b 00 85 c0 75 0f e9 0a f7 ff ff
+0x00007f2754182796:   66 2e 0f 1f 84 00 00 00 00 00 31 c0 c3 66 2e 0f
+0x00007f27541827a6:   1f 84 00 00 00 00 00 0f 1f 00 f3 0f 1e fa 41 57
+0x00007f27541827b6:   41 56 41 55 41 54 55 89 fd 53 48 89 f3 48 83 ec
+0x00007f27541827c6:   18 89 54 24 0c 84 c9 0f 85 35 02 00 00 4c 8d 35
+0x00007f27541827d6:   0e ab 1a 00 45 31 e4 0f 1f 00 64 8b 04 25 18 00
+0x00007f27541827e6:   00 00 ba 01 00 00 00 85 c0 0f 85 cd 01 00 00 41
+0x00007f27541827f6:   0f b1 16 4c 8b 3b 4d 85 ff 75 3b e9 62 01 00 00
+0x00007f2754182806:   66 2e 0f 1f 84 00 00 00 00 00 48 83 fa 02 0f 84
+0x00007f2754182816:   b6 00 00 00 64 8b 04 25 18 00 00 00 ba 01 00 00
+0x00007f2754182826:   00 85 c0 0f 85 c1 00 00 00 41 0f b1 16 4c 39 2d
+0x00007f2754182836:   a6 aa 1a 00 75 bd 49 8b 47 08 48 85 c0 0f 84 f7
+0x00007f2754182846:   00 00 00 4c 8d 48 ff 4c 8b 2d 8c aa 1a 00 4d 89
+0x00007f2754182856:   4f 08 64 8b 04 25 18 00 00 00 85 c0 0f 85 a8 00
+0x00007f2754182866:   00 00 41 83 2e 01 4c 89 c8 48 c1 e0 05 4c 01 f8
+0x00007f2754182876:   48 8b 50 10 48 83 fa 03 74 30 48 83 fa 04 75 8a
+0x00007f2754182886:   48 8b 50 18 48 8b 78 20 48 c7 40 10 00 00 00 00
+0x00007f2754182896:   89 ee 48 c1 ca 11 64 48 33 14 25 30 00 00 00 ff
+0x00007f27541828a6:   d2 e9 6e ff ff ff 0f 1f 40 00 48 8b 40 18 48 c1
+0x00007f27541828b6:   c8 11 64 48 33 04 25 30 00 00 00 ff d0 e9 52 ff
+0x00007f27541828c6:   ff ff 0f 1f 84 00 00 00 00 00 48 8b 50 18 48 8b
+0x00007f27541828d6:   70 20 89 ef 48 c1 ca 11 64 48 33 14 25 30 00 00
+0x00007f27541828e6:   00 ff d2 e9 2c ff ff ff 66 90 44 89 e0 f0 41 0f
+0x00007f27541828f6:   b1 16 0f 84 35 ff ff ff 4c 89 f7 e8 9a dc 04 00
+0x00007f2754182906:   e9 28 ff ff ff 0f 1f 44 00 00 44 89 e0 41 87 06
+0x00007f2754182916:   83 f8 01 0f 8e 4d ff ff ff 45 31 d2 ba 01 00 00
+0x00007f2754182926:   00 be 81 00 00 00 4c 89 f7 b8 ca 00 00 00 0f 05
+0x00007f2754182936:   e9 31 ff ff ff 0f 1f 44 00 00 49 8b 07 48 89 03
+0x00007f2754182946:   48 85 c0 74 08 4c 89 ff e8 dd b9 fd ff 64 8b 04
+0x00007f2754182956:   25 18 00 00 00 85 c0 75 7e 41 83 2e 01 e9 78 fe
+0x00007f2754182966:   ff ff c6 05 1d 73 1a 00 01 64 8b 04 25 18 00 00 
+
+
+Stack slot to memory mapping:
+
+stack at sp + 0 slots: 0x00007f25fc00d230 points into unknown readable memory: 0x00007f25fc000090 | 90 00 00 fc 25 7f 00 00
+stack at sp + 1 slots: 0x0000000129fcd6ae is an unknown value
+stack at sp + 2 slots: 0x00007f261a4987d0 is pointing into the stack for thread: 0x00007f274d9184f0
+stack at sp + 3 slots: {method} {0x00007f271b591a48} 'XEventsQueued' '(JI)I' in 'sun/awt/X11/XlibWrapper'
+stack at sp + 4 slots: 0x00007f274e4b1130 points into unknown readable memory: 0x0000000000000000 | 00 00 00 00 00 00 00 00
+stack at sp + 5 slots: 0x0000000000000001 is an unknown value
+stack at sp + 6 slots: 0x0 is null
+stack at sp + 7 slots: 0x00007f261a498860 is pointing into the stack for thread: 0x00007f274d9184f0
+
+
+Compiled method (n/a) 10481835 11146     n 0       sun.awt.X11.XlibWrapper::XEventsQueued (native)
+ total in heap  [0x00007f27450db190,0x00007f27450db500] = 880
+ relocation     [0x00007f27450db2e8,0x00007f27450db320] = 56
+ main code      [0x00007f27450db320,0x00007f27450db4ff] = 479
+ stub code      [0x00007f27450db4ff,0x00007f27450db500] = 1
+
+[Constant Pool (empty)]
+
+[MachCode]
+[Entry Point]
+  # {method} {0x00007f271b591a48} 'XEventsQueued' '(JI)I' in 'sun/awt/X11/XlibWrapper'
+  # parm0:    rsi:rsi   = long
+  # parm1:    rdx       = int
+  #           [sp+0x50]  (sp of caller)
+  0x00007f27450db320: 448b 5608 | 49c1 e203 | 493b c20f | 8407 0000 
+
+  0x00007f27450db330: ;   {runtime_call ic_miss_stub}
+  0x00007f27450db330: 00e9 4a1d | 3dff 6690 
+[Verified Entry Point]
+  0x00007f27450db338: 8984 2400 | c0fe ff55 | 488b ec48 | 83ec 4090 | 4181 7f20 | 2100 0000 
+
+  0x00007f27450db350: ;   {runtime_call StubRoutines (final stubs)}
+  0x00007f27450db350: 7405 e8c9 | 803b ff48 | 8bca 488b 
+
+  0x00007f27450db35c: ;   {oop(a 'java/lang/Class'{0x00000000c30f0f30} = 'sun/awt/X11/XlibWrapper')}
+  0x00007f27450db35c: d649 be30 | 0f0f c300 | 0000 004c | 8974 2430 | 4c8d 7424 | 3049 8bf6 
+
+  0x00007f27450db374: ;   {internal_word}
+  0x00007f27450db374: c5f8 7749 | ba74 b30d | 4527 7f00 | 004d 8997 | a003 0000 | 4989 a798 
+
+  0x00007f27450db38c: ;   {external_word}
+  0x00007f27450db38c: 0300 0080 | 3dd7 dc00 | 0f00 0f84 | 3400 0000 
+
+  0x00007f27450db39c: ;   {metadata({method} {0x00007f271b591a48} 'XEventsQueued' '(JI)I' in 'sun/awt/X11/XlibWrapper')}
+  0x00007f27450db39c: 5652 5148 | be48 1a59 | 1b27 7f00 | 0049 8bff | 40f6 c40f | 0f84 1200 | 0000 4883 

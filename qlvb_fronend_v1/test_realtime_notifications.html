@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Internal Document Realtime Notifications</title>
+    <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.6.1/dist/sockjs.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .connection-panel {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid #007bff;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        
+        button {
+            background: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-right: 10px;
+            transition: background-color 0.2s;
+        }
+        
+        button:hover {
+            background: #0056b3;
+        }
+        
+        button:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+        }
+        
+        .status {
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        
+        .status.connected {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .status.disconnected {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .status.connecting {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        
+        .notifications-panel {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border-left: 4px solid #28a745;
+        }
+        
+        .notification {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #17a2b8;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .notification.internal-document {
+            border-left-color: #28a745;
+        }
+        
+        .notification.document-read {
+            border-left-color: #ffc107;
+        }
+        
+        .notification.document-sent {
+            border-left-color: #007bff;
+        }
+        
+        .notification-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .notification-type {
+            background: #007bff;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .notification-time {
+            color: #666;
+            font-size: 12px;
+        }
+        
+        .notification-content {
+            color: #333;
+            line-height: 1.4;
+        }
+        
+        .entity-info {
+            background: #f8f9fa;
+            padding: 8px;
+            border-radius: 4px;
+            margin-top: 8px;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .test-actions {
+            background: #e9ecef;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .stats {
+            display: flex;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .stat-item {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            text-align: center;
+            flex: 1;
+        }
+        
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #007bff;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        
+        .clear-notifications {
+            background: #dc3545;
+            float: right;
+        }
+        
+        .clear-notifications:hover {
+            background: #c82333;
+        }
+        
+        .no-notifications {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔔 Test Internal Document Realtime Notifications</h1>
+        
+        <!-- Connection Panel -->
+        <div class="connection-panel">
+            <h3>🌐 WebSocket Connection</h3>
+            
+            <div class="form-group">
+                <label for="serverUrl">Server URL:</label>
+                <input type="text" id="serverUrl" value="http://localhost:8080/ws" placeholder="WebSocket server URL">
+            </div>
+            
+            <div class="form-group">
+                <label for="tokenInput">JWT Token:</label>
+                <input type="password" id="tokenInput" placeholder="Enter your JWT token">
+            </div>
+            
+            <button onclick="connect()" id="connectBtn">🔌 Connect</button>
+            <button onclick="disconnect()" id="disconnectBtn" disabled>❌ Disconnect</button>
+            <button onclick="testConnection()" id="testBtn" disabled>🧪 Test Connection</button>
+            
+            <div id="status" class="status disconnected">❌ Disconnected</div>
+        </div>
+
+        <!-- Statistics -->
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-number" id="totalNotifications">0</div>
+                <div class="stat-label">Total Notifications</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="internalDocNotifications">0</div>
+                <div class="stat-label">Internal Document</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="connectionTime">-</div>
+                <div class="stat-label">Connected Time</div>
+            </div>
+        </div>
+
+        <!-- Test Actions -->
+        <div class="test-actions">
+            <h3>🧪 Test Actions</h3>
+            <button onclick="fetchNotifications()">📥 Fetch Notifications</button>
+            <button onclick="markAllAsRead()">✅ Mark All Read</button>
+            <button onclick="getUnreadCount()">🔢 Get Unread Count</button>
+            <button onclick="simulateDocumentRead()">👁️ Simulate Document Read</button>
+        </div>
+
+        <!-- Notifications Panel -->
+        <div class="notifications-panel">
+            <h3>📬 Realtime Notifications 
+                <button onclick="clearNotifications()" class="clear-notifications">🗑️ Clear</button>
+            </h3>
+            <div id="notifications">
+                <div class="no-notifications">
+                    Chưa có thông báo nào. Hãy kết nối WebSocket và thực hiện một số hành động trong ứng dụng.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let stompClient = null;
+        let connectionStartTime = null;
+        let notificationCount = 0;
+        let internalDocCount = 0;
+
+        function updateStats() {
+            document.getElementById('totalNotifications').textContent = notificationCount;
+            document.getElementById('internalDocNotifications').textContent = internalDocCount;
+            
+            if (connectionStartTime) {
+                const elapsed = Math.floor((Date.now() - connectionStartTime) / 1000);
+                const minutes = Math.floor(elapsed / 60);
+                const seconds = elapsed % 60;
+                document.getElementById('connectionTime').textContent = 
+                    `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            }
+        }
+
+        function connect() {
+            const serverUrl = document.getElementById('serverUrl').value;
+            const token = document.getElementById('tokenInput').value;
+            
+            if (!token.trim()) {
+                alert('Vui lòng nhập JWT token');
+                return;
+            }
+
+            // Update UI
+            document.getElementById('status').className = 'status connecting';
+            document.getElementById('status').innerHTML = '🔄 Connecting...';
+            document.getElementById('connectBtn').disabled = true;
+
+            try {
+                const socket = new SockJS(serverUrl);
+                stompClient = StompJs.Stomp.over(socket);
+                
+                // Enable debug mode
+                stompClient.debug = function(str) {
+                    console.log('STOMP Debug: ' + str);
+                };
+
+                stompClient.connect({
+                    'Authorization': `Bearer ${token}`
+                }, function (frame) {
+                    console.log('Connected: ' + frame);
+                    connectionStartTime = Date.now();
+                    
+                    // Update UI
+                    document.getElementById('status').className = 'status connected';
+                    document.getElementById('status').innerHTML = '✅ Connected to ' + serverUrl;
+                    document.getElementById('connectBtn').disabled = true;
+                    document.getElementById('disconnectBtn').disabled = false;
+                    document.getElementById('testBtn').disabled = false;
+                    
+                    // Subscribe to notifications
+                    stompClient.subscribe('/user/queue/notifications', function (message) {
+                        console.log('Received notification: ', message.body);
+                        const notification = JSON.parse(message.body);
+                        showNotification(notification);
+                    });
+
+                    // Start stats timer
+                    setInterval(updateStats, 1000);
+                    
+                    showSystemMessage('Đã kết nối thành công! Đang lắng nghe thông báo...', 'success');
+                    
+                }, function (error) {
+                    console.error('Connection error: ', error);
+                    
+                    // Update UI
+                    document.getElementById('status').className = 'status disconnected';
+                    document.getElementById('status').innerHTML = '❌ Connection Error: ' + error;
+                    document.getElementById('connectBtn').disabled = false;
+                    
+                    showSystemMessage('Lỗi kết nối: ' + error, 'error');
+                });
+
+            } catch (error) {
+                console.error('Failed to connect: ', error);
+                document.getElementById('status').className = 'status disconnected';
+                document.getElementById('status').innerHTML = '❌ Failed: ' + error.message;
+                document.getElementById('connectBtn').disabled = false;
+                
+                showSystemMessage('Lỗi kết nối: ' + error.message, 'error');
+            }
+        }
+
+        function disconnect() {
+            if (stompClient !== null) {
+                stompClient.disconnect();
+                stompClient = null;
+                connectionStartTime = null;
+            }
+            
+            // Update UI
+            document.getElementById('status').className = 'status disconnected';
+            document.getElementById('status').innerHTML = '❌ Disconnected';
+            document.getElementById('connectBtn').disabled = false;
+            document.getElementById('disconnectBtn').disabled = true;
+            document.getElementById('testBtn').disabled = true;
+            document.getElementById('connectionTime').textContent = '-';
+            
+            showSystemMessage('Đã ngắt kết nối', 'info');
+        }
+
+        function testConnection() {
+            if (stompClient && stompClient.connected) {
+                showSystemMessage('Kết nối WebSocket hoạt động bình thường!', 'success');
+            } else {
+                showSystemMessage('WebSocket không kết nối!', 'error');
+            }
+        }
+
+        function showNotification(notification) {
+            notificationCount++;
+            
+            if (notification.entityType === 'internal_document') {
+                internalDocCount++;
+            }
+
+            const notificationsDiv = document.getElementById('notifications');
+            
+            // Remove "no notifications" message
+            const noNotificationsMsg = notificationsDiv.querySelector('.no-notifications');
+            if (noNotificationsMsg) {
+                noNotificationsMsg.remove();
+            }
+
+            const div = document.createElement('div');
+            div.className = 'notification';
+            
+            // Add specific styling based on notification type
+            if (notification.entityType === 'internal_document') {
+                div.classList.add('internal-document');
+            }
+            if (notification.type === 'INTERNAL_DOCUMENT_READ') {
+                div.classList.add('document-read');
+            }
+            if (notification.type === 'INTERNAL_DOCUMENT_SENT') {
+                div.classList.add('document-sent');
+            }
+
+            const typeColors = {
+                'INTERNAL_DOCUMENT_RECEIVED': '#28a745',
+                'INTERNAL_DOCUMENT_READ': '#ffc107',
+                'INTERNAL_DOCUMENT_SENT': '#007bff',
+                'INTERNAL_DOCUMENT_UPDATED': '#17a2b8'
+            };
+
+            const typeColor = typeColors[notification.type] || '#6c757d';
+
+            div.innerHTML = `
+                <div class="notification-header">
+                    <span class="notification-type" style="background-color: ${typeColor}">
+                        ${getNotificationTypeText(notification.type)}
+                    </span>
+                    <span class="notification-time">
+                        ${new Date(notification.createdAt).toLocaleString('vi-VN')}
+                    </span>
+                </div>
+                <div class="notification-content">
+                    ${notification.content}
+                </div>
+                <div class="entity-info">
+                    <strong>Entity:</strong> ${notification.entityType} | 
+                    <strong>ID:</strong> ${notification.entityId} | 
+                    <strong>Read:</strong> ${notification.read ? 'Yes' : 'No'}
+                </div>
+            `;
+
+            // Insert at the top
+            notificationsDiv.insertBefore(div, notificationsDiv.firstChild);
+
+            // Animate new notification
+            div.style.transform = 'translateX(100%)';
+            div.style.opacity = '0';
+            setTimeout(() => {
+                div.style.transition = 'all 0.3s ease-in-out';
+                div.style.transform = 'translateX(0)';
+                div.style.opacity = '1';
+            }, 10);
+
+            // Play notification sound (if supported)
+            try {
+                const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmAaAjiJ0fPTgjMGHm7A7+OZURE');
+                audio.volume = 0.3;
+                audio.play().catch(() => {}); // Ignore errors
+            } catch (e) {}
+
+            updateStats();
+        }
+
+        function getNotificationTypeText(type) {
+            const typeTexts = {
+                'INTERNAL_DOCUMENT_RECEIVED': '📨 Nhận văn bản',
+                'INTERNAL_DOCUMENT_READ': '👁️ Đã đọc',
+                'INTERNAL_DOCUMENT_SENT': '📤 Đã gửi',
+                'INTERNAL_DOCUMENT_UPDATED': '✏️ Cập nhật'
+            };
+            return typeTexts[type] || type;
+        }
+
+        function showSystemMessage(message, type) {
+            const div = document.createElement('div');
+            div.className = 'notification';
+            div.style.borderLeftColor = type === 'success' ? '#28a745' : 
+                                       type === 'error' ? '#dc3545' : '#17a2b8';
+            
+            div.innerHTML = `
+                <div class="notification-header">
+                    <span class="notification-type" style="background-color: ${
+                        type === 'success' ? '#28a745' : 
+                        type === 'error' ? '#dc3545' : '#17a2b8'
+                    }">
+                        ${type === 'success' ? '✅ System' : 
+                          type === 'error' ? '❌ Error' : 'ℹ️ Info'}
+                    </span>
+                    <span class="notification-time">
+                        ${new Date().toLocaleString('vi-VN')}
+                    </span>
+                </div>
+                <div class="notification-content">${message}</div>
+            `;
+
+            document.getElementById('notifications').insertBefore(
+                div, 
+                document.getElementById('notifications').firstChild
+            );
+        }
+
+        function clearNotifications() {
+            const notificationsDiv = document.getElementById('notifications');
+            notificationsDiv.innerHTML = `
+                <div class="no-notifications">
+                    Đã xóa tất cả thông báo.
+                </div>
+            `;
+            notificationCount = 0;
+            internalDocCount = 0;
+            updateStats();
+        }
+
+        // Test API functions
+        async function fetchNotifications() {
+            const token = document.getElementById('tokenInput').value;
+            
+            try {
+                const response = await fetch('http://localhost:8080/api/notifications?page=0&size=10', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    showSystemMessage(`Fetched ${data.data.content.length} notifications from API`, 'success');
+                    console.log('Fetched notifications:', data);
+                } else {
+                    showSystemMessage(`API Error: ${response.status}`, 'error');
+                }
+            } catch (error) {
+                showSystemMessage(`Fetch Error: ${error.message}`, 'error');
+            }
+        }
+
+        async function markAllAsRead() {
+            const token = document.getElementById('tokenInput').value;
+            
+            try {
+                const response = await fetch('http://localhost:8080/api/notifications/read-all', {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    showSystemMessage('Marked all notifications as read', 'success');
+                } else {
+                    showSystemMessage(`API Error: ${response.status}`, 'error');
+                }
+            } catch (error) {
+                showSystemMessage(`Error: ${error.message}`, 'error');
+            }
+        }
+
+        async function getUnreadCount() {
+            const token = document.getElementById('tokenInput').value;
+            
+            try {
+                const response = await fetch('http://localhost:8080/api/notifications/unread/count', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('Unread count:', data);
+                    showSystemMessage(`Unread count: ${data.count || data}`, 'info');
+                } else {
+                    showSystemMessage(`API Error: ${response.status}`, 'error');
+                }
+            } catch (error) {
+                showSystemMessage(`Error: ${error.message}`, 'error');
+            }
+        }
+
+        async function simulateDocumentRead() {
+            const documentId = prompt('Enter Document ID to mark as read:');
+            if (!documentId) return;
+            
+            const token = document.getElementById('tokenInput').value;
+            
+            try {
+                const response = await fetch(`http://localhost:8080/api/internal-documents/${documentId}/mark-read`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    showSystemMessage(`Document ${documentId} marked as read`, 'success');
+                } else {
+                    showSystemMessage(`API Error: ${response.status}`, 'error');
+                }
+            } catch (error) {
+                showSystemMessage(`Error: ${error.message}`, 'error');
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load saved token
+            const savedToken = localStorage.getItem('jwt_token');
+            if (savedToken) {
+                document.getElementById('tokenInput').value = savedToken;
+            }
+
+            // Save token on change
+            document.getElementById('tokenInput').addEventListener('change', function() {
+                localStorage.setItem('jwt_token', this.value);
+            });
+
+            updateStats();
+        });
+
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', function() {
+            if (stompClient) {
+                stompClient.disconnect();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket Test với CORS Fix</title>
+    <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.6.1/dist/sockjs.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 800px; }
+        .input-group { margin: 10px 0; }
+        .input-group label { display: inline-block; width: 120px; }
+        .input-group input { width: 400px; padding: 5px; }
+        .status { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .status.connected { background: #d4edda; color: #155724; }
+        .status.disconnected { background: #f8d7da; color: #721c24; }
+        .status.connecting { background: #fff3cd; color: #856404; }
+        .notification { 
+            border: 1px solid #ccc; 
+            padding: 10px; 
+            margin: 10px 0; 
+            background: #f9f9f9; 
+            border-radius: 5px;
+        }
+        .notification-type { font-weight: bold; color: #007bff; }
+        .notification-content { margin: 5px 0; }
+        .notification-time { font-size: 12px; color: #666; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+        .debug-info { background: #f8f9fa; padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .error { color: #dc3545; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Test WebSocket Notifications - CORS Fixed</h1>
+        
+        <div class="debug-info">
+            <h3>Debug Information:</h3>
+            <p><strong>Current Origin:</strong> <span id="currentOrigin"></span></p>
+            <p><strong>WebSocket Endpoint:</strong> http://localhost:8080/ws</p>
+            <p><strong>Info Endpoint:</strong> http://localhost:8080/ws/info</p>
+            <p><strong>Protocol:</strong> <span id="currentProtocol"></span></p>
+        </div>
+        
+        <div class="input-group">
+            <label>Backend URL:</label>
+            <input type="text" id="backendUrl" value="http://localhost:8080" placeholder="Backend URL">
+        </div>
+        
+        <div class="input-group">
+            <label>JWT Token:</label>
+            <input type="text" id="tokenInput" placeholder="Enter your JWT token">
+        </div>
+        
+        <div class="input-group">
+            <button onclick="testCorsFirst()">🔍 Test CORS First</button>
+            <button onclick="connect()">🔌 Connect WebSocket</button>
+            <button onclick="disconnect()">❌ Disconnect</button>
+            <button onclick="clearNotifications()">🗑️ Clear Notifications</button>
+        </div>
+        
+        <div id="status" class="status disconnected">❌ Disconnected</div>
+        
+        <h3>📨 Notifications:</h3>
+        <div id="notifications"></div>
+        
+        <h3>🔧 Debug Logs:</h3>
+        <div id="debugLogs" style="background: #f8f9fa; padding: 10px; height: 200px; overflow-y: auto; border: 1px solid #ddd;"></div>
+    </div>
+
+    <script>
+        let stompClient = null;
+        let backendUrl = 'http://localhost:8080';
+        
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('currentOrigin').textContent = window.location.origin || 'null (file://)';
+            document.getElementById('currentProtocol').textContent = window.location.protocol;
+            
+            if (window.location.protocol === 'file:') {
+                addDebugLog('⚠️ WARNING: Running from file:// protocol. Origin will be "null"', 'warning');
+                addDebugLog('💡 SOLUTION: Serve this file via HTTP server (e.g., python -m http.server 3001)', 'info');
+            }
+        });
+
+        function addDebugLog(message, type = 'info') {
+            const debugDiv = document.getElementById('debugLogs');
+            const time = new Date().toLocaleTimeString();
+            const logClass = type === 'error' ? 'error' : '';
+            
+            debugDiv.innerHTML += `<div class="${logClass}">[${time}] ${message}</div>`;
+            debugDiv.scrollTop = debugDiv.scrollHeight;
+        }
+
+        async function testCorsFirst() {
+            addDebugLog('🔍 Testing CORS with backend...', 'info');
+            const backendUrl = document.getElementById('backendUrl').value;
+            
+            try {
+                // Test basic API endpoint first
+                addDebugLog(`📡 Testing: ${backendUrl}/api/health`, 'info');
+                const response = await fetch(`${backendUrl}/api/health`, {
+                    method: 'GET',
+                    mode: 'cors'
+                });
+                
+                if (response.ok) {
+                    addDebugLog('✅ Basic CORS test passed', 'info');
+                } else {
+                    addDebugLog(`❌ Basic CORS test failed: ${response.status}`, 'error');
+                }
+            } catch (error) {
+                addDebugLog(`❌ Basic CORS test error: ${error.message}`, 'error');
+            }
+            
+            try {
+                // Test WebSocket info endpoint
+                addDebugLog(`📡 Testing: ${backendUrl}/ws/info`, 'info');
+                const wsInfoResponse = await fetch(`${backendUrl}/ws/info`, {
+                    method: 'GET',
+                    mode: 'cors'
+                });
+                
+                if (wsInfoResponse.ok) {
+                    const data = await wsInfoResponse.text();
+                    addDebugLog('✅ WebSocket info endpoint accessible', 'info');
+                    addDebugLog(`📄 Response: ${data}`, 'info');
+                } else {
+                    addDebugLog(`❌ WebSocket info endpoint failed: ${wsInfoResponse.status}`, 'error');
+                }
+            } catch (error) {
+                addDebugLog(`❌ WebSocket info endpoint error: ${error.message}`, 'error');
+                
+                if (error.message.includes('CORS')) {
+                    addDebugLog('🚨 CORS Issue Detected!', 'error');
+                    addDebugLog('💡 Backend needs CORS configuration for WebSocket endpoints', 'info');
+                    addDebugLog('💡 Or serve this file via HTTP instead of file://', 'info');
+                }
+            }
+        }
+
+        function connect() {
+            const token = document.getElementById('tokenInput').value;
+            const backendUrl = document.getElementById('backendUrl').value;
+            
+            if (!token) {
+                alert('Please enter JWT token');
+                addDebugLog('❌ JWT token required', 'error');
+                return;
+            }
+            
+            addDebugLog('🔌 Attempting WebSocket connection...', 'info');
+            addDebugLog(`🎯 Target: ${backendUrl}/ws`, 'info');
+            addDebugLog(`🔑 Token: ${token.substring(0, 20)}...`, 'info');
+            
+            try {
+                const socket = new SockJS(`${backendUrl}/ws`);
+                stompClient = StompJs.Stomp.over(socket);
+                
+                // Enable debug
+                stompClient.debug = function(str) {
+                    addDebugLog(`📘 STOMP: ${str}`, 'info');
+                };
+                
+                updateStatus('connecting', '🔄 Connecting...');
+                
+                stompClient.connect({
+                    'Authorization': `Bearer ${token}`
+                }, function (frame) {
+                    addDebugLog('✅ WebSocket connected successfully!', 'info');
+                    addDebugLog(`📋 Frame: ${frame}`, 'info');
+                    
+                    updateStatus('connected', '✅ Connected');
+                    
+                    // Subscribe to notifications
+                    stompClient.subscribe('/user/queue/notifications', function (message) {
+                        const notification = JSON.parse(message.body);
+                        showNotification(notification);
+                        addDebugLog(`📨 Notification received: ${notification.type}`, 'info');
+                    });
+                    
+                    addDebugLog('📡 Subscribed to /user/queue/notifications', 'info');
+                    
+                }, function (error) {
+                    addDebugLog(`❌ Connection error: ${error}`, 'error');
+                    updateStatus('disconnected', '❌ Connection Error');
+                    
+                    if (error.toString().includes('CORS')) {
+                        addDebugLog('🚨 CORS Error Detected!', 'error');
+                        addDebugLog('💡 Solutions:', 'info');
+                        addDebugLog('   1. Serve this HTML via HTTP server', 'info');
+                        addDebugLog('   2. Configure backend CORS for WebSocket', 'info');
+                        addDebugLog('   3. Use Next.js dev server instead', 'info');
+                    }
+                });
+                
+            } catch (error) {
+                addDebugLog(`❌ Exception during connection: ${error.message}`, 'error');
+                updateStatus('disconnected', '❌ Exception Error');
+            }
+        }
+
+        function disconnect() {
+            if (stompClient !== null) {
+                stompClient.disconnect();
+                updateStatus('disconnected', '❌ Disconnected');
+                addDebugLog('🔌 WebSocket disconnected', 'info');
+            }
+        }
+        
+        function updateStatus(state, message) {
+            const statusDiv = document.getElementById('status');
+            statusDiv.className = `status ${state}`;
+            statusDiv.textContent = message;
+        }
+
+        function showNotification(notification) {
+            const div = document.createElement('div');
+            div.className = 'notification';
+            div.innerHTML = `
+                <div class="notification-type">${notification.type}</div>
+                <div class="notification-content">
+                    <strong>Entity:</strong> ${notification.entityType}<br>
+                    <strong>Content:</strong> ${notification.content}
+                </div>
+                <div class="notification-time">${new Date(notification.createdAt).toLocaleString()}</div>
+            `;
+            document.getElementById('notifications').appendChild(div);
+        }
+        
+        function clearNotifications() {
+            document.getElementById('notifications').innerHTML = '';
+            document.getElementById('debugLogs').innerHTML = '';
+            addDebugLog('🗑️ Notifications and logs cleared', 'info');
+        }
+    </script>
+</body>
+</html>

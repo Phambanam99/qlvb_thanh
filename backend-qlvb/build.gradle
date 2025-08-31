@@ -1,0 +1,73 @@
+
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.2.5' // Using a stable version
+    id 'io.spring.dependency-management' version '1.1.4'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven { url 'https://repo.spring.io/snapshot' }
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
+    implementation 'org.springframework.boot:spring-boot-starter-web-services'
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
+    // PDF processing and signing
+    implementation 'org.apache.pdfbox:pdfbox:2.0.27'
+    implementation 'org.bouncycastle:bcprov-jdk18on:1.78.1'
+    implementation 'org.bouncycastle:bcpkix-jdk18on:1.78.1'
+
+    // Add Jackson JSR310 module for Java 8 date/time support
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+    
+    compileOnly 'org.projectlombok:lombok'
+    runtimeOnly 'org.postgresql:postgresql'
+    annotationProcessor 'org.projectlombok:lombok'
+    implementation "org.locationtech.jts:jts-core:1.20.0"
+    implementation 'org.hibernate.orm:hibernate-spatial:6.4.4.Final'
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    // WebSocket support
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+}
+bootJar {
+    archiveFileName = "qlvb-backend.jar"
+}
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+// Ensure enough JIT code cache for local runs via `bootRun`
+tasks.named('bootRun') {
+    // Increase reserved and initial code cache to avoid JIT disabling due to full CodeCache
+    jvmArgs = [
+        '-XX:ReservedCodeCacheSize=256m',
+        '-XX:InitialCodeCacheSize=128m'
+    ]
+}

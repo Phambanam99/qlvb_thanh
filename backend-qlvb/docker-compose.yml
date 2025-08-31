@@ -1,0 +1,49 @@
+services:
+  db:
+    image: postgres:13
+    container_name: postgres_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: Phamnam99
+      POSTGRES_DB: qlvb
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    networks:
+      - qlvb-network
+  app:
+    build: .
+    container_name: qlvb_backend
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5433/qlvb
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: Phamnam99
+      POSTGRES_HOST: db
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: Phamnam99
+      POSTGRES_DB: qlvb
+      # Increase JVM code cache to prevent JIT from being disabled when CodeCache fills up
+      JAVA_TOOL_OPTIONS: "-XX:ReservedCodeCacheSize=256m -XX:InitialCodeCacheSize=128m"
+    volumes:
+      # Mount file storage directories to host
+      - ./data/document-uploads:/app/document-uploads
+      - ./data/uploads:/app/uploads
+      - ./data/signature-uploads:/app/signature-uploads
+    depends_on:
+      - db
+    networks:
+      - qlvb-network
+
+
+
+volumes:
+  db_data:
+
+networks:
+ qlvb-network:
+   driver: bridge

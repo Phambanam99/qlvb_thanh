@@ -1,0 +1,48 @@
+# Gradle build files
+build/
+.gradle/
+gradle-app.setting
+
+# IDE files
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Log files
+*.log
+
+# Local environment files
+.env
+.env.local
+.env.*.local
+
+# Temporary files
+tmp/
+temp/
+
+# Git
+.git/
+.gitignore
+README.md
+
+# Documentation
+docs/
+*.md
+
+# Database data
+db_data/
+data/
+
+# Uploads
+document-uploads/
+signature-uploads/
+uploads/
+
+# Scripts (not needed for build)
+scripts/
