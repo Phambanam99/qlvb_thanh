@@ -67,12 +67,12 @@ export default function ManagerApproval({ documentId, responseId }: ManagerAppro
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Phê duyệt văn bản trả lời</CardTitle>
+        <CardTitle>Phê duyệt công văn trả lời</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="space-y-2">
           <div className="flex justify-between">
-            <Label>Văn bản trả lời</Label>
+            <Label>công văn trả lời</Label>
             <Badge variant="outline" className="bg-primary/10 text-primary">
               Chờ Thủ trưởng phê duyệt
             </Badge>
@@ -132,7 +132,7 @@ export default function ManagerApproval({ documentId, responseId }: ManagerAppro
             <AlertDialogHeader>
               <AlertDialogTitle>Xác nhận trả lại phòng</AlertDialogTitle>
               <AlertDialogDescription>
-                Bạn có chắc chắn muốn trả lại văn bản này cho phòng xử lý lại? Hãy đảm bảo đã nhập đầy đủ ý kiến chỉ
+                Bạn có chắc chắn muốn trả lại công văn này cho phòng xử lý lại? Hãy đảm bảo đã nhập đầy đủ ý kiến chỉ
                 đạo.
               </AlertDialogDescription>
             </AlertDialogHeader>

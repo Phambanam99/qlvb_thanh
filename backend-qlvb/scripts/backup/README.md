@@ -2,7 +2,7 @@
 
 ## 📋 Tổng Quan
 
-Hệ thống backup QLVB được thiết kế để tự động sao lưu database và files quan trọng của hệ thống quản lý văn bản. Hệ thống hỗ trợ backup hàng ngày, hàng tháng và khôi phục dữ liệu một cách an toàn.
+Hệ thống backup QLVB được thiết kế để tự động sao lưu database và files quan trọng của hệ thống quản lý công văn. Hệ thống hỗ trợ backup hàng ngày, hàng tháng và khôi phục dữ liệu một cách an toàn.
 
 ## 📁 Cấu Trúc Thư Mục
 

@@ -214,7 +214,7 @@ export default function CreateInternalOutgoingDocumentPage() {
         setDocumentTypes([]); // Set as empty array on error
         toast({
           title: "Lỗi",
-          description: "Không thể tải danh sách loại văn bản",
+          description: "Không thể tải danh sách loại công văn",
           variant: "destructive",
         });
       } finally {
@@ -271,13 +271,13 @@ export default function CreateInternalOutgoingDocumentPage() {
 
           toast({
             title: "Thành công",
-            description: "Đã tải dữ liệu văn bản để chỉnh sửa",
+            description: "Đã tải dữ liệu công văn để chỉnh sửa",
           });
         } catch (error) {
           console.error('Error loading document for edit:', error);
           toast({
             title: "Lỗi",
-            description: "Không thể tải dữ liệu văn bản để chỉnh sửa",
+            description: "Không thể tải dữ liệu công văn để chỉnh sửa",
             variant: "destructive",
           });
          
@@ -291,10 +291,10 @@ export default function CreateInternalOutgoingDocumentPage() {
       // Invalid document ID, redirect back
       toast({
         title: "Lỗi",
-        description: "ID văn bản không hợp lệ",
+        description: "ID công văn không hợp lệ",
         variant: "destructive",
       });
-      router.push('/van-ban-di/them-moi/noi-bo/tao-moi');
+      router.push('/van-ban-di/noi-bo/tao-moi');
     }
   }, [isEditMode, editDocumentNumber, router]);
 
@@ -522,7 +522,7 @@ export default function CreateInternalOutgoingDocumentPage() {
     const errors: Record<string, string> = {};
 
     if (!formData.documentNumber.trim()) {
-      errors.documentNumber = "Số văn bản là bắt buộc";
+      errors.documentNumber = "Số công văn là bắt buộc";
     }
 
     if (!formData.title.trim()) {
@@ -642,14 +642,14 @@ export default function CreateInternalOutgoingDocumentPage() {
       }
 
       addNotification({
-        title: isEditMode ? "Văn bản đã được cập nhật" : "Văn bản đã được tạo",
-        message: `Văn bản "${formData.title}" đã được ${isEditMode ? "cập nhật" : "tạo và gửi"} thành công.`,
+        title: isEditMode ? "công văn đã được cập nhật" : "công văn đã được tạo",
+        message: `công văn "${formData.title}" đã được ${isEditMode ? "cập nhật" : "tạo và gửi"} thành công.`,
         type: "success",
       });
 
       toast({
         title: "Thành công",
-        description: isEditMode ? "Văn bản đã được cập nhật thành công" : "Văn bản đã được tạo và gửi thành công",
+        description: isEditMode ? "công văn đã được cập nhật thành công" : "công văn đã được tạo và gửi thành công",
       });
 
       router.push("/van-ban-di");
@@ -667,7 +667,7 @@ export default function CreateInternalOutgoingDocumentPage() {
 
       toast({
         title: "Lỗi",
-        description: error.message || "Không thể tạo văn bản",
+        description: error.message || "Không thể tạo công văn",
         variant: "destructive",
       });
     } finally {
@@ -692,7 +692,7 @@ export default function CreateInternalOutgoingDocumentPage() {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <Button variant="outline" size="icon" asChild>
-                <Link href="/van-ban-di/them-moi">
+                <Link href="/van-ban-di">
                   <ArrowLeft className="h-4 w-4" />
                 </Link>
               </Button>
@@ -700,14 +700,14 @@ export default function CreateInternalOutgoingDocumentPage() {
                 <h1 className={`text-2xl font-bold tracking-tight ${
                   isEditMode ? "text-amber-700 dark:text-amber-300" : "text-blue-700 dark:text-blue-300"
                 }`}>
-                  {isEditMode ? "Chỉnh sửa văn bản nội bộ" : "Tạo văn bản đi mới - Nội bộ"}
+                  {isEditMode ? "Chỉnh sửa công văn" : "Tạo công văn đi mới"}
                 </h1>
                 <p className={`text-sm mt-1 ${
                   isEditMode ? "text-amber-600 dark:text-amber-400" : "text-blue-600 dark:text-blue-400"
                 }`}>
                   {isEditMode 
-                    ? `Đang chỉnh sửa văn bản: ${formData.documentNumber || editDocumentNumber}` 
-                    : "Tạo mới một văn bản nội bộ trong hệ thống"
+                    ? `Đang chỉnh sửa công văn: ${formData.documentNumber || editDocumentNumber}` 
+                    : "Tạo mới một công văn trong hệ thống"
                   }
                 </p>
               </div>
@@ -738,12 +738,12 @@ export default function CreateInternalOutgoingDocumentPage() {
                 ) : isEditMode ? (
                   <>
                     <Save className="mr-2 h-4 w-4" />
-                    Cập nhật văn bản
+                    Cập nhật công văn
                   </>
                 ) : (
                   <>
                     <Send className="mr-2 h-4 w-4" />
-                    Gửi văn bản
+                    Gửi công văn
                   </>
                 )}
               </Button>
@@ -759,7 +759,7 @@ export default function CreateInternalOutgoingDocumentPage() {
               <div className="flex items-center space-x-3">
                 <Loader2 className="h-5 w-5 animate-spin text-blue-600" />
                 <div>
-                  <p className="text-blue-800 font-medium">Đang tải dữ liệu văn bản...</p>
+                  <p className="text-blue-800 font-medium">Đang tải dữ liệu công văn...</p>
                   <p className="text-blue-600 text-sm">Vui lòng chờ trong giây lát</p>
                 </div>
               </div>
@@ -772,14 +772,14 @@ export default function CreateInternalOutgoingDocumentPage() {
               <div className="grid gap-6 md:grid-cols-3">
                 <div className="space-y-2">
                   <Label htmlFor="documentNumber">
-                    Số văn bản <span className="text-red-500">*</span>
+                    Số công văn <span className="text-red-500">*</span>
                   </Label>
                   <Input
                     id="documentNumber"
                     name="documentNumber"
                     value={formData.documentNumber}
                     onChange={handleInputChange}
-                    placeholder="Nhập số văn bản"
+                    placeholder="Nhập số công văn"
                     required
                     className={
                       validationErrors.documentNumber ? "border-red-500" : ""
@@ -793,7 +793,7 @@ export default function CreateInternalOutgoingDocumentPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="sentDate">Ngày ký</Label>
+                  <Label htmlFor="sentDate">Ngày công văn</Label>
                   <DatePicker
                     date={formData.signingDate}
                     setDate={handleDateChange}
@@ -801,7 +801,7 @@ export default function CreateInternalOutgoingDocumentPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="documentType">Loại văn bản</Label>
+                  <Label htmlFor="documentType">Loại công văn</Label>
                   <SearchableSelect
                     items={(documentTypes || []).map((type): SearchableSelectItem => ({
                       value: type.name,
@@ -811,27 +811,37 @@ export default function CreateInternalOutgoingDocumentPage() {
                     onValueChange={(value) =>
                       handleSelectChange("documentType", value)
                     }
-                    placeholder="Chọn loại văn bản"
-                    searchPlaceholder="Tìm kiếm loại văn bản..."
-                    emptyMessage="Không tìm thấy loại văn bản phù hợp"
+                    placeholder="Chọn loại công văn"
+                    searchPlaceholder="Tìm kiếm loại công văn..."
+                    emptyMessage="Không tìm thấy loại công văn phù hợp"
                     loading={isLoadingDocumentTypes}
-                    loadingMessage="Đang tải danh sách loại văn bản..."
+                    loadingMessage="Đang tải danh sách loại công văn..."
                     disabled={isLoadingDocumentTypes}
                   />
                 </div>
               </div>
 
               <div className="grid gap-6 md:grid-cols-3 mt-6">
+                   <div className="space-y-2">
+                  <Label htmlFor="issuingAgency">Cơ quan ban hành</Label>
+                  <Input
+                    id="issuingAgency"
+                    name="issuingAgency"
+                    value={formData.issuingAgency}
+                    onChange={handleInputChange}
+                    placeholder="Nhập cơ quan ban hành"
+                  />
+                </div>
                 <div className="space-y-2">
                   <Label htmlFor="title">
-                    Tiêu đề <span className="text-red-500">*</span>
+                    Trích yếu <span className="text-red-500">*</span>
                   </Label>
                   <Input
                     id="title"
                     name="title"
                     value={formData.title}
                     onChange={handleInputChange}
-                    placeholder="Nhập tiêu đề văn bản"
+                    placeholder="Nhập trích yếu công văn"
                     required
                     className={validationErrors.title ? "border-red-500" : ""}
                   />
@@ -871,6 +881,26 @@ export default function CreateInternalOutgoingDocumentPage() {
 
               {/* Additional Information - Merged */}
               <div className="grid gap-6 md:grid-cols-3 mt-6">
+
+                  <div className="space-y-2">
+                  <Label htmlFor="securityLevel">Độ mật</Label>
+                  <Select
+                    value={formData.securityLevel}
+                    onValueChange={(value) =>
+                      handleSelectChange("securityLevel", value)
+                    }
+                  >
+                    <SelectTrigger id="securityLevel">
+                      <SelectValue placeholder="Chọn độ mật" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="NORMAL">Thường</SelectItem>
+                      <SelectItem value="CONFIDENTIAL">Mật</SelectItem>
+                      <SelectItem value="SECRET">Tối mật</SelectItem>
+                      <SelectItem value="TOP_SECRET">Tuyệt mật</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
                 <div className="space-y-2">
                   <Label htmlFor="draftingDepartmentId">Đơn vị soạn thảo</Label>
                   <Select
@@ -896,30 +926,10 @@ export default function CreateInternalOutgoingDocumentPage() {
                       )}
                     </SelectContent>
                   </Select>
-                  <p className="text-sm text-gray-500">
-                    Tự động lấy từ đơn vị của bạn
-                  </p>
+               
                 </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="securityLevel">Độ mật</Label>
-                  <Select
-                    value={formData.securityLevel}
-                    onValueChange={(value) =>
-                      handleSelectChange("securityLevel", value)
-                    }
-                  >
-                    <SelectTrigger id="securityLevel">
-                      <SelectValue placeholder="Chọn độ mật" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="NORMAL">Thường</SelectItem>
-                      <SelectItem value="CONFIDENTIAL">Mật</SelectItem>
-                      <SelectItem value="SECRET">Tối mật</SelectItem>
-                      <SelectItem value="TOP_SECRET">Tuyệt mật</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
+              
 
                 <div className="space-y-2">
                   <Label htmlFor="documentSignerId">Người ký duyệt</Label>
@@ -960,52 +970,12 @@ export default function CreateInternalOutgoingDocumentPage() {
                   </Select>
                  
                 </div>
+
               </div>
 
               <div className="grid gap-6 md:grid-cols-3 mt-6">
-                <div className="space-y-2">
-                  <Label htmlFor="processingDeadline">Hạn xử lý</Label>
-                  <DatePicker
-                    date={formData.processingDeadline}
-                    setDate={handleProcessingDeadlineChange}
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="issuingAgency">Cơ quan ban hành</Label>
-                  <Input
-                    id="issuingAgency"
-                    name="issuingAgency"
-                    value={formData.issuingAgency}
-                    onChange={handleInputChange}
-                    placeholder="Nhập cơ quan ban hành"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="distributionType">Khối phân phối</Label>
-                  <Select
-                    value={formData.distributionType}
-                    onValueChange={(value) =>
-                      handleSelectChange("distributionType", value)
-                    }
-                  >
-                    <SelectTrigger id="distributionType">
-                      <SelectValue placeholder="Chọn khối phân phối" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="REGULAR">Đi thường</SelectItem>
-                      <SelectItem value="CONFIDENTIAL">Đi mật</SelectItem>
-                      <SelectItem value="COPY_BOOK">Sổ sao</SelectItem>
-                      <SelectItem value="PARTY">Đi đảng</SelectItem>
-                      <SelectItem value="STEERING_COMMITTEE">Đi ban chỉ đạo</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-
-              <div className="grid gap-6 md:grid-cols-3 mt-6">
-                <div className="space-y-2">
+                
+                 <div className="space-y-2">
                   <Label htmlFor="numberOfCopies">Số bản sao</Label>
                   <Input
                     id="numberOfCopies"
@@ -1030,9 +1000,41 @@ export default function CreateInternalOutgoingDocumentPage() {
                     min="0"
                   />
                 </div>
+                <div className="space-y-2">
+                  <Label htmlFor="processingDeadline">Hạn xử lý</Label>
+                  <DatePicker
+                    date={formData.processingDeadline}
+                    setDate={handleProcessingDeadlineChange}
+                  />
+                </div>
+              </div>
+
+              <div className="grid gap-6 md:grid-cols-3 mt-6">
+               
+
+             
 
                 <div className="space-y-2">
-                  <div className="flex items-center space-x-2">
+                  <Label htmlFor="distributionType">Khối phân phối</Label>
+                  <Select
+                    value={formData.distributionType}
+                    onValueChange={(value) =>
+                      handleSelectChange("distributionType", value)
+                    }
+                  >
+                    <SelectTrigger id="distributionType">
+                      <SelectValue placeholder="Chọn khối phân phối" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="REGULAR">Đi thường</SelectItem>
+                      <SelectItem value="CONFIDENTIAL">Đi mật</SelectItem>
+                      <SelectItem value="COPY_BOOK">Sổ sao</SelectItem>
+                      <SelectItem value="PARTY">Đi đảng</SelectItem>
+                      <SelectItem value="STEERING_COMMITTEE">Đi ban chỉ đạo</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="flex items-center space-x-2">
                     <Checkbox
                       id="isSecureTransmission"
                       checked={formData.isSecureTransmission}
@@ -1048,7 +1050,6 @@ export default function CreateInternalOutgoingDocumentPage() {
                     />
                     <Label htmlFor="noPaperCopy">Không gửi bản giấy</Label>
                   </div>
-                </div>
               </div>
             </CardContent>
           </Card>
@@ -1062,12 +1063,12 @@ export default function CreateInternalOutgoingDocumentPage() {
               <Card className={`h-full ${isLoadingDocumentData ? "opacity-50 pointer-events-none" : ""}`}>
                 <CardContent className="pt-6 h-full">
                   <div className="space-y-2 h-full flex flex-col">
-                    <Label htmlFor="content">Nội dung văn bản</Label>
+                    <Label htmlFor="content">Nội dung công văn</Label>
                     <div className="flex-1">
                       <RichTextEditor
                         content={formData.summary}
                         onChange={handleRichTextChange("content")}
-                        placeholder="Nhập nội dung văn bản"
+                        placeholder="Nhập nội dung công văn"
                         minHeight="500px"
                       />
                     </div>

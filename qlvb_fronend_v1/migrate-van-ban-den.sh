@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# 🚀 Migration Script for Văn Bản Đến Refactoring
+# 🚀 Migration Script for công văn Đến Refactoring
 # This script safely migrates from the old monolithic structure to the new modular architecture
 
-echo "🚀 Starting văn bản đến refactoring migration..."
+echo "🚀 Starting công văn đến refactoring migration..."
 
 # Colors for output
 RED='\033[0;31m'
@@ -130,7 +130,7 @@ print_status "Creating migration log..."
 # Create migration log
 LOG_FILE="app/(authenticated)/van-ban-den/migration-log-$(date +%Y%m%d-%H%M%S).md"
 cat > "$LOG_FILE" << EOF
-# Văn Bản Đến Migration Log
+# công văn Đến Migration Log
 
 **Migration Date:** $(date)
 **Migration Type:** Monolithic to Modular Refactoring

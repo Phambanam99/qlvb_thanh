@@ -1,8 +1,8 @@
-# Hướng dẫn triển khai thông báo realtime cho văn bản nội bộ - Frontend
+# Hướng dẫn triển khai thông báo realtime cho công văn nội bộ - Frontend
 
 ## 🚀 Tổng quan
 
-Backend đã được cấu hình đầy đủ để hỗ trợ thông báo realtime cho văn bản nội bộ thông qua WebSocket. Đây là hướng dẫn chi tiết để frontend tích hợp và nhận thông báo.
+Backend đã được cấu hình đầy đủ để hỗ trợ thông báo realtime cho công văn nội bộ thông qua WebSocket. Đây là hướng dẫn chi tiết để frontend tích hợp và nhận thông báo.
 
 ## 📋 Yêu cầu trước khi bắt đầu
 
@@ -130,7 +130,7 @@ class NotificationService {
     // Hiển thị toast notification
     this.showToast({
       type: 'info',
-      title: 'Văn bản mới',
+      title: 'công văn mới',
       message: notification.content,
       duration: 5000
     });
@@ -147,7 +147,7 @@ class NotificationService {
   showDocumentReadNotification(notification) {
     this.showToast({
       type: 'success',
-      title: 'Văn bản đã được đọc',
+      title: 'công văn đã được đọc',
       message: notification.content,
       duration: 3000
     });
@@ -156,7 +156,7 @@ class NotificationService {
   showDocumentSentNotification(notification) {
     this.showToast({
       type: 'success',
-      title: 'Đã gửi văn bản',
+      title: 'Đã gửi công văn',
       message: notification.content,
       duration: 3000
     });
@@ -626,7 +626,7 @@ console.log('Subscriptions:', stompClient.subscriptions);
 
 Với hướng dẫn này, frontend có thể:
 - ✅ Kết nối WebSocket với backend
-- ✅ Nhận thông báo realtime cho văn bản nội bộ
+- ✅ Nhận thông báo realtime cho công văn nội bộ
 - ✅ Xử lý các loại thông báo khác nhau
 - ✅ Cập nhật UI một cách tự động
 - ✅ Handle connection errors và reconnection

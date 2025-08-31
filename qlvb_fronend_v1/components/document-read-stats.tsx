@@ -111,7 +111,7 @@ export function DocumentReadStats({
     <div className={`space-y-2 ${className}`}>
       <div className="flex items-center gap-2">
         <Users className="h-4 w-4 text-muted-foreground" />
-        <span className="text-sm font-medium">Thống kê đọc văn bản</span>
+        <span className="text-sm font-medium">Thống kê đọc công văn</span>
       </div>
       <div className="grid grid-cols-4 gap-4 text-sm">
         <div className="text-center">

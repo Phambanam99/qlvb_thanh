@@ -64,7 +64,7 @@ export default function DepartmentHeadReview({
       } catch (error) {
         toast({
           title: "Lỗi",
-          description: "Không thể tải dữ liệu văn bản phản hồi",
+          description: "Không thể tải dữ liệu công văn phản hồi",
           variant: "destructive",
         });
       } finally {
@@ -137,7 +137,7 @@ export default function DepartmentHeadReview({
     } catch (error: any) {
       toast({
         title: "Lỗi",
-        description: error.message || "Không thể phê duyệt văn bản",
+        description: error.message || "Không thể phê duyệt công văn",
         variant: "destructive",
       });
     } finally {
@@ -192,10 +192,10 @@ export default function DepartmentHeadReview({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Xem xét văn bản trả lời</CardTitle>
+        <CardTitle>Xem xét công văn trả lời</CardTitle>
         {parentDepartment && (
           <CardDescription className="text-amber-600">
-            Sau khi phê duyệt, văn bản sẽ được chuyển lên{" "}
+            Sau khi phê duyệt, công văn sẽ được chuyển lên{" "}
             {parentDepartment.name} để tiếp tục xem xét.
           </CardDescription>
         )}
@@ -207,14 +207,14 @@ export default function DepartmentHeadReview({
             <AlertTitle>Quy trình phê duyệt theo cấp</AlertTitle>
             <AlertDescription className="text-blue-700">
               Đơn vị của bạn thuộc {parentDepartment.name}. Sau khi bạn phê
-              duyệt, văn bản sẽ được chuyển lên cấp trên để tiếp tục xem xét.
+              duyệt, công văn sẽ được chuyển lên cấp trên để tiếp tục xem xét.
             </AlertDescription>
           </Alert>
         )}
 
         <div className="space-y-2">
           <div className="flex justify-between">
-            <Label>Văn bản trả lời</Label>
+            <Label>công văn trả lời</Label>
             <Badge variant="outline">Chờ phê duyệt</Badge>
           </div>
           <div className="rounded-md border p-4 bg-accent/30">
@@ -272,7 +272,7 @@ export default function DepartmentHeadReview({
             <AlertDialogHeader>
               <AlertDialogTitle>Xác nhận yêu cầu chỉnh sửa</AlertDialogTitle>
               <AlertDialogDescription>
-                Bạn có chắc chắn muốn yêu cầu cán bộ chỉnh sửa văn bản này? Hãy
+                Bạn có chắc chắn muốn yêu cầu cán bộ chỉnh sửa công văn này? Hãy
                 đảm bảo đã nhập đầy đủ ý kiến chỉ đạo.
               </AlertDialogDescription>
             </AlertDialogHeader>

@@ -137,8 +137,8 @@ export function SearchFilters({
             <Input
               placeholder={
                 activeTab === "internal" 
-                  ? "Tìm kiếm văn bản nội bộ..." 
-                  : "Tìm kiếm văn bản bên ngoài..."
+                  ? "Tìm kiếm công văn nội bộ..." 
+                  : "Tìm kiếm công văn bên ngoài..."
               }
               className="pl-10 w-full border-primary/20 focus:border-primary"
               value={searchQuery}

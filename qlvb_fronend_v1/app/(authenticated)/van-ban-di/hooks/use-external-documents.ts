@@ -45,7 +45,7 @@ export function useExternalDocuments({
       let response_;
       let response;
 
-      // Nếu có search query, sử dụng API search cho văn bản bên ngoài
+      // Nếu có search query, sử dụng API search cho công văn bên ngoài
       if (activeSearchQuery.trim()) {
         response = await outgoingDocumentsAPI.searchDocuments(activeSearchQuery.trim(), page, size);
         
@@ -95,7 +95,7 @@ export function useExternalDocuments({
       toast({
         title: "Lỗi",
         description:
-          "Không thể tải dữ liệu văn bản bên ngoài. Vui lòng thử lại sau.",
+          "Không thể tải dữ liệu công văn bên ngoài. Vui lòng thử lại sau.",
         variant: "destructive",
       });
       setOutgoingDocuments([]);

@@ -305,7 +305,7 @@ export default function SettingsPage() {
                 </div>
                 <Separator />
                 <div className="space-y-2">
-                  <Label htmlFor="document-prefix">Tiền tố số văn bản đi</Label>
+                  <Label htmlFor="document-prefix">Tiền tố số công văn đi</Label>
                   <Input
                     id="document-prefix"
                     name="document-prefix"
@@ -314,7 +314,7 @@ export default function SettingsPage() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="document-counter">Bộ đếm văn bản đi</Label>
+                  <Label htmlFor="document-counter">Bộ đếm công văn đi</Label>
                   <Input
                     id="document-counter"
                     name="document-counter"

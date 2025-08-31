@@ -17,7 +17,7 @@ export type UrgencyLevel = keyof typeof URGENCY_LEVELS;
 export const URGENCY_CONFIG = {
   [URGENCY_LEVELS.KHAN]: {
     label: "Khẩn",
-    description: "Văn bản khẩn cấp",
+    description: "công văn khẩn cấp",
     badgeVariant: "secondary" as const,
     color: "#f59e0b", // amber-500
     priority: 2,
@@ -25,7 +25,7 @@ export const URGENCY_CONFIG = {
   },
   [URGENCY_LEVELS.THUONG_KHAN]: {
     label: "Thượng khẩn",
-    description: "Văn bản thượng khẩn",
+    description: "công văn thượng khẩn",
     badgeVariant: "destructive" as const,
     color: "#ef4444", // red-500
     priority: 3,
@@ -33,7 +33,7 @@ export const URGENCY_CONFIG = {
   },
   [URGENCY_LEVELS.HOA_TOC]: {
     label: "Hỏa tốc",
-    description: "Văn bản hỏa tốc",
+    description: "công văn hỏa tốc",
     badgeVariant: "destructive" as const,
     color: "#dc2626", // red-600
     priority: 4,
@@ -41,7 +41,7 @@ export const URGENCY_CONFIG = {
   },
   [URGENCY_LEVELS.HOA_TOC_HEN_GIO]: {
     label: "Hỏa tốc hẹn giờ",
-    description: "Văn bản hỏa tốc có thời hạn cụ thể",
+    description: "công văn hỏa tốc có thời hạn cụ thể",
     badgeVariant: "destructive" as const,
     color: "#b91c1c", // red-700
     priority: 5,

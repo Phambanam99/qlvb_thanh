@@ -1,5 +1,5 @@
 /**
- * Status management utilities for văn bản đến
+ * Status management utilities for công văn đến
  * Centralizes all status-related logic for better maintainability
  */
 
@@ -10,7 +10,7 @@ export const STATUS_GROUPS: Record<string, StatusGroup> = {
   not_processed: {
     code: "not_processed",
     displayName: "Chưa xử lý",
-    description: "Văn bản chưa được xử lý",
+    description: "công văn chưa được xử lý",
     statuses: [
       "draft",
       "registered",
@@ -33,7 +33,7 @@ export const STATUS_GROUPS: Record<string, StatusGroup> = {
   pending: {
     code: "pending",
     displayName: "Đang xử lý",
-    description: "Văn bản đang được xử lý",
+    description: "công văn đang được xử lý",
     statuses: [
       "distributed",
       "dept_assigned",
@@ -59,7 +59,7 @@ export const STATUS_GROUPS: Record<string, StatusGroup> = {
   completed: {
     code: "completed",
     displayName: "Đã xử lý",
-    description: "Văn bản đã hoàn thành xử lý",
+    description: "công văn đã hoàn thành xử lý",
     statuses: [
       "leader_approved",
       "leader_commented",
@@ -92,17 +92,17 @@ export const STATUS_TABS: Record<string, StatusTab> = {
   not_processed: {
     code: "not_processed",
     displayName: "Chưa xử lý",
-    description: "Văn bản chưa được xử lý",
+    description: "công văn chưa được xử lý",
   },
   pending: {
     code: "pending",
     displayName: "Đang xử lý",
-    description: "Văn bản đang được xử lý",
+    description: "công văn đang được xử lý",
   },
   completed: {
     code: "completed",
     displayName: "Đã hoàn thành",
-    description: "Văn bản đã hoàn thành xử lý",
+    description: "công văn đã hoàn thành xử lý",
   },
 };
 

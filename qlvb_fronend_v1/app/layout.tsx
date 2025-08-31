@@ -12,8 +12,8 @@ import { NotificationsProvider } from "@/lib/notifications-context"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Hệ thống quản lý văn bản",
-  description: "Hệ thống quản lý văn bản và điều hành",
+  title: "Hệ thống quản lý công văn",
+  description: "Hệ thống quản lý công văn và điều hành",
     generator: 'v0.dev'
 }
 

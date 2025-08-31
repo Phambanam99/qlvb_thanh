@@ -1,5 +1,5 @@
 /**
- * Search Filters Component for văn bản đến
+ * Search Filters Component for công văn đến
  * Reusable search and filter component với manual search button và year/month filter cho internal documents
  */
 
@@ -85,8 +85,8 @@ export function SearchFilters({
 }: SearchFiltersProps) {
   // Dynamic placeholder based on active tab
   const searchPlaceholder = activeTab === "internal" 
-    ? "Tìm kiếm văn bản nội bộ..."
-    : "Tìm kiếm văn bản bên ngoài...";
+    ? "Tìm kiếm công văn nội bộ..."
+    : "Tìm kiếm công văn bên ngoài...";
 
   // Generate years list from 2019 to current year
   const currentYear = new Date().getFullYear();

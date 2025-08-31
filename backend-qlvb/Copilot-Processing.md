@@ -29,7 +29,7 @@ Lỗi SQL khi gọi method `updateDocumentWithAttachments`:
 
 **Kết quả tìm được:**
 - Database constraint không chứa giá trị 'UPDATE'
-- Enum có định nghĩa UPDATE("updated","Văn bản đã được chỉnh sửa") nhưng database constraint chưa được update
+- Enum có định nghĩa UPDATE("updated","công văn đã được chỉnh sửa") nhưng database constraint chưa được update
 - Constraint hiện tại chỉ chấp nhận: DRAFT, REGISTERED, FORMAT_CORRECTION, FORMAT_CORRECTED, DISTRIBUTED, DEPT_ASSIGNED, PENDING_APPROVAL, SPECIALIST_PROCESSING, SPECIALIST_SUBMITTED, LEADER_REVIEWING, LEADER_APPROVED, LEADER_COMMENTED, NOT_PROCESSED, IN_PROCESS, PROCESSED, PUBLISHED, COMPLETED, REJECTED, ARCHIVED, HEADER_DEPARTMENT_REVIEWING, HEADER_DEPARTMENT_APPROVED, HEADER_DEPARTMENT_COMMENTED
 
 ### Phase 2: Kiểm tra enum DocumentProcessingStatus - ✅
@@ -38,7 +38,7 @@ Lỗi SQL khi gọi method `updateDocumentWithAttachments`:
 - [x] So sánh với constraint database
 
 **Kết quả phân tích:**
-- Enum có định nghĩa `UPDATE("updated","Văn bản đã được chỉnh sửa")`
+- Enum có định nghĩa `UPDATE("updated","công văn đã được chỉnh sửa")`
 - Database constraint KHÔNG có giá trị "UPDATE" 
 - Vấn đề: Enum và database constraint không đồng bộ
 
@@ -59,7 +59,7 @@ Lỗi SQL khi gọi method `updateDocumentWithAttachments`:
 
 **Giải pháp thực hiện:**
 - Thay đổi `DocumentProcessingStatus.UPDATE` thành `DocumentProcessingStatus.DRAFT`
-- Cập nhật history message từ "Tạo văn bản nội bộ" thành "Cập nhật văn bản nội bộ"
+- Cập nhật history message từ "Tạo công văn nội bộ" thành "Cập nhật công văn nội bộ"
 - Giữ nguyên logic khác để đảm bảo tính nhất quán
 
 ### Phase 5: Kiểm tra method khác - ✅
@@ -127,7 +127,7 @@ java.lang.IllegalArgumentException: When allowCredentials is true, allowedOrigin
 1. **Backend Analysis**: Đã phân tích đầy đủ cấu trúc notification system
    - WebSocketConfig.java: Endpoint `/ws` với SockJS support
    - NotificationService.java: SimpMessagingTemplate gửi thông báo
-   - InternalDocumentService.java: Tích hợp notification khi đọc văn bản
+   - InternalDocumentService.java: Tích hợp notification khi đọc công văn
    - SecurityConfig.java: Đã cho phép access `/ws/**` endpoints
 
 2. **Frontend Integration Guide**: Tạo hướng dẫn chi tiết
@@ -727,12 +727,12 @@ BUILD SUCCESSFUL in 13s
 # Copilot Processing: Tích hợp sendInternalDocument vào create methods
 
 ## Yêu cầu từ người dùng:
-User muốn tích hợp method `sendInternalDocument` vào `createDocument` và `createDocumentWithAttachments` để tự động gửi thông báo đến người nhận khi tạo văn bản.
+User muốn tích hợp method `sendInternalDocument` vào `createDocument` và `createDocumentWithAttachments` để tự động gửi thông báo đến người nhận khi tạo công văn.
 
 ## Phân tích hiện tại:
 - Method `sendInternalDocument` hiện đang tồn tại riêng biệt
 - `createDocument` và `createDocumentWithAttachments` không tự động gửi thông báo
-- Cần tích hợp logic gửi thông báo vào quá trình tạo văn bản
+- Cần tích hợp logic gửi thông báo vào quá trình tạo công văn
 
 ## Action Plan
 
@@ -764,7 +764,7 @@ User muốn tích hợp method `sendInternalDocument` vào `createDocument` và 
 1. **InternalDocumentService.java** - Tích hợp logic gửi thông báo
 
 ### Code Improvements:
-- **Tự động gửi thông báo** khi tạo văn bản mới
+- **Tự động gửi thông báo** khi tạo công văn mới
 - **Tích hợp seamless** vào cả `createDocument` và `createDocumentWithAttachments`
 - **Helper method** `sendNotificationsToRecipients` để tái sử dụng logic
 - **Logging chi tiết** để theo dõi quá trình gửi thông báo
@@ -775,7 +775,7 @@ User muốn tích hợp method `sendInternalDocument` vào `createDocument` và 
 - `sendNotificationsToRecipients()` - Helper method mới để gửi thông báo
 
 ### Notification Features:
-- **Automatic notification** khi văn bản được tạo
+- **Automatic notification** khi công văn được tạo
 - **Personalized content** với tên người gửi và phòng ban
 - **Error handling** cho từng recipient riêng biệt
 - **Success tracking** số lượng thông báo gửi thành công
@@ -821,21 +821,21 @@ BUILD SUCCESSFUL in 6s
 
 ## Tính năng đã hoàn thành
 
-✅ **Tìm kiếm văn bản theo tháng/năm linh hoạt**
+✅ **Tìm kiếm công văn theo tháng/năm linh hoạt**
 
 ### Endpoints API
-1. **Văn bản đã gửi**: `GET /api/internal-documents/sent/by-year/{year}?month={month}`
-2. **Văn bản đã nhận**: `GET /api/internal-documents/received/by-year/{year}?month={month}`
+1. **công văn đã gửi**: `GET /api/internal-documents/sent/by-year/{year}?month={month}`
+2. **công văn đã nhận**: `GET /api/internal-documents/received/by-year/{year}?month={month}`
 
 ### Tham số
 - `year`: Năm (1900-2100, bắt buộc)
 - `month`: Tháng (1-12, tùy chọn)
 
 ### Ví dụ sử dụng
-- `/sent/by-year/2024` → Tất cả văn bản gửi năm 2024
-- `/sent/by-year/2024?month=3` → Văn bản gửi tháng 3/2024
-- `/received/by-year/2024` → Tất cả văn bản nhận năm 2024
-- `/received/by-year/2024?month=3` → Văn bản nhận tháng 3/2024
+- `/sent/by-year/2024` → Tất cả công văn gửi năm 2024
+- `/sent/by-year/2024?month=3` → công văn gửi tháng 3/2024
+- `/received/by-year/2024` → Tất cả công văn nhận năm 2024
+- `/received/by-year/2024?month=3` → công văn nhận tháng 3/2024
 
 ### Thay đổi code
 - **Repository**: Thêm queries JPQL với YEAR() và MONTH()
@@ -862,8 +862,8 @@ BUILD SUCCESSFUL in 6s
 ### Completed Tasks
 
 #### Repository Layer (InternalDocumentRepository.java)
-- ✅ Thêm method `findBySenderAndYear()` - Tìm văn bản gửi theo user và năm
-- ✅ Thêm method `findDocumentsReceivedByUserAndYear()` - Tìm văn bản nhận theo user và năm
+- ✅ Thêm method `findBySenderAndYear()` - Tìm công văn gửi theo user và năm
+- ✅ Thêm method `findDocumentsReceivedByUserAndYear()` - Tìm công văn nhận theo user và năm
 - ✅ Sử dụng JPQL với YEAR() function để filter theo năm hiệu quả
 
 #### Service Layer (InternalDocumentService.java)  
@@ -873,8 +873,8 @@ BUILD SUCCESSFUL in 6s
 - ✅ Support pagination và conversion to DTO
 
 #### Controller Layer (InternalDocumentController.java)
-- ✅ Thêm endpoint `GET /sent/by-year/{year}` cho văn bản gửi theo năm
-- ✅ Thêm endpoint `GET /received/by-year/{year}` cho văn bản nhận theo năm  
+- ✅ Thêm endpoint `GET /sent/by-year/{year}` cho công văn gửi theo năm
+- ✅ Thêm endpoint `GET /received/by-year/{year}` cho công văn nhận theo năm  
 - ✅ Input validation cho year parameter (1900-2100)
 - ✅ Swagger documentation đầy đủ với @Operation và @ApiResponses
 - ✅ Error handling và response messages tiếng Việt
@@ -896,9 +896,9 @@ GET /api/internal-documents/received/by-year/{year}
 - Error: `ResponseDTO` với error message tiếng Việt
 
 #### Permission Logic
-- **CHI_HUY_CUC**: Xem tất cả văn bản trong năm
-- **CHI_HUY_DON_VI/VAN_THU**: Xem văn bản của phòng ban trong năm
-- **NHAN_VIEN**: Xem văn bản cá nhân trong năm
+- **CHI_HUY_CUC**: Xem tất cả công văn trong năm
+- **CHI_HUY_DON_VI/VAN_THU**: Xem công văn của phòng ban trong năm
+- **NHAN_VIEN**: Xem công văn cá nhân trong năm
 
 ### Quality Assurance
 - ✅ Build thành công không có lỗi compilation
@@ -908,10 +908,10 @@ GET /api/internal-documents/received/by-year/{year}
 
 ### Usage Examples
 ```bash
-# Lấy văn bản gửi năm 2025
+# Lấy công văn gửi năm 2025
 GET /api/internal-documents/sent/by-year/2025?page=0&size=10
 
-# Lấy văn bản nhận năm 2024  
+# Lấy công văn nhận năm 2024  
 GET /api/internal-documents/received/by-year/2024?page=0&size=20&sort=createdAt,desc
 ```
 
@@ -942,8 +942,8 @@ GET /api/internal-documents/received/by-year/2024?page=0&size=20&sort=createdAt,
 - Kiểm tra các endpoint hiện có để đảm bảo tính nhất quán
 
 ### Phase 3.2: Thiết kế endpoint mới
-- Thiết kế endpoint `/sent/by-year/{year}` cho văn bản gửi theo năm
-- Thiết kế endpoint `/received/by-year/{year}` cho văn bản nhận theo năm
+- Thiết kế endpoint `/sent/by-year/{year}` cho công văn gửi theo năm
+- Thiết kế endpoint `/received/by-year/{year}` cho công văn nhận theo năm
 - Xác định response format và pagination
 
 ### Phase 3.3: Implement service methods

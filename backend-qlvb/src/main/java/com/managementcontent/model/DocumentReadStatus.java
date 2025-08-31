@@ -100,10 +100,10 @@ public class DocumentReadStatus {
      * Document types that use this read status tracking
      */
     public enum DocumentType {
-        INCOMING_EXTERNAL("Văn bản đến bên ngoài"),
-        INCOMING_INTERNAL("Văn bản đến nội bộ"),
-        OUTGOING_INTERNAL("Văn bản đi nội bộ"),
-        OUTGOING_EXTERNAL("Văn bản đi bên ngoài");
+        INCOMING_EXTERNAL("công văn đến bên ngoài"),
+        INCOMING_INTERNAL("công văn đến nội bộ"),
+        OUTGOING_INTERNAL("công văn đi nội bộ"),
+        OUTGOING_EXTERNAL("công văn đi bên ngoài");
 
         private final String displayName;
 

@@ -18,7 +18,7 @@
   "content": "Document status changed",
   "document": {
     "id": 456,
-    "title": "Văn bản số 1234"
+    "title": "công văn số 1234"
   },
   "createdAt": "2025-05-09T10:00:00Z",
   "read": false,

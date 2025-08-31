@@ -2,7 +2,7 @@
 
 ## 1. Test với cURL
 
-### Tạo văn bản với file đính kèm
+### Tạo công văn với file đính kèm
 
 ```bash
 # Tạo file test.json

@@ -1,7 +1,7 @@
 # Copilot Processing - Replace Text Buttons with Icons
 
 ## User Request
-Trong #file:van-ban-di tabs văn bản nội bộ thao tác là 2 button với chữ xấu quá thay vào đó là 2 icon phù hợp với chỉnh sửa và chi tiết để đẹp hơn
+Trong #file:van-ban-di tabs công văn nội bộ thao tác là 2 button với chữ xấu quá thay vào đó là 2 icon phù hợp với chỉnh sửa và chi tiết để đẹp hơn
 
 Translation: In the internal documents tab, the action buttons with text look ugly, replace them with appropriate icons for edit and detail to make them more beautiful.
 
@@ -454,11 +454,11 @@ Trang edit document không load và hiển thị được danh sách recipients 
 4. Confirm form hoạt động bình thường sau khi load xong
    - Badge "Chế độ chỉnh sửa" khi edit
 
-2. **Warning Card**: Hiển thị cảnh báo rõ ràng khi ở chế độ edit với thông tin văn bản đang chỉnh sửa
+2. **Warning Card**: Hiển thị cảnh báo rõ ràng khi ở chế độ edit với thông tin công văn đang chỉnh sửa
 
 3. **Button & Icon khác biệt**:
-   - Save icon + "Cập nhật văn bản" cho edit mode
-   - Send icon + "Gửi văn bản" cho create mode
+   - Save icon + "Cập nhật công văn" cho edit mode
+   - Send icon + "Gửi công văn" cho create mode
 
 **Phase 3: Validation Logic riêng biệt**:
 - **Create Mode**: Recipients bắt buộc phải chọn
@@ -654,7 +654,7 @@ Bây giờ link "Web cũ" sẽ mở http://192.168.88.30/dnn trong tab mới khi
 ## Original Problem Context
 
 ### User Request
-Khi tôi gửi văn bản vẫn chưa thông báo realtime lên header của người nhận?
+Khi tôi gửi công văn vẫn chưa thông báo realtime lên header của người nhận?
 
 ## Context Analysis
 - Header component sử dụng NotificationsDropdown để hiển thị thông báo
@@ -698,7 +698,7 @@ Có code đang sử dụng `useNotificationConnection` từ `notification-provid
 ## Phân tích sâu về vấn đề hiện tại
 
 ### Vấn đề được báo cáo
-Khi gửi văn bản nội bộ, thông báo realtime không hiển thị trên header của người nhận.
+Khi gửi công văn nội bộ, thông báo realtime không hiển thị trên header của người nhận.
 
 ### Phân tích hệ thống hiện tại
 
@@ -716,14 +716,14 @@ Khi gửi văn bản nội bộ, thông báo realtime không hiển thị trên 
    - Có unread counter và mark as read functionality
 
 3. **API endpoints sẵn sàng**:
-   - `/workflow/internal-outgoing` - Tạo văn bản nội bộ mới
-   - `/workflow/internal-reply` - Trả lời văn bản nội bộ
+   - `/workflow/internal-outgoing` - Tạo công văn nội bộ mới
+   - `/workflow/internal-reply` - Trả lời công văn nội bộ
    - Sử dụng `createInternalDocument()` hoặc `workflowAPI.createInternalOutgoingDocument()`
 
 #### 🔍 Vấn đề có thể xảy ra
 
-1. **Backend chưa emit notification khi gửi văn bản**
-   - Frontend gọi API tạo/gửi văn bản thành công
+1. **Backend chưa emit notification khi gửi công văn**
+   - Frontend gọi API tạo/gửi công văn thành công
    - Nhưng backend có thể không emit WebSocket event cho recipients
 
 2. **Notification mapping không đúng**
@@ -738,7 +738,7 @@ Khi gửi văn bản nội bộ, thông báo realtime không hiển thị trên 
 ### Giải pháp đề xuất
 
 #### Cần kiểm tra backend:
-1. Khi tạo/gửi văn bản nội bộ qua API `/workflow/internal-outgoing`
+1. Khi tạo/gửi công văn nội bộ qua API `/workflow/internal-outgoing`
 2. Backend có emit WebSocket events không?
 3. Emit events nào? (`INTERNAL_DOCUMENT_SENT` và `INTERNAL_DOCUMENT_RECEIVED`?)
 4. Emit đến users nào? (Chỉ sender hay cả recipients?)
@@ -757,7 +757,7 @@ Khi gửi văn bản nội bộ, thông báo realtime không hiển thị trên 
 ### Kết quả cuối cùng
 - ✅ Thông báo realtime hoạt động
 - ✅ Hiển thị trạng thái kết nối WebSocket
-- ✅ Tự động cập nhật khi có văn bản mới
+- ✅ Tự động cập nhật khi có công văn mới
 - ✅ Lưu trữ persistent vào localStorage
 - ✅ Không còn lỗi useNotificationConnection
 
@@ -813,7 +813,7 @@ Khi gửi văn bản nội bộ, thông báo realtime không hiển thị trên 
 - ✅ Tự động kết nối khi user đăng nhập
 - ✅ Hỗ trợ tất cả loại thông báo document
 
-Người dùng bây giờ sẽ nhận được thông báo realtime ngay khi có văn bản mới hoặc cập nhật.
+Người dùng bây giờ sẽ nhận được thông báo realtime ngay khi có công văn mới hoặc cập nhật.
 
 ## Task Status
 - [x] Created processing file
@@ -872,10 +872,10 @@ Chi tiết implementation và usage examples có trong `INTERNAL_NOTIFICATIONS_I
 
 ## Action Plan
 
-- [x] Phase 1: Cập nhật InternalDocumentsTable cho văn bản đến
-- [x] Phase 2: Cập nhật ExternalDocumentsTable cho văn bản đến  
-- [x] Phase 3: Cập nhật internal-documents-table cho văn bản đi
-- [ ] Phase 4: Cập nhật external-documents-table cho văn bản đi
+- [x] Phase 1: Cập nhật InternalDocumentsTable cho công văn đến
+- [x] Phase 2: Cập nhật ExternalDocumentsTable cho công văn đến  
+- [x] Phase 3: Cập nhật internal-documents-table cho công văn đi
+- [ ] Phase 4: Cập nhật external-documents-table cho công văn đi
 - [ ] Phase 5: Kiểm tra và test thay đổi
 
 ## Analysis
@@ -1012,7 +1012,7 @@ Thay thế comment "No filtering - show all users" bằng logic sắp xếp đ�
 
 ### ✅ VẤN ĐỀ ĐÃ ĐƯỢC SỬA HOÀN TOÀN
 
-**Root Cause:** Trong phần văn bản đến, tab văn bản nội bộ đang sử dụng sai API để đánh dấu trạng thái đọc. Code đang dùng `outgoingInternalReadStatus` (dành cho văn bản đi nội bộ) thay vì `incomingInternalReadStatus` (dành cho văn bản đến nội bộ).
+**Root Cause:** Trong phần công văn đến, tab công văn nội bộ đang sử dụng sai API để đánh dấu trạng thái đọc. Code đang dùng `outgoingInternalReadStatus` (dành cho công văn đi nội bộ) thay vì `incomingInternalReadStatus` (dành cho công văn đến nội bộ).
 
 **Vấn đề cụ thể:**
 1. **API sai:** Sử dụng `outgoingInternalReadStatus` thay vì `incomingInternalReadStatus`
@@ -1073,7 +1073,7 @@ Thay thế comment "No filtering - show all users" bằng logic sắp xếp đ�
    ```
 
 **Kết quả:**
-- ✅ Trạng thái đọc được cập nhật đúng khi click vào văn bản nội bộ
+- ✅ Trạng thái đọc được cập nhật đúng khi click vào công văn nội bộ
 - ✅ Real-time synchronization giữa detail page và list page  
 - ✅ Consistent API usage giống như trong "xem người đọc"
 - ✅ Enhanced user experience với proper error handling

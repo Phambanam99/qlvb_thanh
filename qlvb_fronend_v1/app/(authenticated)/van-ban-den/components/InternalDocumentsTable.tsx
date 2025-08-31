@@ -3,8 +3,6 @@
  * Displays internal documents in a clean table format
  */
 
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Table,
@@ -19,7 +17,7 @@ interface InternalDocumentsTableProps {
   documents: any[];
   onDocumentClick: (doc: any) => void;
   formatDate: (date: string | Date | null | undefined) => string;
-  // Read status props - like in văn bản đi
+  // Read status props - like in công văn đi
   universalReadStatus?: any;
   onReadStatusToggle?: (docId: number) => void;
   getReadStatus?: (docId: number) => boolean;
@@ -33,20 +31,31 @@ export function InternalDocumentsTable({
   onReadStatusToggle,
   getReadStatus,
 }: InternalDocumentsTableProps) {
+  const mapSecurityLevel = (level: string | undefined | null): string => {
+    if (!level) return "-";
+    const v = String(level).toUpperCase();
+    if (v === "NORMAL") return "Thường";
+    if (v === "CONFIDENTIAL") return "Mật";
+    if (v === "SECRET") return "Tối mật";
+    if (v === "TOP_SECRET" || v === "TOP-SECRET") return "Tuyệt mật";
+    return level;
+  };
   return (
     <Card className="border-primary/10 shadow-sm">
       <CardContent className="p-0">
         <Table>
           <TableHeader className="bg-accent/50">
             <TableRow>
-              <TableHead className="w-16">STT</TableHead>
-              <TableHead>Số văn bản</TableHead>
-              <TableHead>Ngày ký</TableHead>
-              <TableHead>Tiêu đề</TableHead>
+              <TableHead className="w-16">Stt</TableHead>
+              <TableHead>Số cv</TableHead>
+              <TableHead>Ngày cv</TableHead>
+              <TableHead>Loại cv</TableHead>
+              <TableHead>Cơ quan ban hành</TableHead>
+              <TableHead>Trích yếu</TableHead>
               <TableHead>Người gửi</TableHead>
-             
-              <TableHead>Trạng thái đọc</TableHead>
-              <TableHead>Thao tác</TableHead>
+              <TableHead>Độ mật</TableHead>
+              <TableHead>Số trang</TableHead>
+              <TableHead>Tệp đính kèm</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -71,9 +80,11 @@ export function InternalDocumentsTable({
                       {index + 1}
                     </TableCell>
                     <TableCell className="font-medium">
-                      {doc.documentNumber}
+                      {doc.documentNumber || doc.number || "-"}
                     </TableCell>
-                    <TableCell>{formatDate(doc.signingDate)}</TableCell>
+                    <TableCell>{formatDate(doc.signingDate || doc.receivedDate || doc.sentDate)}</TableCell>
+                    <TableCell>{doc.documentType || doc.type || "-"}</TableCell>
+                    <TableCell>{doc.issuingAgency || doc.sendingDepartmentName || doc.departmentName || "-"}</TableCell>
                     <TableCell className="max-w-[300px] truncate">
                       <div className="flex items-center gap-2">
                         {!isRead && (
@@ -84,52 +95,17 @@ export function InternalDocumentsTable({
                         </span>
                       </div>
                     </TableCell>
-                    <TableCell>{doc.senderName}</TableCell>
-
-                  <TableCell>
-                    {universalReadStatus && getReadStatus ? (
-                      // Use Button for read status toggle like văn bản đi
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className={`${
-                          isRead
-                            ? "text-green-600 hover:text-green-700"
-                            : "text-blue-600 hover:text-blue-700"
-                        }`}
-                        onClick={(e: React.MouseEvent) => {
-                          e.stopPropagation();
-                          if (onReadStatusToggle) {
-                            onReadStatusToggle(doc.id);
-                          }
-                        }}
-                      >
-                        {isRead ? "Đã đọc" : "Chưa đọc"}
-                      </Button>
-                    ) : (
-                      // Fallback to Badge for backward compatibility
-                      <Badge variant={isRead ? "default" : "outline"}>
-                        {isRead ? "Đã đọc" : "Chưa đọc"}
-                      </Badge>
-                    )}
-                  </TableCell>
-                  <TableCell>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => onDocumentClick(doc)}
-                      className="hover:bg-primary/10 hover:text-primary"
-                    >
-                      Chi tiết
-                    </Button>
-                  </TableCell>
+                    <TableCell>{doc.senderName || "-"}</TableCell>
+                    <TableCell>{mapSecurityLevel(doc.securityLevel)}</TableCell>
+                    <TableCell>{doc.numberOfPages || doc.pages || doc.pageCount || "-"}</TableCell>
+                    <TableCell>{(doc.attachments && doc.attachments.length) || doc.attachmentCount || 0}</TableCell>
                 </TableRow>
               );
               })
             ) : (
               <TableRow>
                 <TableCell colSpan={6} className="h-24 text-center">
-                  Chưa có văn bản nội bộ nào
+                  Chưa có công văn nội bộ nào
                 </TableCell>
               </TableRow>
             )}

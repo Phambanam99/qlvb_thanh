@@ -23,7 +23,7 @@ public class IncomingDocumentDTO {
     /** Title or subject of the document */
     private String title;
 
-    /** Loại văn bản cụ thể (OFFICIAL_LETTER, DECISION, ANNOUNCEMENT, v.v.) */
+    /** Loại công văn cụ thể (OFFICIAL_LETTER, DECISION, ANNOUNCEMENT, v.v.) */
     private String documentType;
 
     /** Official document number */
@@ -38,13 +38,13 @@ public class IncomingDocumentDTO {
     /** Urgency level (NORMAL, URGENT, IMMEDIATE, etc.) */
     private String urgencyLevel;
 
-    /** Độ mật của văn bản (NORMAL, CONFIDENTIAL, SECRET, TOP_SECRET) */
+    /** Độ mật của công văn (NORMAL, CONFIDENTIAL, SECRET, TOP_SECRET) */
     private String securityLevel;
 
-    /** Tóm tắt nội dung chính của văn bản */
+    /** Tóm tắt nội dung chính của công văn */
     private String summary;
 
-    /** Ghi chú bổ sung về văn bản */
+    /** Ghi chú bổ sung về công văn */
     private String notes;
 
     /** Date when the document was signed */
@@ -91,12 +91,12 @@ public class IncomingDocumentDTO {
     private String storageLocation;
 
     /**
-     * Số thu - số thứ tự thu thập văn bản
+     * Số thu - số thứ tự thu thập công văn
      */
     private String receiptNumber;
 
     /**
-     * Cán bộ xử lý - người được phân công xử lý văn bản
+     * Cán bộ xử lý - người được phân công xử lý công văn
      */
     private UserDTO processingOfficer;
     private Long processingOfficerId;

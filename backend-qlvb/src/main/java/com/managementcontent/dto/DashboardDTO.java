@@ -15,27 +15,27 @@ import java.util.Map;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DashboardDTO {
-    // Tổng số văn bản
+    // Tổng số công văn
     private int totalDocuments;
 
-    // Thống kê theo loại văn bản
+    // Thống kê theo loại công văn
     private int incomingDocumentCount;
     private int outgoingDocumentCount;
 
-    // Thống kê theo trạng thái văn bản
+    // Thống kê theo trạng thái công văn
     private Map<String, Integer> documentsByStatus;
 
-    // Thống kê số văn bản theo tháng
+    // Thống kê số công văn theo tháng
     private Map<String, Integer> documentsByMonth;
 
-    // Các văn bản đang chờ xử lý
+    // Các công văn đang chờ xử lý
     private long pendingDocumentCount;
     private List<DocumentSummaryDTO> pendingDocuments;
-    // Các văn bản gần đến hạn
+    // Các công văn gần đến hạn
     private List<DocumentSummaryDTO> upcomingDeadlines;
 
     private List<DocumentSummaryDTO> overdueDocuments;
-    // Các văn bản quá hạn
+    // Các công văn quá hạn
     private long overdueDocumentCount;
 
     // Kế hoạch công việc hiện tại
@@ -71,7 +71,7 @@ public class DashboardDTO {
 
 
 
-    // DTO tóm tắt thông tin văn bản cho dashboard
+    // DTO tóm tắt thông tin công văn cho dashboard
     @Data
     @NoArgsConstructor
     @AllArgsConstructor

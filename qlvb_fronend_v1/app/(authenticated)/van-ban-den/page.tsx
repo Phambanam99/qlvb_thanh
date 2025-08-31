@@ -48,7 +48,7 @@ export default function IncomingDocumentsPage() {
   const searchParams = useSearchParams();
   const { user, hasRole } = useAuth();
 
-  // Tab-specific search states - similar to văn bản đi
+  // Tab-specific search states - similar to công văn đi
   const [internalSearchQuery, setInternalSearchQuery] = useState("");
   const [externalSearchQuery, setExternalSearchQuery] = useState("");
   const [internalActiveSearchQuery, setInternalActiveSearchQuery] = useState("");

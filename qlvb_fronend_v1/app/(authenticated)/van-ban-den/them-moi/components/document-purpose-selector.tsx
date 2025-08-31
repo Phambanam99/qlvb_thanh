@@ -14,7 +14,7 @@ export function DocumentPurposeSelector({
 }: DocumentPurposeSelectorProps) {
   return (
     <div className="space-y-3">
-      <Label className="text-base font-medium">Mục đích văn bản</Label>
+      <Label className="text-base font-medium">Mục đích công văn</Label>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         <div
           className={cn(
@@ -43,7 +43,7 @@ export function DocumentPurposeSelector({
             <div className="min-w-0 flex-1">
               <div className="text-sm font-medium">Cần xử lý</div>
               <div className="text-xs text-muted-foreground">
-                Văn bản cần phòng ban xử lý cụ thể và có phản hồi
+                công văn cần phòng ban xử lý cụ thể và có phản hồi
               </div>
             </div>
           </div>
@@ -76,7 +76,7 @@ export function DocumentPurposeSelector({
             <div className="min-w-0 flex-1">
               <div className="text-sm font-medium">Chỉ thông báo</div>
               <div className="text-xs text-muted-foreground">
-                Văn bản chỉ cần thông báo, không cần xử lý cụ thể
+                công văn chỉ cần thông báo, không cần xử lý cụ thể
               </div>
             </div>
           </div>

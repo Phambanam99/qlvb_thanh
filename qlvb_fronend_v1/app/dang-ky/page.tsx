@@ -61,7 +61,7 @@ export default function RegisterPage() {
     const loadData = async () => {
       setDataLoading(true);
       try {
-        // console.log("Đang tải dữ liệu phòng ban và vai trò...");
+        // console.log("Đang tải dữ liệu phòng ban và Chức vụ ...");
 
         // Load departments
         try {
@@ -87,10 +87,10 @@ export default function RegisterPage() {
 
         // Load roles
         try {
-          // console.log("Đang tải dữ liệu vai trò...");
+          // console.log("Đang tải dữ liệu Chức vụ ...");
           const rolesData_ = await rolesAPI.getAllRoles();
           const rolesData = rolesData_.data;
-          // console.log("Dữ liệu vai trò:", rolesData);
+          // console.log("Dữ liệu Chức vụ :", rolesData);
 
           if (rolesData) {
             setRoles(
@@ -99,16 +99,16 @@ export default function RegisterPage() {
                 displayName: role.displayName || role.name,
               }))
             );
-            // console.log("Đã tải dữ liệu vai trò thành công");
+            // console.log("Đã tải dữ liệu Chức vụ  thành công");
           } else {
-            // console.error("Dữ liệu vai trò không hợp lệ:", rolesData);
+            // console.error("Dữ liệu Chức vụ  không hợp lệ:", rolesData);
           }
         } catch (roleError) {
-          // console.error("Lỗi khi tải dữ liệu vai trò:", roleError);
+          // console.error("Lỗi khi tải dữ liệu Chức vụ :", roleError);
         }
       } catch (error) {
         // console.error("Lỗi khi tải dữ liệu:", error);
-        setError("Không thể tải dữ liệu phòng ban và vai trò");
+        setError("Không thể tải dữ liệu phòng ban và Chức vụ ");
       } finally {
         setDataLoading(false);
       }
@@ -139,7 +139,7 @@ export default function RegisterPage() {
       return false;
     }
     if (!role) {
-      setError("Vui lòng chọn vai trò");
+      setError("Vui lòng chọn Chức vụ ");
       return false;
     }
     return true;
@@ -188,151 +188,140 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
-      <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-primary">
-            Hệ thống quản lý văn bản
-          </h1>
-          <p className="text-muted-foreground mt-2">Đăng ký tài khoản mới</p>
-        </div>
+    <Card className="border-primary/10 shadow-md">
+      <CardHeader className="space-y-1">
+        <CardTitle className="text-2xl text-center">Đăng ký</CardTitle>
+        <CardDescription className="text-center">
+          Nhập thông tin để tạo tài khoản mới
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <ErrorMessage message={error} />
 
-        <Card className="border-primary/10 shadow-md">
-          <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl text-center">Đăng ký</CardTitle>
-            <CardDescription className="text-center">
-              Nhập thông tin để tạo tài khoản mới
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ErrorMessage message={error} />
-
-            {dataLoading ? (
-              <div className="flex justify-center items-center py-8">
-                <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                <span className="ml-2">Đang tải dữ liệu...</span>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="username">Tên đăng nhập</Label>
-                  <Input
-                    id="username"
-                    placeholder="Nhập tên đăng nhập"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    required
-                    disabled={isLoading}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="fullName">Họ và tên</Label>
-                  <Input
-                    id="fullName"
-                    placeholder="Nhập họ và tên"
-                    value={fullName}
-                    onChange={(e) => setFullName(e.target.value)}
-                    required
-                    disabled={isLoading}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="password">Mật khẩu</Label>
-                  <Input
-                    id="password"
-                    type="password"
-                    placeholder="Nhập mật khẩu"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    disabled={isLoading}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="confirmPassword">Xác nhận mật khẩu</Label>
-                  <Input
-                    id="confirmPassword"
-                    type="password"
-                    placeholder="Nhập lại mật khẩu"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    required
-                    disabled={isLoading}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="department">Đơn vị</Label>
-                  <Select
-                    value={departmentId}
-                    onValueChange={setDepartmentId}
-                    disabled={isLoading}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Chọn đơn vị" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {departments.length > 0 ? (
-                        departments.map((dept) => (
-                          <SelectItem key={dept.id} value={String(dept.id)}>
-                            {dept.name}
-                          </SelectItem>
-                        ))
-                      ) : (
-                        <SelectItem value="no-data" disabled>
-                          Không có dữ liệu phòng ban
-                        </SelectItem>
-                      )}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="role">Vai trò</Label>
-                  <Select
-                    value={role}
-                    onValueChange={setRole}
-                    disabled={isLoading}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Chọn vai trò" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {roles.length > 0 ? (
-                        roles.map((role) => (
-                          <SelectItem key={role.name} value={role.name}>
-                            {role.displayName}
-                          </SelectItem>
-                        ))
-                      ) : (
-                        <SelectItem value="no-data" disabled>
-                          Không có dữ liệu vai trò
-                        </SelectItem>
-                      )}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <Button type="submit" className="w-full" disabled={isLoading}>
-                  {isLoading ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Đang
-                      đăng ký...
-                    </>
-                  ) : (
-                    "Đăng ký"
-                  )}
-                </Button>
-              </form>
-            )}
-          </CardContent>
-          <CardFooter>
-            <div className="w-full text-center text-sm text-muted-foreground">
-              Đã có tài khoản?{" "}
-              <Link href="/dang-nhap" className="text-primary font-medium">
-                Đăng nhập
-              </Link>
+        {dataLoading ? (
+          <div className="flex justify-center items-center py-8">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            <span className="ml-2">Đang tải dữ liệu...</span>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="username">Tên đăng nhập</Label>
+              <Input
+                id="username"
+                placeholder="Nhập tên đăng nhập"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+                disabled={isLoading}
+              />
             </div>
-          </CardFooter>
-        </Card>
-      </div>
-    </div>
+            <div className="space-y-2">
+              <Label htmlFor="fullName">Họ và tên</Label>
+              <Input
+                id="fullName"
+                placeholder="Nhập họ và tên"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                required
+                disabled={isLoading}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="password">Mật khẩu</Label>
+              <Input
+                id="password"
+                type="password"
+                placeholder="Nhập mật khẩu"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                disabled={isLoading}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="confirmPassword">Xác nhận mật khẩu</Label>
+              <Input
+                id="confirmPassword"
+                type="password"
+                placeholder="Nhập lại mật khẩu"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+                disabled={isLoading}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="department">Đơn vị</Label>
+              <Select
+                value={departmentId}
+                onValueChange={setDepartmentId}
+                disabled={isLoading}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Chọn đơn vị" />
+                </SelectTrigger>
+                <SelectContent>
+                  {departments.length > 0 ? (
+                    departments.map((dept) => (
+                      <SelectItem key={dept.id} value={String(dept.id)}>
+                        {dept.name}
+                      </SelectItem>
+                    ))
+                  ) : (
+                    <SelectItem value="no-data" disabled>
+                      Không có dữ liệu phòng ban
+                    </SelectItem>
+                  )}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="role">Chức vụ </Label>
+              <Select
+                value={role}
+                onValueChange={setRole}
+                disabled={isLoading}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Chọn Chức vụ " />
+                </SelectTrigger>
+                <SelectContent>
+                  {roles.length > 0 ? (
+                    roles.map((role) => (
+                      <SelectItem key={role.name} value={role.name}>
+                        {role.displayName}
+                      </SelectItem>
+                    ))
+                  ) : (
+                    <SelectItem value="no-data" disabled>
+                      Không có dữ liệu Chức vụ 
+                    </SelectItem>
+                  )}
+                </SelectContent>
+              </Select>
+            </div>
+            <Button type="submit" className="w-full" disabled={isLoading}>
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Đang
+                  đăng ký...
+                </>
+              ) : (
+                "Đăng ký"
+              )}
+            </Button>
+          </form>
+        )}
+      </CardContent>
+      <CardFooter>
+        <div className="w-full text-center text-sm text-muted-foreground">
+          Đã có tài khoản?{" "}
+          <Link href="/dang-nhap" className="text-primary font-medium">
+            Đăng nhập
+          </Link>
+        </div>
+      </CardFooter>
+    </Card>
   );
 }

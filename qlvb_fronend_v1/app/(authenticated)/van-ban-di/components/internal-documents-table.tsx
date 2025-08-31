@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Table,
@@ -10,11 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { UrgencyBadge } from "@/components/urgency-badge";
-import { UrgencyLevel, migrateFromOldUrgency } from "@/lib/types/urgency";
 import { InternalDocument } from "@/lib/api/internalDocumentApi";
-import { Edit, Eye } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface InternalDocumentsTableProps {
   documents: InternalDocument[];
@@ -46,29 +41,17 @@ export function InternalDocumentsTable({
     }
   };
 
-  const getUrgencyBadge = (urgencyLevel: UrgencyLevel | string) => {
-    // For migration compatibility, handle old priority values
-    let level: UrgencyLevel;
-    if (
-      typeof urgencyLevel === "string" &&
-      ["NORMAL", "HIGH", "URGENT"].includes(urgencyLevel)
-    ) {
-      level = migrateFromOldUrgency(urgencyLevel);
-    } else {
-      level = urgencyLevel as UrgencyLevel;
-    }
+  // touch the prop to avoid unused warnings if lint rules are strict
+  const _hasUniversal = !!universalReadStatus;
 
-    return <UrgencyBadge level={level} size="sm" />;
-  };
-
-  const getRecipientSummary = (recipients: InternalDocument["recipients"]) => {
-    if (!recipients || recipients.length === 0) return "Chưa có người nhận";
-
-    if (recipients.length === 1) {
-      return recipients[0].userName || recipients[0].departmentName;
-    }
-
-    return `${recipients[0].departmentName} và ${recipients.length - 1} khác`;
+  const mapSecurityLevel = (level: string | undefined | null): string => {
+    if (!level) return "-";
+    const v = String(level).toUpperCase();
+    if (v === "NORMAL") return "Thường";
+    if (v === "CONFIDENTIAL") return "Mật";
+    if (v === "SECRET") return "Tối mật";
+    if (v === "TOP_SECRET" || v === "TOP-SECRET") return "Tuyệt mật";
+    return level;
   };
 
   return (
@@ -77,135 +60,62 @@ export function InternalDocumentsTable({
         <Table>
           <TableHeader className="bg-accent/50">
             <TableRow>
-              <TableHead className="w-16">STT</TableHead>
-              <TableHead>Số văn bản</TableHead>
-              <TableHead className="hidden md:table-cell">Ngày ký</TableHead>
-              <TableHead>Tiêu đề</TableHead>
-              <TableHead className="hidden lg:table-cell">Loại</TableHead>
-              <TableHead className="hidden md:table-cell">Người nhận</TableHead>
-              <TableHead>Độ khẩn</TableHead>
-              <TableHead>Trạng thái đọc</TableHead>
-              <TableHead className="text-right">Thao tác</TableHead>
+              <TableHead className="w-16">Stt</TableHead>
+              <TableHead>Số cv</TableHead>
+              <TableHead>Ngày cv</TableHead>
+              <TableHead>Loại cv</TableHead>
+              <TableHead>Cơ quan ban hành</TableHead>
+              <TableHead>Trích yếu</TableHead>
+              <TableHead>Người gửi</TableHead>
+              <TableHead>Độ mật</TableHead>
+              <TableHead>Số trang</TableHead>
+              <TableHead>Tệp đính kèm</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {documents.length > 0 ? (
               documents.map((doc, index) => {
-                const isRead = universalReadStatus.getReadStatus(
-                  doc.id,
-                  "OUTGOING_INTERNAL"
-                );
+                const isRead = _hasUniversal
+                  ? universalReadStatus.getReadStatus(doc.id, "OUTGOING_INTERNAL")
+                  : false;
                 return (
                   <TableRow
                     key={doc.id}
                     className={`hover:bg-accent/30 cursor-pointer ${
                       !isRead
-                        ? "bg-blue-50/50 border-l-4 border-l-blue-500 text-red-600"
-                        : "text-black"
+                        ? "bg-blue-50/50 border-l-4 border-l-blue-500"
+                        : ""
                     }`}
                     onClick={() => onDocumentClick(doc)}
                   >
                     <TableCell className="text-center text-muted-foreground">
                       {index + 1}
                     </TableCell>
-                    <TableCell className="font-medium">
-                      {doc.documentNumber}
-                    </TableCell>
-                    <TableCell className="hidden md:table-cell">
-                      {formatDate(doc.signingDate)}
-                    </TableCell>
+                    <TableCell className="font-medium">{doc.documentNumber || doc.number || "-"}</TableCell>
+                    <TableCell>{formatDate(doc.signingDate || doc.sentDate)}</TableCell>
+                    <TableCell>{doc.documentType || doc.type || "-"}</TableCell>
+                    <TableCell>{doc.issuingAuthority || doc.departmentName || "-"}</TableCell>
                     <TableCell className="max-w-[300px] truncate">
                       <div className="flex items-center gap-2">
                         {!isRead && (
                           <div className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0" />
                         )}
-                        <span className={!isRead ? "font-semibold" : ""}>
-                          {doc.title}
-                        </span>
+                        <span className={!isRead ? "font-semibold" : ""}>{doc.title}</span>
                       </div>
                     </TableCell>
-                    <TableCell className="hidden lg:table-cell">
-                      {doc.documentType}
-                    </TableCell>
-                    <TableCell className="hidden md:table-cell">
-                      {getRecipientSummary(doc.recipients)}
-                    </TableCell>
-                    <TableCell>{getUrgencyBadge(doc.priority || "NORMAL")}</TableCell>
-                    <TableCell>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className={`${
-                          isRead
-                            ? "text-green-600 hover:text-green-700"
-                            : "text-blue-600 hover:text-blue-700"
-                        }`}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          universalReadStatus.toggleReadStatus(
-                            doc.id,
-                            "OUTGOING_INTERNAL"
-                          );
-                        }}
-                      >
-                        {isRead ? "Đã đọc" : "Chưa đọc"}
-                      </Button>
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex items-center justify-end gap-2">
-                        <TooltipProvider>
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                className="hover:bg-blue-50 hover:text-blue-600 h-8 w-8 p-0"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  // Navigate to edit page with document number
-                                  window.location.href = `/van-ban-di/cap-nhat/noi-bo/${doc.id}`;
-                                }}
-                              >
-                                <Edit className="h-4 w-4" />
-                              </Button>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                              <p>Chỉnh sửa</p>
-                            </TooltipContent>
-                          </Tooltip>
-                        </TooltipProvider>
-                        
-                        <TooltipProvider>
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                className="hover:bg-primary/10 hover:text-primary h-8 w-8 p-0"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  onDocumentClick(doc);
-                                }}
-                              >
-                                <Eye className="h-4 w-4" />
-                              </Button>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                              <p>Chi tiết</p>
-                            </TooltipContent>
-                          </Tooltip>
-                        </TooltipProvider>
-                      </div>
-                    </TableCell>
+                    <TableCell>{doc.senderName || doc.creatorName || doc.signerName || "-"}</TableCell>
+                    <TableCell>{mapSecurityLevel(doc.securityLevel)}</TableCell>
+                    <TableCell>{doc.numberOfPages || doc.pages || doc.pageCount || "-"}</TableCell>
+                    <TableCell>{(doc.attachments && doc.attachments.length) || doc.attachmentCount || 0}</TableCell>
                   </TableRow>
                 );
               })
             ) : (
               <TableRow>
-                <TableCell colSpan={9} className="h-24 text-center">
+                <TableCell colSpan={10} className="h-24 text-center">
                   {documents.length === 0 && !isLoading
-                    ? "Chưa có văn bản nội bộ nào"
-                    : "Không có văn bản nào phù hợp với điều kiện tìm kiếm"}
+                    ? "Chưa có công văn nội bộ nào"
+                    : "Không có công văn nào phù hợp với điều kiện tìm kiếm"}
                 </TableCell>
               </TableRow>
             )}

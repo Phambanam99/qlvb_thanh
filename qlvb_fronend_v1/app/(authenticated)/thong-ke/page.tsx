@@ -259,10 +259,10 @@ export default function DashboardPage() {
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <AlertTriangle className="h-5 w-5 text-amber-500" />
-          Văn bản cần xử lý khẩn
+          công văn cần xử lý khẩn
         </CardTitle>
         <CardDescription>
-          {documents?.length || 0} văn bản đang chờ xử lý
+          {documents?.length || 0} công văn đang chờ xử lý
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-3">
@@ -291,7 +291,7 @@ export default function DashboardPage() {
         {documents?.length === 0 && (
           <div className="text-center py-6 text-muted-foreground">
             <CheckCircle className="h-12 w-12 mx-auto mb-2 text-green-500" />
-            <p>Tuyệt vời! Không có văn bản nào cần xử lý khẩn.</p>
+            <p>Tuyệt vời! Không có công văn nào cần xử lý khẩn.</p>
           </div>
         )}
       </CardContent>
@@ -441,7 +441,7 @@ export default function DashboardPage() {
       {/* Quick Stats */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <QuickStatsCard
-          title="Văn bản đến"
+          title="công văn đến"
           value={
             dashboardStats.userStats?.incomingDocumentCount ||
             dashboardStats.quickMetrics?.incomingCount ||
@@ -453,7 +453,7 @@ export default function DashboardPage() {
           color="blue"
         />
         <QuickStatsCard
-          title="Văn bản đi"
+          title="công văn đi"
           value={
             dashboardStats.userStats?.outgoingDocumentCount ||
             dashboardStats.quickMetrics?.outgoingCount ||
@@ -501,7 +501,7 @@ export default function DashboardPage() {
           </TabsTrigger>
           <TabsTrigger value="documents" className="flex items-center gap-2">
             <FileText className="h-4 w-4" />
-            Văn bản
+            công văn
           </TabsTrigger>
           <TabsTrigger value="schedule" className="flex items-center gap-2">
             <Calendar className="h-4 w-4" />
@@ -532,7 +532,7 @@ export default function DashboardPage() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <FileText className="h-5 w-5 text-blue-500" />
-                  Văn bản gần đây
+                  công văn gần đây
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
@@ -561,7 +561,7 @@ export default function DashboardPage() {
                   dashboardStats.recentDocuments.length === 0) && (
                   <div className="text-center py-6 text-muted-foreground">
                     <FileText className="h-12 w-12 mx-auto mb-2" />
-                    <p>Chưa có văn bản gần đây.</p>
+                    <p>Chưa có công văn gần đây.</p>
                   </div>
                 )}
               </CardContent>
@@ -573,7 +573,7 @@ export default function DashboardPage() {
           <div className="grid gap-4 md:grid-cols-3">
             <Card>
               <CardHeader>
-                <CardTitle className="text-lg">Văn bản đến</CardTitle>
+                <CardTitle className="text-lg">công văn đến</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-2">
@@ -609,7 +609,7 @@ export default function DashboardPage() {
 
             <Card>
               <CardHeader>
-                <CardTitle className="text-lg">Văn bản đi</CardTitle>
+                <CardTitle className="text-lg">công văn đi</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-2">
@@ -643,7 +643,7 @@ export default function DashboardPage() {
 
             <Card>
               <CardHeader>
-                <CardTitle className="text-lg">Văn bản nội bộ</CardTitle>
+                <CardTitle className="text-lg">công văn nội bộ</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-2">
@@ -681,9 +681,9 @@ export default function DashboardPage() {
             dashboardStats.systemStats?.documentsByMonth && (
               <Card>
                 <CardHeader>
-                  <CardTitle>Xu hướng văn bản theo tháng</CardTitle>
+                  <CardTitle>Xu hướng công văn theo tháng</CardTitle>
                   <CardDescription>
-                    Thống kê số lượng văn bản đến và đi theo từng tháng
+                    Thống kê số lượng công văn đến và đi theo từng tháng
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -725,7 +725,7 @@ export default function DashboardPage() {
                   Sắp đến hạn
                 </CardTitle>
                 <CardDescription>
-                  Văn bản và công việc sắp đến hạn xử lý
+                  công văn và công việc sắp đến hạn xử lý
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-3">
@@ -774,7 +774,7 @@ export default function DashboardPage() {
                 <CardHeader>
                   <CardTitle>Phân bố trạng thái</CardTitle>
                   <CardDescription>
-                    Phân bố văn bản theo trạng thái xử lý
+                    Phân bố công văn theo trạng thái xử lý
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -875,7 +875,7 @@ export default function DashboardPage() {
                       )}
                     </div>
                     <div className="text-sm text-muted-foreground">
-                      Tổng văn bản
+                      Tổng công văn
                     </div>
                   </div>
                   <div className="text-center p-4 bg-green-50 rounded-lg">
@@ -885,7 +885,7 @@ export default function DashboardPage() {
                       )}
                     </div>
                     <div className="text-sm text-muted-foreground">
-                      Văn bản đến
+                      công văn đến
                     </div>
                   </div>
                   <div className="text-center p-4 bg-amber-50 rounded-lg">
@@ -895,7 +895,7 @@ export default function DashboardPage() {
                       )}
                     </div>
                     <div className="text-sm text-muted-foreground">
-                      Văn bản đi
+                      công văn đi
                     </div>
                   </div>
                   <div className="text-center p-4 bg-red-50 rounded-lg">

@@ -14,19 +14,19 @@ import java.util.List;
 @AllArgsConstructor
 public class DashboardStatsDTO {
     
-    // Văn bản đến (Incoming Documents)
+    // công văn đến (Incoming Documents)
     private DocumentCategoryStats incomingDocuments;
     
-    // Văn bản đi (Outgoing Documents) 
+    // công văn đi (Outgoing Documents) 
     private DocumentCategoryStats outgoingDocuments;
     
-    // Văn bản nội bộ (Internal Documents)
+    // công văn nội bộ (Internal Documents)
     private DocumentCategoryStats internalDocuments;
     
     // Tổng quan chung
     private OverallStats overallStats;
     
-    // Văn bản gần đây
+    // công văn gần đây
     private List<RecentDocumentDTO> recentDocuments;
     
     // Thống kê theo thời gian

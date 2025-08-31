@@ -31,7 +31,7 @@ public class RoleGroupUtil {
             UserRole.CHINH_TRI_VIEN_TRAM.getCode()
     ));
 
-    // Nhóm 3: Văn thư (Quản lý văn bản)
+    // Nhóm 3: Văn thư (Quản lý công văn)
     public static final Set<String> ROLE_VAN_THU = new HashSet<>(Arrays.asList(
             UserRole.VAN_THU.getCode()
     ));

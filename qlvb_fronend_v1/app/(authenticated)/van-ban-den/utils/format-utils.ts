@@ -1,5 +1,5 @@
 /**
- * Formatting utilities for văn bản đến
+ * Formatting utilities for công văn đến
  * Centralizes all formatting logic for consistency
  */
 

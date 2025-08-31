@@ -81,7 +81,7 @@ export default function DocumentTypesPage() {
     } catch (error) {
       toast({
         title: "Lỗi",
-        description: "Không thể tải danh sách loại văn bản",
+        description: "Không thể tải danh sách loại công văn",
         variant: "destructive",
       });
     } finally {
@@ -104,7 +104,7 @@ export default function DocumentTypesPage() {
     if (!formData.name.trim()) {
       toast({
         title: "Lỗi",
-        description: "Vui lòng nhập tên loại văn bản",
+        description: "Vui lòng nhập tên loại công văn",
         variant: "destructive",
       });
       return;
@@ -120,7 +120,7 @@ export default function DocumentTypesPage() {
         });
         toast({
           title: "Thành công",
-          description: "Cập nhật loại văn bản thành công",
+          description: "Cập nhật loại công văn thành công",
         });
       } else {
         // Create new document type
@@ -130,7 +130,7 @@ export default function DocumentTypesPage() {
         });
         toast({
           title: "Thành công",
-          description: "Tạo loại văn bản mới thành công",
+          description: "Tạo loại công văn mới thành công",
         });
       }
 
@@ -143,8 +143,8 @@ export default function DocumentTypesPage() {
       toast({
         title: "Lỗi",
         description: editingType
-          ? "Không thể cập nhật loại văn bản"
-          : "Không thể tạo loại văn bản mới",
+          ? "Không thể cập nhật loại công văn"
+          : "Không thể tạo loại công văn mới",
         variant: "destructive",
       });
     } finally {
@@ -161,7 +161,7 @@ export default function DocumentTypesPage() {
 
   // Handle delete
   const handleDelete = async (docType: DocumentTypeDTO) => {
-    if (!confirm(`Bạn có chắc chắn muốn xóa loại văn bản "${docType.name}"?`)) {
+    if (!confirm(`Bạn có chắc chắn muốn xóa loại công văn "${docType.name}"?`)) {
       return;
     }
 
@@ -169,13 +169,13 @@ export default function DocumentTypesPage() {
       await documentTypesAPI.deleteDocumentType(docType.id);
       toast({
         title: "Thành công",
-        description: "Xóa loại văn bản thành công",
+        description: "Xóa loại công văn thành công",
       });
       await fetchDocumentTypes();
     } catch (error) {
       toast({
         title: "Lỗi",
-        description: "Không thể xóa loại văn bản",
+        description: "Không thể xóa loại công văn",
         variant: "destructive",
       });
     }
@@ -216,10 +216,10 @@ export default function DocumentTypesPage() {
         <div className="space-y-1">
           <div className="flex items-center gap-2">
             <FileType className="h-5 w-5 text-primary" />
-            <h1 className="text-2xl font-semibold">Quản lý loại văn bản</h1>
+            <h1 className="text-2xl font-semibold">Quản lý loại công văn</h1>
           </div>
           <p className="text-sm text-muted-foreground">
-            Quản lý các loại văn bản trong hệ thống
+            Quản lý các loại công văn trong hệ thống
           </p>
         </div>
 
@@ -238,7 +238,7 @@ export default function DocumentTypesPage() {
 
           <Button onClick={handleAddButtonClick}>
             <Plus className="h-4 w-4 mr-2" />
-            Thêm loại văn bản
+            Thêm loại công văn
           </Button>
 
           <Dialog open={isDialogOpen} onOpenChange={handleDialogClose}>
@@ -246,20 +246,20 @@ export default function DocumentTypesPage() {
               <DialogHeader>
                 <DialogTitle>
                   {editingType
-                    ? "Chỉnh sửa loại văn bản"
-                    : "Thêm loại văn bản mới"}
+                    ? "Chỉnh sửa loại công văn"
+                    : "Thêm loại công văn mới"}
                 </DialogTitle>
                 <DialogDescription>
                   {editingType
-                    ? "Chỉnh sửa thông tin loại văn bản"
-                    : "Tạo loại văn bản mới trong hệ thống"}
+                    ? "Chỉnh sửa thông tin loại công văn"
+                    : "Tạo loại công văn mới trong hệ thống"}
                 </DialogDescription>
               </DialogHeader>
 
               <form onSubmit={handleSubmit}>
                 <div className="grid gap-4 py-4">
                   <div className="grid gap-2">
-                    <Label htmlFor="name">Tên loại văn bản</Label>
+                    <Label htmlFor="name">Tên loại công văn</Label>
                     <Input
                       id="name"
                       placeholder="Ví dụ: Công văn, Quyết định, Thông báo..."
@@ -302,7 +302,7 @@ export default function DocumentTypesPage() {
           <div className="flex items-center gap-2">
             <Search className="h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Tìm kiếm loại văn bản..."
+              placeholder="Tìm kiếm loại công văn..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="max-w-sm"
@@ -314,9 +314,9 @@ export default function DocumentTypesPage() {
       {/* Table */}
       <Card>
         <CardHeader>
-          <CardTitle>Danh sách loại văn bản</CardTitle>
+          <CardTitle>Danh sách loại công văn</CardTitle>
           <CardDescription>
-            Tổng cộng {filteredDocumentTypes.length} loại văn bản
+            Tổng cộng {filteredDocumentTypes.length} loại công văn
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -328,14 +328,14 @@ export default function DocumentTypesPage() {
           ) : filteredDocumentTypes.length === 0 ? (
             <div className="text-center py-8 text-muted-foreground">
               {searchQuery
-                ? "Không tìm thấy loại văn bản nào"
-                : "Chưa có loại văn bản nào"}
+                ? "Không tìm thấy loại công văn nào"
+                : "Chưa có loại công văn nào"}
             </div>
           ) : (
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Tên loại văn bản</TableHead>
+                  <TableHead>Tên loại công văn</TableHead>
                   <TableHead>Trạng thái</TableHead>
                   <TableHead>Ngày tạo</TableHead>
                   <TableHead>Ngày cập nhật</TableHead>

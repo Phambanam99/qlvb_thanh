@@ -86,12 +86,12 @@ public class IncomingDocumentService {
         // Áp dụng logic phân quyền theo nhóm role
         switch (highestRoleGroup) {
             case CHI_HUY_CUC:
-                // Chỉ huy cục: Xem tất cả văn bản
+                // Chỉ huy cục: Xem tất cả công văn
                 return incomingDocumentRepository.findAll(pageable)
                         .map(this::convertToDTO);
 
             case CHI_HUY_DON_VI:
-                // Chỉ huy đơn vị: Xem văn bản của phòng ban mình và các phòng ban cấp dưới
+                // Chỉ huy đơn vị: Xem công văn của phòng ban mình và các phòng ban cấp dưới
                 if (currentUser.getDepartment() != null) {
                     return getAllDocumentsByDepartmentId(currentUser.getDepartment().getId(), pageable);
                 } else {
@@ -101,25 +101,25 @@ public class IncomingDocumentService {
                 }
 
             case VAN_THU:
-                // Văn thư: Xem tất cả văn bản để quản lý
+                // Văn thư: Xem tất cả công văn để quản lý
                 return incomingDocumentRepository.findAll(pageable)
                         .map(this::convertToDTO);
 
             case NHAN_VIEN:
-                // Nhân viên/Trợ lý: Chỉ xem văn bản được phân công cho họ hoặc do họ tạo
-                // Lấy văn bản được phân công cho user
+                // Nhân viên/Trợ lý: Chỉ xem công văn được phân công cho họ hoặc do họ tạo
+                // Lấy công văn được phân công cho user
                 System.out.println("hehehehehehehheeeeeeeeeeeeeeeee");
                 Page<IncomingDocument> assignedDocs = incomingDocumentRepository.findByAssignedUser(currentUser,
                         pageable);
 
-                // Lấy văn bản do user tạo
+                // Lấy công văn do user tạo
                 Page<IncomingDocument> createdDocs = incomingDocumentRepository.findByCreator(currentUser, pageable);
 
-                // Kết hợp cả hai danh sách (ưu tiên văn bản được phân công)
+                // Kết hợp cả hai danh sách (ưu tiên công văn được phân công)
                 List<IncomingDocument> combinedDocs = new ArrayList<>();
                 combinedDocs.addAll(assignedDocs.getContent());
 
-                // Thêm văn bản do user tạo (tránh trùng lặp)
+                // Thêm công văn do user tạo (tránh trùng lặp)
                 for (IncomingDocument createdDoc : createdDocs.getContent()) {
                     if (!combinedDocs.contains(createdDoc)) {
                         combinedDocs.add(createdDoc);

@@ -17,8 +17,8 @@ export function useInternalDocumentActions() {
       const result = await internalDocumentsAPI.sendDocument(documentId, recipientUserIds)
       
       toast({
-        title: 'Gửi văn bản thành công',
-        description: `Đã gửi văn bản đến ${result.sentTo} người nhận`,
+        title: 'Gửi công văn thành công',
+        description: `Đã gửi công văn đến ${result.sentTo} người nhận`,
         variant: 'default',
       })
 
@@ -26,8 +26,8 @@ export function useInternalDocumentActions() {
     } catch (error) {
       console.error('Error sending document:', error)
       toast({
-        title: 'Lỗi gửi văn bản',
-        description: 'Không thể gửi văn bản. Vui lòng thử lại.',
+        title: 'Lỗi gửi công văn',
+        description: 'Không thể gửi công văn. Vui lòng thử lại.',
         variant: 'destructive',
       })
       return null
@@ -46,7 +46,7 @@ export function useInternalDocumentActions() {
       // Usually no toast needed for mark as read as it's automatic
       // toast({
       //   title: 'Đã đánh dấu đã đọc',
-      //   description: 'Văn bản đã được đánh dấu là đã đọc',
+      //   description: 'công văn đã được đánh dấu là đã đọc',
       //   variant: 'default',
       // })
 
@@ -55,7 +55,7 @@ export function useInternalDocumentActions() {
       console.error('Error marking as read:', error)
       toast({
         title: 'Lỗi đánh dấu đã đọc',
-        description: 'Không thể đánh dấu văn bản đã đọc.',
+        description: 'Không thể đánh dấu công văn đã đọc.',
         variant: 'destructive',
       })
       return null

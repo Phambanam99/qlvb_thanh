@@ -91,7 +91,7 @@ export function useInternalDocuments({
         response = response_.data;
 
         if (response && response.content) {
-          // Cập nhật trạng thái đọc từ global state cho văn bản đi
+          // Cập nhật trạng thái đọc từ global state cho công văn đi
           const documentsWithUpdatedReadStatus = response.content.map(
             (doc: InternalDocument) => {
               const globalReadStatus = getReadStatus(doc.id);
@@ -141,7 +141,7 @@ export function useInternalDocuments({
       toast({
         title: "Lỗi",
         description:
-          "Không thể tải dữ liệu văn bản nội bộ. Vui lòng thử lại sau.",
+          "Không thể tải dữ liệu công văn nội bộ. Vui lòng thử lại sau.",
         variant: "destructive",
       });
       setInternalDocuments([]);

@@ -143,7 +143,7 @@ public class Document {
     }
 
     /**
-     * Helper method để thêm phòng ban xử lý cho văn bản
+     * Helper method để thêm phòng ban xử lý cho công văn
      * 
      * @param department Phòng ban được phân công
      * @param isPrimary  Là phòng ban xử lý chính (true) hoặc phòng ban phối hợp

@@ -19,7 +19,7 @@ export function useDocumentTypeManagement() {
     documentTypes: DocumentTypeDTO[]
   ): Promise<DocumentTypeDTO[] | null> => {
     if (!newDocumentType.trim()) {
-      setDocumentTypeError("Tên loại văn bản không được để trống");
+      setDocumentTypeError("Tên loại công văn không được để trống");
       return null;
     }
 
@@ -28,7 +28,7 @@ export function useDocumentTypeManagement() {
         (type) => type.name.toLowerCase() === newDocumentType.toLowerCase()
       )
     ) {
-      setDocumentTypeError("Loại văn bản này đã tồn tại");
+      setDocumentTypeError("Loại công văn này đã tồn tại");
       return null;
     }
 
@@ -54,15 +54,15 @@ export function useDocumentTypeManagement() {
 
       toast({
         title: "Thành công",
-        description: "Đã thêm loại văn bản mới",
+        description: "Đã thêm loại công văn mới",
       });
 
       return updatedTypes;
     } catch (error) {
-      setDocumentTypeError("Không thể tạo loại văn bản mới");
+      setDocumentTypeError("Không thể tạo loại công văn mới");
       toast({
         title: "Lỗi",
-        description: "Không thể tạo loại văn bản mới",
+        description: "Không thể tạo loại công văn mới",
         variant: "destructive",
       });
       return null;

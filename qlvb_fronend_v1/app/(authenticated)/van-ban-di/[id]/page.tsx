@@ -137,7 +137,7 @@ export default function OutgoingDocumentDetailPage({
 
         setHistoryLoaded(true);
 
-        // Nếu có văn bản liên quan (văn bản đến được trả lời)
+        // Nếu có công văn liên quan (công văn đến được trả lời)
         if (documentData.relatedDocuments) {
           try {
             const relatedIds = documentData.relatedDocuments;
@@ -154,10 +154,10 @@ export default function OutgoingDocumentDetailPage({
         setError(null);
       } catch (err: any) {
         if (isMounted) {
-          setError(err.message || "Không thể tải thông tin văn bản");
+          setError(err.message || "Không thể tải thông tin công văn");
           toast({
             title: "Lỗi",
-            description: "Không thể tải thông tin văn bản",
+            description: "Không thể tải thông tin công văn",
             variant: "destructive",
           });
         }
@@ -216,7 +216,7 @@ export default function OutgoingDocumentDetailPage({
     } catch (err) {
       toast({
         title: "Lỗi",
-        description: "Không thể tải lịch sử xử lý văn bản",
+        description: "Không thể tải lịch sử xử lý công văn",
         variant: "destructive",
       });
     } finally {
@@ -353,8 +353,8 @@ export default function OutgoingDocumentDetailPage({
       await workflowAPI.headerDeparmentApprove(documentId, approvalComment);
 
       addNotification({
-        title: "Văn bản đã được phê duyệt",
-        message: "Văn bản đã được phê duyệt và chuyển cho văn thư để ban hành.",
+        title: "công văn đã được phê duyệt",
+        message: "công văn đã được phê duyệt và chuyển cho văn thư để ban hành.",
         type: "success",
       });
 
@@ -378,12 +378,12 @@ export default function OutgoingDocumentDetailPage({
       });
       toast({
         title: "Thành công",
-        description: "Văn bản đã được phê duyệt thành công",
+        description: "công văn đã được phê duyệt thành công",
       });
     } catch (err: any) {
       toast({
         title: "Lỗi",
-        description: err.message || "Không thể phê duyệt văn bản",
+        description: err.message || "Không thể phê duyệt công văn",
         variant: "destructive",
       });
     } finally {
@@ -409,9 +409,9 @@ export default function OutgoingDocumentDetailPage({
 
       // Thông báo chung
       addNotification({
-        title: "Văn bản đã bị từ chối",
+        title: "công văn đã bị từ chối",
         message:
-          "Văn bản đã bị từ chối và trả lại người soạn thảo để chỉnh sửa.",
+          "công văn đã bị từ chối và trả lại người soạn thảo để chỉnh sửa.",
         type: "warning",
       });
 
@@ -435,14 +435,14 @@ export default function OutgoingDocumentDetailPage({
         };
       });
 
-      // Thông báo cho người tạo văn bản
+      // Thông báo cho người tạo công văn
       if (response.data.creator?.id) {
-        // Gửi thông báo cho người tạo văn bản
+        // Gửi thông báo cho người tạo công văn
         // Lưu ý: Nếu API thông báo không hỗ trợ gửi cho người dùng cụ thể,
         // có thể cần cập nhật API hoặc sử dụng cách khác để thông báo
         addNotification({
-          title: "Văn bản bị từ chối",
-          message: `Văn bản ${
+          title: "công văn bị từ chối",
+          message: `công văn ${
             response.data.documentNumber || response.data.number
           } đã bị từ chối và cần được chỉnh sửa`,
           type: "warning",
@@ -453,13 +453,13 @@ export default function OutgoingDocumentDetailPage({
       // Hiển thị thông báo thành công
       toast({
         title: "Thành công",
-        description: "Văn bản đã được gửi trả lại để chỉnh sửa",
+        description: "công văn đã được gửi trả lại để chỉnh sửa",
         variant: "success",
       });
     } catch (err: any) {
       toast({
         title: "Lỗi",
-        description: err.message || "Không thể từ chối văn bản",
+        description: err.message || "Không thể từ chối công văn",
         variant: "destructive",
       });
     } finally {
@@ -491,19 +491,19 @@ export default function OutgoingDocumentDetailPage({
 
       toast({
         title: "Thành công",
-        description: "Đã chấp nhận văn bản trả lời",
+        description: "Đã chấp nhận công văn trả lời",
       });
     } catch (error) {
       toast({
         title: "Lỗi",
-        description: "Không thể chấp nhận văn bản. Vui lòng thử lại sau.",
+        description: "Không thể chấp nhận công văn. Vui lòng thử lại sau.",
         variant: "destructive",
       });
     } finally {
       setIsSubmitting(false);
     }
   };
-  // Hàm xử lý từ chối văn bản dành riêng cho chỉ huy đơn vị
+  // Hàm xử lý từ chối công văn dành riêng cho chỉ huy đơn vị
   const handleDepartmentHeadReject = async () => {
     if (!rejectionComment) {
       toast({
@@ -520,9 +520,9 @@ export default function OutgoingDocumentDetailPage({
 
       // Thông báo chung
       addNotification({
-        title: "Văn bản đã bị từ chối",
+        title: "công văn đã bị từ chối",
         message:
-          "Văn bản đã bị từ chối và trả lại người soạn thảo để chỉnh sửa.",
+          "công văn đã bị từ chối và trả lại người soạn thảo để chỉnh sửa.",
         type: "warning",
       });
 
@@ -548,13 +548,13 @@ export default function OutgoingDocumentDetailPage({
 
       toast({
         title: "Thành công",
-        description: "Văn bản đã được gửi trả lại để chỉnh sửa",
+        description: "công văn đã được gửi trả lại để chỉnh sửa",
         variant: "success",
       });
     } catch (err: any) {
       toast({
         title: "Lỗi",
-        description: err.message || "Không thể từ chối văn bản",
+        description: err.message || "Không thể từ chối công văn",
         variant: "destructive",
       });
     } finally {
@@ -562,11 +562,11 @@ export default function OutgoingDocumentDetailPage({
     }
   };
 
-  // Hiển thị các nút hành động dựa trên vai trò người dùng và trạng thái văn bản
+  // Hiển thị các nút hành động dựa trên vai trò người dùng và trạng thái công văn
   const renderActionButtons = () => {
     if (!user || !_document) return null;
 
-    // Kiểm tra xem văn bản có phải từ đơn vị con gửi lên không
+    // Kiểm tra xem công văn có phải từ đơn vị con gửi lên không
     const isFromChildDepartment =
       _document.status === "department_approved" ||
       _document.status === "parent_dept_review" ||
@@ -576,7 +576,7 @@ export default function OutgoingDocumentDetailPage({
           item.newStatus === "parent_dept_review"
       );
 
-    // Kiểm tra nếu người dùng là trưởng phòng và văn bản đến từ đơn vị con
+    // Kiểm tra nếu người dùng là trưởng phòng và công văn đến từ đơn vị con
     if (
       hasRole([
         "ROLE_TRUONG_PHONG",
@@ -590,14 +590,14 @@ export default function OutgoingDocumentDetailPage({
       return (
         <Button size="sm" className="bg-blue-600 hover:bg-blue-700" asChild>
           <Link href={`/van-ban-di/${_document.id}/xem-xet-tu-don-vi-con`}>
-            <CheckCircle className="mr-2 h-4 w-4" /> Xem xét văn bản từ đơn vị
+            <CheckCircle className="mr-2 h-4 w-4" /> Xem xét công văn từ đơn vị
             con
           </Link>
         </Button>
       );
     }
 
-    // Kiểm tra xem văn bản có bị từ chối không
+    // Kiểm tra xem công văn có bị từ chối không
     const wasRejected = _document.history?.some(
       (item: any) =>
         item.newStatus === "leader_commented" ||
@@ -605,7 +605,7 @@ export default function OutgoingDocumentDetailPage({
         (item.description && item.description.toLowerCase().includes("từ chối"))
     );
 
-    // Kiểm tra xem văn bản có bị văn thư trả lại không
+    // Kiểm tra xem công văn có bị văn thư trả lại không
     const wasReturnedByClerk = _document.history?.some(
       (item: any) =>
         (item.newStatus === "format_correction" &&
@@ -631,7 +631,7 @@ export default function OutgoingDocumentDetailPage({
             (item.comments &&
               (item.comments.toLowerCase().includes("trả lại") ||
                 item.comments.toLowerCase().includes("chỉnh sửa thể thức")))
-        )?.comments || "Văn thư yêu cầu chỉnh sửa thể thức văn bản";
+        )?.comments || "Văn thư yêu cầu chỉnh sửa thể thức công văn";
 
       return (
         <>
@@ -640,7 +640,7 @@ export default function OutgoingDocumentDetailPage({
               <ArrowLeft className="h-4 w-4 text-orange-600 mt-0.5 mr-2" />
               <div>
                 <p className="text-sm font-medium text-orange-800">
-                  Văn bản bị văn thư trả lại yêu cầu chỉnh sửa
+                  công văn bị văn thư trả lại yêu cầu chỉnh sửa
                 </p>
                 <p className="text-xs text-orange-700 mt-1">{clerkComment}</p>
               </div>
@@ -666,7 +666,7 @@ export default function OutgoingDocumentDetailPage({
               try {
                 setIsSubmitting(true);
 
-                // Tạo dữ liệu để cập nhật trạng thái văn bản
+                // Tạo dữ liệu để cập nhật trạng thái công văn
                 const workflowData: DocumentWorkflowDTO = {
                   documentId: documentId,
                   status: "leader_approved", // Chuyển về trạng thái phê duyệt để văn thư xử lý tiếp
@@ -674,7 +674,7 @@ export default function OutgoingDocumentDetailPage({
                   // Đánh dấu bỏ qua bước phê duyệt của trưởng phòng
                 };
 
-                // Gọi API để gửi văn bản đến văn thư
+                // Gọi API để gửi công văn đến văn thư
                 await workflowAPI.changeDocumentStatus(
                   documentId,
                   workflowData
@@ -682,8 +682,8 @@ export default function OutgoingDocumentDetailPage({
 
                 // Thông báo cho văn thư
                 addNotification({
-                  title: "Văn bản đã được chỉnh sửa",
-                  message: `Văn bản ${
+                  title: "công văn đã được chỉnh sửa",
+                  message: `công văn ${
                     _document.documentNumber || "#"
                   } đã được chỉnh sửa theo yêu cầu và gửi lại văn thư để xem xét`,
                   type: "success",
@@ -715,14 +715,14 @@ export default function OutgoingDocumentDetailPage({
 
                 toast({
                   title: "Thành công",
-                  description: "Văn bản đã được gửi lại cho văn thư xem xét",
+                  description: "công văn đã được gửi lại cho văn thư xem xét",
                   variant: "success",
                 });
               } catch (err: any) {
                 toast({
                   title: "Lỗi",
                   description:
-                    err.message || "Không thể gửi văn bản đến văn thư",
+                    err.message || "Không thể gửi công văn đến văn thư",
                   variant: "destructive",
                 });
               } finally {
@@ -738,7 +738,7 @@ export default function OutgoingDocumentDetailPage({
       );
     }
 
-    // Nếu là người soạn thảo và văn bản đang ở trạng thái nháp
+    // Nếu là người soạn thảo và công văn đang ở trạng thái nháp
     if (
       hasRole(["ROLE_DRAF", "ROLE_TRO_LY", "ROLE_NHAN_VIEN"]) &&
       (_document.status === "draft" || wasRejected)
@@ -751,7 +751,7 @@ export default function OutgoingDocumentDetailPage({
                 <XCircle className="h-4 w-4 text-red-600 mt-0.5 mr-2" />
                 <div>
                   <p className="text-sm font-medium text-red-800">
-                    Văn bản đã bị từ chối
+                    công văn đã bị từ chối
                   </p>
                   <p className="text-xs text-red-700 mt-1">
                     {_document.history?.find(
@@ -825,14 +825,14 @@ export default function OutgoingDocumentDetailPage({
 
                 toast({
                   title: "Thành công",
-                  description: "Văn bản đã được gửi phê duyệt",
+                  description: "công văn đã được gửi phê duyệt",
                   variant: "success",
                 });
               } catch (err: any) {
                 toast({
                   title: "Lỗi",
                   description:
-                    err.message || "Không thể gửi văn bản để phê duyệt",
+                    err.message || "Không thể gửi công văn để phê duyệt",
                   variant: "destructive",
                 });
               } finally {
@@ -848,7 +848,7 @@ export default function OutgoingDocumentDetailPage({
       );
     }
 
-    // Nếu là trưởng phòng và văn bản đang chờ phê duyệt
+    // Nếu là trưởng phòng và công văn đang chờ phê duyệt
     if (
       hasRole([
         "ROLE_TRUONG_PHONG",
@@ -875,7 +875,7 @@ export default function OutgoingDocumentDetailPage({
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>Từ chối văn bản</AlertDialogTitle>
+                <AlertDialogTitle>Từ chối công văn</AlertDialogTitle>
                 <AlertDialogDescription>
                   Vui lòng nhập lý do từ chối để người soạn thảo có thể chỉnh
                   sửa.
@@ -909,9 +909,9 @@ export default function OutgoingDocumentDetailPage({
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>Phê duyệt văn bản</AlertDialogTitle>
+                <AlertDialogTitle>Phê duyệt công văn</AlertDialogTitle>
                 <AlertDialogDescription>
-                  Bạn có thể thêm ý kiến trước khi phê duyệt văn bản này.
+                  Bạn có thể thêm ý kiến trước khi phê duyệt công văn này.
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <Textarea
@@ -936,7 +936,7 @@ export default function OutgoingDocumentDetailPage({
       );
     }
 
-    // Nếu là thủ trưởng và văn bản đang chờ phê duyệt
+    // Nếu là thủ trưởng và công văn đang chờ phê duyệt
     if (
       hasRole([
         "ROLE_CUC_TRUONG",
@@ -962,7 +962,7 @@ export default function OutgoingDocumentDetailPage({
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>Từ chối văn bản</AlertDialogTitle>
+                <AlertDialogTitle>Từ chối công văn</AlertDialogTitle>
                 <AlertDialogDescription>
                   Vui lòng nhập lý do từ chối để người soạn thảo có thể chỉnh
                   sửa.
@@ -997,10 +997,10 @@ export default function OutgoingDocumentDetailPage({
             <AlertDialogContent>
               <AlertDialogHeader>
                 <AlertDialogTitle>
-                  Phê duyệt và ban hành văn bản
+                  Phê duyệt và ban hành công văn
                 </AlertDialogTitle>
                 <AlertDialogDescription>
-                  Sau khi phê duyệt, văn bản sẽ được chuyển cho văn thư để ban
+                  Sau khi phê duyệt, công văn sẽ được chuyển cho văn thư để ban
                   hành chính thức.
                 </AlertDialogDescription>
               </AlertDialogHeader>
@@ -1026,7 +1026,7 @@ export default function OutgoingDocumentDetailPage({
       );
     }
 
-    // Nếu là văn thư và văn bản đã được phê duyệt
+    // Nếu là văn thư và công văn đã được phê duyệt
     if (hasRole("ROLE_VAN_THU") && _document.status === "leader_approved") {
       return (
         <Button
@@ -1056,12 +1056,12 @@ export default function OutgoingDocumentDetailPage({
               });
               toast({
                 title: "Thành công",
-                description: "Văn bản đã được ban hành thành công",
+                description: "công văn đã được ban hành thành công",
               });
             } catch (err: any) {
               toast({
                 title: "Lỗi",
-                description: err.message || "Không thể ban hành văn bản",
+                description: err.message || "Không thể ban hành công văn",
                 variant: "destructive",
               });
             } finally {
@@ -1071,16 +1071,16 @@ export default function OutgoingDocumentDetailPage({
           disabled={isSubmitting}
         >
           <Send className="mr-2 h-4 w-4" />
-          {isSubmitting ? "Đang xử lý..." : "Ban hành văn bản"}
+          {isSubmitting ? "Đang xử lý..." : "Ban hành công văn"}
         </Button>
       );
     }
 
-    // Nếu là văn thư và văn bản đã được thủ trưởng phê duyệt nhưng chưa đạt thể thức yêu cầu
+    // Nếu là văn thư và công văn đã được thủ trưởng phê duyệt nhưng chưa đạt thể thức yêu cầu
     if (hasRole("ROLE_VAN_THU") && _document.status === "leader_approved") {
       return (
         <>
-          {/* Nút trả lại văn bản cho trợ lý */}
+          {/* Nút trả lại công văn cho trợ lý */}
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button
@@ -1094,14 +1094,14 @@ export default function OutgoingDocumentDetailPage({
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>Trả lại văn bản cho trợ lý</AlertDialogTitle>
+                <AlertDialogTitle>Trả lại công văn cho trợ lý</AlertDialogTitle>
                 <AlertDialogDescription>
                   Vui lòng nhập lý do trả lại để trợ lý chỉnh sửa thể thức văn
                   bản.
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <Textarea
-                placeholder="Nhập lý do trả lại văn bản..."
+                placeholder="Nhập lý do trả lại công văn..."
                 value={rejectionComment}
                 onChange={(e) => setRejectionComment(e.target.value)}
                 className="min-h-[100px]"
@@ -1113,7 +1113,7 @@ export default function OutgoingDocumentDetailPage({
                     if (!rejectionComment.trim()) {
                       toast({
                         title: "Lỗi",
-                        description: "Vui lòng nhập lý do trả lại văn bản",
+                        description: "Vui lòng nhập lý do trả lại công văn",
                         variant: "destructive",
                       });
                       return;
@@ -1126,7 +1126,7 @@ export default function OutgoingDocumentDetailPage({
                         status: "format_incorrection",
                         comments: rejectionComment,
                       };
-                      // Gọi API để trả lại văn bản cho trợ lý
+                      // Gọi API để trả lại công văn cho trợ lý
                       await workflowAPI.returnDocumentToSpecialist(
                         documentId,
                         rejectCom
@@ -1135,8 +1135,8 @@ export default function OutgoingDocumentDetailPage({
                       // Tạo thông báo cho trợ lý
                       if (_document.creator?.id) {
                         addNotification({
-                          title: "Văn bản cần chỉnh sửa thể thức",
-                          message: `Văn bản ${
+                          title: "công văn cần chỉnh sửa thể thức",
+                          message: `công văn ${
                             _document.documentNumber || "#"
                           } đã được văn thư trả lại để chỉnh sửa theo yêu cầu`,
                           type: "warning",
@@ -1169,7 +1169,7 @@ export default function OutgoingDocumentDetailPage({
                       toast({
                         title: "Thành công",
                         description:
-                          "Văn bản đã được trả lại trợ lý để chỉnh sửa thể thức",
+                          "công văn đã được trả lại trợ lý để chỉnh sửa thể thức",
                       });
 
                       setRejectionComment("");
@@ -1177,7 +1177,7 @@ export default function OutgoingDocumentDetailPage({
                       toast({
                         title: "Lỗi",
                         description:
-                          err.message || "Không thể trả lại văn bản cho trợ lý",
+                          err.message || "Không thể trả lại công văn cho trợ lý",
                         variant: "destructive",
                       });
                     } finally {
@@ -1223,12 +1223,12 @@ export default function OutgoingDocumentDetailPage({
                 });
                 toast({
                   title: "Thành công",
-                  description: "Văn bản đã được ban hành thành công",
+                  description: "công văn đã được ban hành thành công",
                 });
               } catch (err: any) {
                 toast({
                   title: "Lỗi",
-                  description: err.message || "Không thể ban hành văn bản",
+                  description: err.message || "Không thể ban hành công văn",
                   variant: "destructive",
                 });
               } finally {
@@ -1238,7 +1238,7 @@ export default function OutgoingDocumentDetailPage({
             disabled={isSubmitting}
           >
             <Send className="mr-2 h-4 w-4" />
-            {isSubmitting ? "Đang xử lý..." : "Ban hành văn bản"}
+            {isSubmitting ? "Đang xử lý..." : "Ban hành công văn"}
           </Button>
         </>
       );
@@ -1265,7 +1265,7 @@ export default function OutgoingDocumentDetailPage({
   if (error || !_document) {
     return (
       <div className="flex flex-col items-center justify-center h-[calc(100vh-200px)]">
-        <p className="text-red-500 mb-4">{error || "Không tìm thấy văn bản"}</p>
+        <p className="text-red-500 mb-4">{error || "Không tìm thấy công văn"}</p>
         <Button asChild>
           <Link href="/van-ban-di">Quay lại danh sách</Link>
         </Button>
@@ -1288,7 +1288,7 @@ export default function OutgoingDocumentDetailPage({
             </Link>
           </Button>
           <h1 className="text-2xl font-bold tracking-tight text-primary">
-            Chi tiết văn bản đi
+            Chi tiết công văn đi
           </h1>
         </div>
         <div className="flex items-center space-x-2">
@@ -1460,7 +1460,7 @@ export default function OutgoingDocumentDetailPage({
               <Separator className="bg-primary/10" />
               <div>
                 <p className="text-sm font-medium text-muted-foreground mb-2">
-                  Nội dung văn bản
+                  Nội dung công văn
                 </p>
                 <div
                   className="rounded-md border p-4 bg-accent/30 whitespace-pre-line"
@@ -1739,7 +1739,7 @@ export default function OutgoingDocumentDetailPage({
 
                         toast({
                           title: "Thành công",
-                          description: "Văn bản đã được xóa thành công",
+                          description: "công văn đã được xóa thành công",
                         });
 
                         // Redirect to list page
@@ -1747,7 +1747,7 @@ export default function OutgoingDocumentDetailPage({
                       } catch (err: any) {
                         toast({
                           title: "Lỗi",
-                          description: err.message || "Không thể xóa văn bản",
+                          description: err.message || "Không thể xóa công văn",
                           variant: "destructive",
                         });
                       } finally {
@@ -1757,7 +1757,7 @@ export default function OutgoingDocumentDetailPage({
                     disabled={isSubmitting}
                   >
                     <Trash className="mr-2 h-4 w-4" />{" "}
-                    {isSubmitting ? "Đang xử lý..." : "Xóa văn bản"}
+                    {isSubmitting ? "Đang xử lý..." : "Xóa công văn"}
                   </Button>
                 </CardFooter>
               )}
@@ -1765,7 +1765,7 @@ export default function OutgoingDocumentDetailPage({
 
           <Card className="border-primary/10 shadow-sm">
             <CardHeader className="bg-primary/5 border-b">
-              <CardTitle>Văn bản liên quan</CardTitle>
+              <CardTitle>công văn liên quan</CardTitle>
             </CardHeader>
             <CardContent className="pt-6">
               <div className="space-y-4">
@@ -1778,7 +1778,7 @@ export default function OutgoingDocumentDetailPage({
                       <p className="font-medium text-primary">
                         {relatedDocuments.documentNumber}
                       </p>
-                      <Badge variant="outline">Văn bản đến</Badge>
+                      <Badge variant="outline">công văn đến</Badge>
                     </div>
                     <p className="text-sm text-muted-foreground">
                       {relatedDocuments.title}
@@ -1797,7 +1797,7 @@ export default function OutgoingDocumentDetailPage({
                   </div>
                 ) : (
                   <p className="text-sm text-muted-foreground">
-                    Không có văn bản liên quan
+                    Không có công văn liên quan
                   </p>
                 )}
               </div>

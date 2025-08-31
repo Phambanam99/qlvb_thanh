@@ -134,14 +134,14 @@ export default function OutgoingDocumentForm({
     setExistingAttachment(null);
   };
 
-  // Hàm kiểm tra quyền chỉnh sửa văn bản (chỉ sử dụng trong chế độ edit)
+  // Hàm kiểm tra quyền chỉnh sửa công văn (chỉ sử dụng trong chế độ edit)
   const checkEditPermission = (documentData: any) => {
-    // Nếu không có dữ liệu văn bản
+    // Nếu không có dữ liệu công văn
     if (!documentData || !documentData.data) return false;
 
     const doc = documentData.data;
 
-    // Nếu là người tạo văn bản và văn bản đang ở trạng thái nháp hoặc đã bị từ chối
+    // Nếu là người tạo công văn và công văn đang ở trạng thái nháp hoặc đã bị từ chối
     if (
       hasRole(["ROLE_DRAF", "ROLE_TRO_LY"]) &&
       (doc.status === "draft" || doc.status === "leader_commented")
@@ -149,7 +149,7 @@ export default function OutgoingDocumentForm({
       return true;
     }
 
-    // Kiểm tra xem văn bản có bị từ chối không
+    // Kiểm tra xem công văn có bị từ chối không
     const wasRejected = doc.history?.some(
       (item: any) =>
         item.newStatus === "leader_commented" ||
@@ -157,7 +157,7 @@ export default function OutgoingDocumentForm({
         (item.description && item.description.toLowerCase().includes("từ chối"))
     );
 
-    // Kiểm tra xem văn bản có bị văn thư trả lại không
+    // Kiểm tra xem công văn có bị văn thư trả lại không
     const wasReturnedByClerk = doc.history?.some(
       (item: any) =>
         (item.newStatus === "specialist_processing" &&
@@ -167,18 +167,18 @@ export default function OutgoingDocumentForm({
           item.description.toLowerCase().includes("trả lại để chỉnh sửa"))
     );
 
-    // Nếu văn bản bị văn thư trả lại, đánh dấu là văn bản từ văn thư
+    // Nếu công văn bị văn thư trả lại, đánh dấu là công văn từ văn thư
     if (wasReturnedByClerk && hasRole("ROLE_TRO_LY")) {
       setIsFromClerkReturn(true);
       return true;
     }
 
-    // Nếu là trợ lý và văn bản đã bị từ chối
+    // Nếu là trợ lý và công văn đã bị từ chối
     if (hasRole("ROLE_TRO_LY") && wasRejected) {
       return true;
     }
 
-    // Nếu là văn thư và văn bản đã được phê duyệt bởi thủ trưởng
+    // Nếu là văn thư và công văn đã được phê duyệt bởi thủ trưởng
     if (
       hasRole("ROLE_VAN_THU") &&
       (doc.status === "approved" || doc.status === "leader_approved")
@@ -246,7 +246,7 @@ export default function OutgoingDocumentForm({
           }
         }
 
-        // 3. Nếu là chế độ chỉnh sửa, lấy dữ liệu văn bản
+        // 3. Nếu là chế độ chỉnh sửa, lấy dữ liệu công văn
         if (mode === "edit" && documentId) {
           const [documentData_, history_] = await Promise.all([
             outgoingDocumentsAPI.getOutgoingDocumentById(documentId),
@@ -268,7 +268,7 @@ export default function OutgoingDocumentForm({
           if (!hasEditPermission) {
             toast({
               title: "Không có quyền chỉnh sửa",
-              description: "Bạn không có quyền chỉnh sửa văn bản này.",
+              description: "Bạn không có quyền chỉnh sửa công văn này.",
               variant: "destructive",
             });
             router.push(`/van-ban-di/${documentId}`);
@@ -352,7 +352,7 @@ export default function OutgoingDocumentForm({
       );
       formDataToSubmit.append("notes", formData.notes);
 
-      // Thêm approverId - Nếu văn bản từ văn thư trả lại, sẽ không cần approverId
+      // Thêm approverId - Nếu công văn từ văn thư trả lại, sẽ không cần approverId
       // vì sẽ gửi thẳng cho văn thư
       if (!isFromClerkReturn) {
         formDataToSubmit.append("approverId", formData.approverId);
@@ -365,8 +365,8 @@ export default function OutgoingDocumentForm({
         formDataToSubmit.append("replyToId", replyToId);
       }
 
-      // Thêm trạng thái văn bản - Với văn bản từ văn thư trả lại, đánh dấu status là leader_approved
-      // để chỉ rõ văn bản này đã được thủ trưởng phê duyệt và gửi thẳng cho văn thư
+      // Thêm trạng thái công văn - Với công văn từ văn thư trả lại, đánh dấu status là leader_approved
+      // để chỉ rõ công văn này đã được thủ trưởng phê duyệt và gửi thẳng cho văn thư
       if (isFromClerkReturn) {
         formDataToSubmit.append("status", "leader_approved");
         formDataToSubmit.append("skipDepartmentApproval", "true");
@@ -391,7 +391,7 @@ export default function OutgoingDocumentForm({
           );
         }
 
-        // Gọi API cập nhật văn bản
+        // Gọi API cập nhật công văn
         await outgoingDocumentsAPI.updateOutgoingDocument(
           documentId,
           formDataToSubmit
@@ -400,47 +400,47 @@ export default function OutgoingDocumentForm({
         toast({
           title: "Thành công",
           description: isFromClerkReturn
-            ? "Văn bản đã được chỉnh sửa và gửi thẳng cho văn thư xem xét"
-            : "Văn bản đã được cập nhật thành công",
+            ? "công văn đã được chỉnh sửa và gửi thẳng cho văn thư xem xét"
+            : "công văn đã được cập nhật thành công",
         });
 
-        // Thông báo đến văn thư nếu là văn bản bị trả lại
+        // Thông báo đến văn thư nếu là công văn bị trả lại
         if (isFromClerkReturn) {
           addNotification({
-            title: "Văn bản đã chỉnh sửa theo yêu cầu",
-            message: `Văn bản "${formData.title}" đã được chỉnh sửa theo yêu cầu và gửi đến văn thư để xem xét`,
+            title: "công văn đã chỉnh sửa theo yêu cầu",
+            message: `công văn "${formData.title}" đã được chỉnh sửa theo yêu cầu và gửi đến văn thư để xem xét`,
             type: "success",
             recipientRoles: ["ROLE_VAN_THU"],
           });
         }
 
-        // Chuyển hướng về trang chi tiết văn bản
+        // Chuyển hướng về trang chi tiết công văn
         router.push(`/van-ban-di/${documentId}`);
       } else {
-        // Gọi API tạo văn bản mới
+        // Gọi API tạo công văn mới
         const response_ = await outgoingDocumentsAPI.createOutgoingDocument(
           formDataToSubmit
         );
         const response = response_.data;
         toast({
           title: "Thành công",
-          description: "Văn bản đã được tạo và gửi phê duyệt",
+          description: "công văn đã được tạo và gửi phê duyệt",
         });
 
         // Thêm thông báo
         addNotification({
-          title: "Văn bản mới",
-          message: `Văn bản "${formData.title}" đã được tạo và gửi phê duyệt`,
+          title: "công văn mới",
+          message: `công văn "${formData.title}" đã được tạo và gửi phê duyệt`,
           type: "success",
         });
 
-        // Chuyển hướng về trang danh sách văn bản
+        // Chuyển hướng về trang danh sách công văn
         router.push("/van-ban-di");
       }
     } catch (error) {
       toast({
         title: "Lỗi",
-        description: "Không thể gửi văn bản. Vui lòng thử lại sau.",
+        description: "Không thể gửi công văn. Vui lòng thử lại sau.",
         variant: "destructive",
       });
     } finally {
@@ -485,10 +485,10 @@ export default function OutgoingDocumentForm({
 
         toast({
           title: "Thành công",
-          description: "Văn bản đã được lưu nháp",
+          description: "công văn đã được lưu nháp",
         });
 
-        // Chuyển hướng về trang chi tiết văn bản
+        // Chuyển hướng về trang chi tiết công văn
         router.push(`/van-ban-di/${documentId}`);
       } else {
         // Tạo FormData để gửi cả file và dữ liệu
@@ -514,23 +514,23 @@ export default function OutgoingDocumentForm({
           formDataToSubmit.append("file", attachment);
         }
 
-        // Gọi API tạo văn bản nháp
+        // Gọi API tạo công văn nháp
         const response_ = await outgoingDocumentsAPI.createOutgoingDocument(
           formDataToSubmit
         );
         const response = response_.data;
         toast({
           title: "Thành công",
-          description: "Văn bản đã được lưu nháp",
+          description: "công văn đã được lưu nháp",
         });
 
-        // Chuyển hướng về trang danh sách văn bản
+        // Chuyển hướng về trang danh sách công văn
         router.push("/van-ban-di");
       }
     } catch (error) {
       toast({
         title: "Lỗi",
-        description: "Không thể lưu nháp văn bản. Vui lòng thử lại sau.",
+        description: "Không thể lưu nháp công văn. Vui lòng thử lại sau.",
         variant: "destructive",
       });
     } finally {
@@ -538,7 +538,7 @@ export default function OutgoingDocumentForm({
     }
   };
 
-  // Xử lý xóa văn bản (chỉ có trong chế độ edit)
+  // Xử lý xóa công văn (chỉ có trong chế độ edit)
   const handleDelete = async () => {
     if (!documentId) return;
 
@@ -548,15 +548,15 @@ export default function OutgoingDocumentForm({
 
       toast({
         title: "Thành công",
-        description: "Văn bản đã được xóa thành công",
+        description: "công văn đã được xóa thành công",
       });
 
-      // Chuyển hướng về trang danh sách văn bản
+      // Chuyển hướng về trang danh sách công văn
       router.push("/van-ban-di");
     } catch (error) {
       toast({
         title: "Lỗi",
-        description: "Không thể xóa văn bản. Vui lòng thử lại sau.",
+        description: "Không thể xóa công văn. Vui lòng thử lại sau.",
         variant: "destructive",
       });
     } finally {
@@ -584,7 +584,7 @@ export default function OutgoingDocumentForm({
           </Link>
         </Button>
         <h1 className="text-2xl font-bold">
-          {mode === "create" ? "Tạo văn bản đi mới" : "Chỉnh sửa văn bản đi"}
+          {mode === "create" ? "Tạo công văn đi mới" : "Chỉnh sửa công văn đi"}
         </h1>
       </div>
 
@@ -593,21 +593,21 @@ export default function OutgoingDocumentForm({
           <div className="md:col-span-2 space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle>Thông tin văn bản</CardTitle>
+                <CardTitle>Thông tin công văn</CardTitle>
                 <CardDescription>
-                  Nhập các thông tin cơ bản của văn bản
+                  Nhập các thông tin cơ bản của công văn
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                   <div className="space-y-2">
-                    <Label htmlFor="number">Số văn bản</Label>
+                    <Label htmlFor="number">Số công văn</Label>
                     <Input
                       id="number"
                       name="number"
                       value={formData.number}
                       onChange={handleInputChange}
-                      placeholder="Số hiệu văn bản"
+                      placeholder="Số hiệu công văn"
                       disabled={mode === "edit"}
                     />
                   </div>
@@ -628,7 +628,7 @@ export default function OutgoingDocumentForm({
                     name="title"
                     value={formData.title}
                     onChange={handleInputChange}
-                    placeholder="Nhập trích yếu văn bản"
+                    placeholder="Nhập trích yếu công văn"
                     required
                   />
                 </div>
@@ -640,7 +640,7 @@ export default function OutgoingDocumentForm({
                     name="content"
                     value={formData.content}
                     onChange={handleInputChange}
-                    placeholder="Nhập nội dung văn bản"
+                    placeholder="Nhập nội dung công văn"
                     rows={5}
                     required
                   />
@@ -654,7 +654,7 @@ export default function OutgoingDocumentForm({
                       name="recipient"
                       value={formData.recipient}
                       onChange={handleInputChange}
-                      placeholder="Nhập nơi nhận văn bản"
+                      placeholder="Nhập nơi nhận công văn"
                     />
                   </div>
 
@@ -718,7 +718,7 @@ export default function OutgoingDocumentForm({
                         handleCheckboxChange("isUrgent", checked as boolean)
                       }
                     />
-                    <Label htmlFor="isUrgent">Văn bản khẩn</Label>
+                    <Label htmlFor="isUrgent">công văn khẩn</Label>
                   </div>
 
                   <div className="flex items-center space-x-2">
@@ -732,7 +732,7 @@ export default function OutgoingDocumentForm({
                         )
                       }
                     />
-                    <Label htmlFor="isConfidential">Văn bản mật</Label>
+                    <Label htmlFor="isConfidential">công văn mật</Label>
                   </div>
                 </div>
               </CardContent>
@@ -742,7 +742,7 @@ export default function OutgoingDocumentForm({
               <CardHeader>
                 <CardTitle>Tệp đính kèm</CardTitle>
                 <CardDescription>
-                  Quản lý tệp đính kèm của văn bản
+                  Quản lý tệp đính kèm của công văn
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -932,16 +932,16 @@ export default function OutgoingDocumentForm({
                         variant="destructive"
                         className="w-full"
                       >
-                        <Trash className="mr-2 h-4 w-4" /> Xóa văn bản
+                        <Trash className="mr-2 h-4 w-4" /> Xóa công văn
                       </Button>
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                       <AlertDialogHeader>
                         <AlertDialogTitle>
-                          Xác nhận xóa văn bản
+                          Xác nhận xóa công văn
                         </AlertDialogTitle>
                         <AlertDialogDescription>
-                          Bạn có chắc chắn muốn xóa văn bản này? Hành động này
+                          Bạn có chắc chắn muốn xóa công văn này? Hành động này
                           không thể hoàn tác.
                         </AlertDialogDescription>
                       </AlertDialogHeader>

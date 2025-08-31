@@ -15,12 +15,12 @@ import { Separator } from "@/components/ui/separator";
 export default function RichTextDemo() {
   const [content, setContent] = useState(`
     <h2>🎉 Chào mừng đến với Rich Text Editor!</h2>
-    <p>Đây là một trình soạn thảo văn bản phong phú được xây dựng với <strong>Tiptap</strong> và <em>React</em>.</p>
+    <p>Đây là một trình soạn thảo công văn phong phú được xây dựng với <strong>Tiptap</strong> và <em>React</em>.</p>
     
     <h3>✨ Tính năng chính:</h3>
     <ul>
-      <li><strong>Định dạng văn bản:</strong> In đậm, in nghiêng, gạch chân</li>
-      <li><mark>Tô sáng văn bản</mark> với nhiều màu sắc</li>
+      <li><strong>Định dạng công văn:</strong> In đậm, in nghiêng, gạch chân</li>
+      <li><mark>Tô sáng công văn</mark> với nhiều màu sắc</li>
       <li><span style="color: #ff0000">Thay đổi màu chữ</span> linh hoạt</li>
       <li>Danh sách có dấu đầu dòng và số thứ tự</li>
       <li>Hoàn tác / Làm lại (Undo/Redo)</li>
@@ -28,7 +28,7 @@ export default function RichTextDemo() {
 
     <h3>🚀 Cách sử dụng:</h3>
     <ol>
-      <li>Chọn văn bản cần định dạng</li>
+      <li>Chọn công văn cần định dạng</li>
       <li>Sử dụng các nút trên thanh công cụ</li>
       <li>Hoặc sử dụng phím tắt: <strong>Ctrl+B</strong> (đậm), <strong>Ctrl+I</strong> (nghiêng), <strong>Ctrl+U</strong> (gạch chân)</li>
     </ol>
@@ -43,7 +43,7 @@ export default function RichTextDemo() {
       <div className="text-center space-y-2">
         <h1 className="text-3xl font-bold">Rich Text Editor Demo</h1>
         <p className="text-muted-foreground">
-          Trình soạn thảo văn bản với tính năng định dạng phong phú
+          Trình soạn thảo công văn với tính năng định dạng phong phú
         </p>
       </div>
 

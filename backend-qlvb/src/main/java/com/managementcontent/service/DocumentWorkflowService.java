@@ -321,15 +321,15 @@ public class DocumentWorkflowService {
     }
 
     /**
-     * 2. Phân văn bản: Distribute document to relevant departments
+     * 2. Phân công văn: Distribute document to relevant departments
      * Tối ưu phương thức này để tận dụng DocumentDepartment
      * 
-     * @param documentId                 ID của văn bản
+     * @param documentId                 ID của công văn
      * @param primaryDepartmentId        ID của phòng ban xử lý chính
      * @param collaboratingDepartmentIds Danh sách các ID của phòng ban phối hợp
      * @param distributor                Người phân phối
      * @param comments                   Ghi chú về việc phân phối
-     * @return Văn bản đã được cập nhật
+     * @return công văn đã được cập nhật
      */
     @Transactional
     public Optional<Document> distributeDocument(
@@ -339,7 +339,7 @@ public class DocumentWorkflowService {
             User distributor,
             String comments) {
 
-        // Đầu tiên thay đổi trạng thái của văn bản sang DISTRIBUTED
+        // Đầu tiên thay đổi trạng thái của công văn sang DISTRIBUTED
         Optional<Document> documentOpt = changeDocumentStatus(documentId, DocumentProcessingStatus.DISTRIBUTED,
                 distributor, comments);
 
@@ -384,7 +384,7 @@ public class DocumentWorkflowService {
      */
     @Transactional
     public Optional<Document> distributeDocument(Long documentId, User distributor, String comments) {
-        // Chỉ cập nhật trạng thái văn bản mà không gán cho phòng/ban nào
+        // Chỉ cập nhật trạng thái công văn mà không gán cho phòng/ban nào
         return changeDocumentStatus(documentId, DocumentProcessingStatus.DISTRIBUTED, distributor, comments);
     }
 
@@ -466,9 +466,9 @@ public class DocumentWorkflowService {
                 history.setComments(comments + "\n Không có file đính kèm phản hồi.");
             }
             documentHistoryRepository.save(history);
-            // Nếu đây là văn bản đi, cập nhật lịch sử cho văn bản đến liên quan
+            // Nếu đây là công văn đi, cập nhật lịch sử cho công văn đến liên quan
             updateHistoryForRelates(comments, leader, attachmentFilename, document);
-            // Thay đổi trạng thái văn bản
+            // Thay đổi trạng thái công văn
             return changeDocumentStatus(documentId, DocumentProcessingStatus.LEADER_COMMENTED, leader, comments);
         }
         return Optional.empty();
@@ -483,10 +483,10 @@ public class DocumentWorkflowService {
         if (docOpt.isPresent()) {
             Document document = docOpt.get();
 
-            // Cập nhật lịch sử cho các văn bản đến liên quan
+            // Cập nhật lịch sử cho các công văn đến liên quan
             updateHistoryForApproval(comments, leader, document, DocumentProcessingStatus.LEADER_APPROVED);
 
-            // Thay đổi trạng thái văn bản
+            // Thay đổi trạng thái công văn
             return changeDocumentStatus(documentId, DocumentProcessingStatus.LEADER_APPROVED, leader, comments);
         }
         return Optional.empty();
@@ -517,7 +517,7 @@ public class DocumentWorkflowService {
     }
 
     /**
-     * Đánh dấu văn bản đến là đã được trả lời
+     * Đánh dấu công văn đến là đã được trả lời
      */
     @Transactional
     public void updateIncomingDocumentAsResponded(Long documentId, User actor, String comments) {
@@ -525,7 +525,7 @@ public class DocumentWorkflowService {
     }
 
     /**
-     * Đăng ký văn bản đi
+     * Đăng ký công văn đi
      */
     @Transactional
     public Optional<Document> registerOutgoingDocument(Long documentId, User actor, String comments) {
@@ -538,26 +538,26 @@ public class DocumentWorkflowService {
     }
 
     /**
-     * Tạo văn bản đi độc lập (không liên quan đến văn bản đến)
-     * Phương thức này xử lý việc tạo văn bản đi mới mà không phải là trả lời cho
-     * văn bản đến nào
+     * Tạo công văn đi độc lập (không liên quan đến công văn đến)
+     * Phương thức này xử lý việc tạo công văn đi mới mà không phải là trả lời cho
+     * công văn đến nào
      *
-     * @param documentId ID của văn bản đi đã được tạo
-     * @param actor      Người tạo văn bản
-     * @param comments   Ghi chú khi tạo văn bản
+     * @param documentId ID của công văn đi đã được tạo
+     * @param actor      Người tạo công văn
+     * @param comments   Ghi chú khi tạo công văn
      */
     @Transactional
     public void createStandaloneOutgoingDocument(Long documentId, User actor, String comments) {
-        // Đặt trạng thái DRAFT cho văn bản đi độc lập
+        // Đặt trạng thái DRAFT cho công văn đi độc lập
         changeDocumentStatus(documentId, DocumentProcessingStatus.DRAFT, actor,
-                comments != null && !comments.isEmpty() ? comments : "Tạo văn bản đi mới độc lập");
+                comments != null && !comments.isEmpty() ? comments : "Tạo công văn đi mới độc lập");
     }
 
     /**
-     * Thêm một bản ghi lịch sử cho văn bản mà không thay đổi trạng thái
+     * Thêm một bản ghi lịch sử cho công văn mà không thay đổi trạng thái
      * Hữu ích cho các hành động như chỉnh sửa thông tin, upload file, v.v.
      *
-     * @param documentId ID của văn bản
+     * @param documentId ID của công văn
      * @param action     Loại hành động (ví dụ: "UPDATE", "UPLOAD", "COMMENT")
      * @param actor      Người thực hiện hành động
      * @param comments   Ghi chú về hành động
@@ -587,12 +587,12 @@ public class DocumentWorkflowService {
     }
 
     /**
-     * Chỉ huy đơn vị: Bắt đầu xem xét văn bản
+     * Chỉ huy đơn vị: Bắt đầu xem xét công văn
      * 
-     * @param documentId       ID của văn bản
+     * @param documentId       ID của công văn
      * @param headerDepartment Chỉ huy đơn vị thực hiện xem xét
      * @param comments         Ghi chú của chỉ huy
-     * @return Văn bản đã cập nhật trạng thái
+     * @return công văn đã cập nhật trạng thái
      */
     @Transactional
     public Optional<Document> startHeaderDepartmentReviewing(Long documentId, User headerDepartment, String comments) {
@@ -601,12 +601,12 @@ public class DocumentWorkflowService {
     }
 
     /**
-     * Chỉ huy đơn vị: Phê duyệt văn bản
+     * Chỉ huy đơn vị: Phê duyệt công văn
      * 
-     * @param documentId       ID của văn bản
+     * @param documentId       ID của công văn
      * @param headerDepartment Chỉ huy đơn vị thực hiện phê duyệt
      * @param comments         Ghi chú phê duyệt
-     * @return Văn bản đã cập nhật trạng thái
+     * @return công văn đã cập nhật trạng thái
      */
     @Transactional
     public Optional<Document> approveHeaderDepartment(Long documentId, User headerDepartment, String comments) {
@@ -614,7 +614,7 @@ public class DocumentWorkflowService {
         if (docOpt.isPresent()) {
             Document document = docOpt.get();
 
-            // Cập nhật lịch sử cho các văn bản đến liên quan
+            // Cập nhật lịch sử cho các công văn đến liên quan
             updateHistoryForApproval(comments, headerDepartment, document,
                     DocumentProcessingStatus.HEADER_DEPARTMENT_APPROVED);
 
@@ -625,7 +625,7 @@ public class DocumentWorkflowService {
             Department parentDepartment = currentDepartment.getParentDepartment();
 
             if (parentDepartment != null) {
-                // Có phòng ban cha, chuyển văn bản lên phòng ban cha để tiếp tục xem xét
+                // Có phòng ban cha, chuyển công văn lên phòng ban cha để tiếp tục xem xét
                 // Tìm kiếm các chỉ huy của phòng ban cha để thông báo
 
 
@@ -635,7 +635,7 @@ public class DocumentWorkflowService {
                         parentDepartment.getId(),
                         headerDepartment.getId(),
                         true, // Đánh dấu là đơn vị xử lý chính
-                        "Chuyển văn bản lên cấp trên phê duyệt sau khi được " + headerDepartment.getName()
+                        "Chuyển công văn lên cấp trên phê duyệt sau khi được " + headerDepartment.getName()
                                 + " phê duyệt",
                         null // Không đặt deadline cụ thể
                 );
@@ -653,12 +653,12 @@ public class DocumentWorkflowService {
     }
 
     /**
-     * Chỉ huy đơn vị: Cho ý kiến về văn bản
+     * Chỉ huy đơn vị: Cho ý kiến về công văn
      * 
-     * @param documentId       ID của văn bản
+     * @param documentId       ID của công văn
      * @param headerDepartment Chỉ huy đơn vị cho ý kiến
      * @param comments         Nội dung ý kiến
-     * @return Văn bản đã cập nhật trạng thái
+     * @return công văn đã cập nhật trạng thái
      */
     @Transactional
     public Optional<Document> commentHeaderDepartment(Long documentId, User headerDepartment, String comments) {
@@ -667,13 +667,13 @@ public class DocumentWorkflowService {
     }
 
     /**
-     * Chỉ huy đơn vị: Cho ý kiến về văn bản với file đính kèm
+     * Chỉ huy đơn vị: Cho ý kiến về công văn với file đính kèm
      * 
-     * @param documentId         ID của văn bản
+     * @param documentId         ID của công văn
      * @param headerDepartment   Chỉ huy đơn vị cho ý kiến
      * @param comments           Nội dung ý kiến
      * @param attachmentFilename Tên file đính kèm (có thể null)
-     * @return Văn bản đã cập nhật trạng thái
+     * @return công văn đã cập nhật trạng thái
      */
     @Transactional
     public Optional<Document> commentHeaderDepartmentWithAttachment(Long documentId, User headerDepartment,
@@ -693,10 +693,10 @@ public class DocumentWorkflowService {
                 history.setAttachmentPath("uploads/" + attachmentFilename);
                 documentHistoryRepository.save(history);
             }
-            // Nếu đây là văn bản đi, cập nhật lịch sử cho văn bản đến liên quan
+            // Nếu đây là công văn đi, cập nhật lịch sử cho công văn đến liên quan
             updateHistoryForRelates(comments, headerDepartment, attachmentFilename, document);
 
-            // Thay đổi trạng thái văn bản
+            // Thay đổi trạng thái công văn
             return changeDocumentStatus(documentId, DocumentProcessingStatus.HEADER_DEPARTMENT_COMMENTED,
                     headerDepartment, comments);
         }
@@ -708,11 +708,11 @@ public class DocumentWorkflowService {
         if (document.getType().equals("outgoing_document")) {
             try {
                 OutgoingDocument outgoingDoc = (OutgoingDocument) document;
-                // Tìm các văn bản đến liên quan
+                // Tìm các công văn đến liên quan
                 List<IncomingDocument> relatedIncomingDocs = documentRelationshipRepository
                         .findIncomingDocumentsForOutgoingDocument(outgoingDoc.getId());
 
-                // Cập nhật lịch sử cho từng văn bản đến
+                // Cập nhật lịch sử cho từng công văn đến
                 for (IncomingDocument incomingDoc : relatedIncomingDocs) {
                     DocumentHistory relatedHistory = new DocumentHistory();
                     relatedHistory.setDocument(incomingDoc);
@@ -722,7 +722,7 @@ public class DocumentWorkflowService {
                     } else {
                         // Chỉ thêm tên file nếu có
                         relatedHistory.setComments(comment +
-                                "\n Đính kèm phản hồi cho văn bản đi liên quan: " + attachmentFilename);
+                                "\n Đính kèm phản hồi cho công văn đi liên quan: " + attachmentFilename);
                         relatedHistory.setAttachmentPath("uploads/" + attachmentFilename);
                     }
 
@@ -802,21 +802,21 @@ public class DocumentWorkflowService {
                 history.setAttachmentPath("uploads/" + attachmentFilename);
                 documentHistoryRepository.save(history);
 
-                // Nếu đây là văn bản đi, cập nhật lịch sử cho văn bản đến liên quan
+                // Nếu đây là công văn đi, cập nhật lịch sử cho công văn đến liên quan
                 if (document.getType().equals("outgoing_document")) {
                     try {
                         OutgoingDocument outgoingDoc = (OutgoingDocument) document;
-                        // Tìm các văn bản đến liên quan
+                        // Tìm các công văn đến liên quan
                         List<IncomingDocument> relatedIncomingDocs = documentRelationshipRepository
                                 .findIncomingDocumentsForOutgoingDocument(outgoingDoc.getId());
 
-                        // Cập nhật lịch sử cho từng văn bản đến
+                        // Cập nhật lịch sử cho từng công văn đến
                         for (IncomingDocument incomingDoc : relatedIncomingDocs) {
                             DocumentHistory relatedHistory = new DocumentHistory();
                             relatedHistory.setDocument(incomingDoc);
                             relatedHistory.setAction("RELATED_REJECTION_ATTACHMENT");
                             relatedHistory.setComments(
-                                    "Đính kèm file từ chối cho văn bản đi liên quan: " + attachmentFilename);
+                                    "Đính kèm file từ chối cho công văn đi liên quan: " + attachmentFilename);
                             relatedHistory.setPerformedBy(actor);
                             relatedHistory.setAttachmentPath("uploads/" + attachmentFilename);
                             relatedHistory.setPreviousStatus(incomingDoc.getStatus().toString());
@@ -830,7 +830,7 @@ public class DocumentWorkflowService {
                 }
             }
 
-            // Thay đổi trạng thái văn bản
+            // Thay đổi trạng thái công văn
             return changeDocumentStatus(documentId, DocumentProcessingStatus.REJECTED, actor, comments);
         }
         return Optional.empty();
@@ -895,23 +895,23 @@ public class DocumentWorkflowService {
     }
 
     /**
-     * Cập nhật lịch sử cho các văn bản đến liên quan khi văn bản đi được phê duyệt
+     * Cập nhật lịch sử cho các công văn đến liên quan khi công văn đi được phê duyệt
      * 
      * @param comment   Nội dung bình luận/phê duyệt
      * @param actor     Người thực hiện phê duyệt
-     * @param document  Văn bản đang được phê duyệt
-     * @param newStatus Trạng thái mới của văn bản sau khi phê duyệt
+     * @param document  công văn đang được phê duyệt
+     * @param newStatus Trạng thái mới của công văn sau khi phê duyệt
      */
     private void updateHistoryForApproval(String comment, User actor, Document document,
             DocumentProcessingStatus newStatus) {
         if (document.getType().equals("outgoing_document")) {
             try {
                 OutgoingDocument outgoingDoc = (OutgoingDocument) document;
-                // Tìm các văn bản đến liên quan
+                // Tìm các công văn đến liên quan
                 List<IncomingDocument> relatedIncomingDocs = documentRelationshipRepository
                         .findIncomingDocumentsForOutgoingDocument(outgoingDoc.getId());
 
-                // Cập nhật lịch sử cho từng văn bản đến
+                // Cập nhật lịch sử cho từng công văn đến
                 for (IncomingDocument incomingDoc : relatedIncomingDocs) {
                     DocumentHistory relatedHistory = new DocumentHistory();
                     relatedHistory.setDocument(incomingDoc);
@@ -920,12 +920,12 @@ public class DocumentWorkflowService {
                     // Tạo thông báo phê duyệt tương ứng
                     String statusName = newStatus == DocumentProcessingStatus.LEADER_APPROVED ? "Thủ trưởng"
                             : "Chỉ huy đơn vị";
-                    relatedHistory.setComments("\nVăn bản trả lời đã được " + statusName + " phê duyệt");
+                    relatedHistory.setComments("\ncông văn trả lời đã được " + statusName + " phê duyệt");
 
                     relatedHistory.setPerformedBy(actor);
                     relatedHistory.setPreviousStatus(incomingDoc.getStatus().toString());
 
-                    // Giữ nguyên trạng thái của văn bản đến, chỉ ghi nhận là văn bản đi đã được phê
+                    // Giữ nguyên trạng thái của công văn đến, chỉ ghi nhận là công văn đi đã được phê
                     // duyệt
                     relatedHistory.setNewStatus(DocumentProcessingStatus.LEADER_APPROVED.ordinal() + "");
 
@@ -939,12 +939,12 @@ public class DocumentWorkflowService {
     }
 
     /**
-     * Văn thư: Từ chối văn bản đi để chỉnh sửa thể thức trước khi cấp số
+     * Văn thư: Từ chối công văn đi để chỉnh sửa thể thức trước khi cấp số
      * 
-     * @param documentId ID của văn bản cần chỉnh sửa thể thức
+     * @param documentId ID của công văn cần chỉnh sửa thể thức
      * @param clerk      Văn thư thực hiện từ chối
      * @param comments   Lý do từ chối và hướng dẫn chỉnh sửa
-     * @return Văn bản đã được cập nhật trạng thái
+     * @return công văn đã được cập nhật trạng thái
      */
     @Transactional
     public Optional<Document> rejectForFormatCorrection(Long documentId, User clerk, String comments) {
@@ -952,13 +952,13 @@ public class DocumentWorkflowService {
     }
 
     /**
-     * Văn thư: Từ chối văn bản đi để chỉnh sửa thể thức kèm file đính kèm
+     * Văn thư: Từ chối công văn đi để chỉnh sửa thể thức kèm file đính kèm
      * 
-     * @param documentId         ID của văn bản cần chỉnh sửa thể thức
+     * @param documentId         ID của công văn cần chỉnh sửa thể thức
      * @param clerk              Văn thư thực hiện từ chối
      * @param comments           Lý do từ chối và hướng dẫn chỉnh sửa
      * @param attachmentFilename Tên file đính kèm (template/mẫu chuẩn)
-     * @return Văn bản đã được cập nhật trạng thái
+     * @return công văn đã được cập nhật trạng thái
      */
     @Transactional
     public Optional<Document> rejectForFormatCorrectionWithAttachment(Long documentId, User clerk,
@@ -978,23 +978,23 @@ public class DocumentWorkflowService {
                 documentHistoryRepository.save(history);
             }
 
-            // Thay đổi trạng thái văn bản
+            // Thay đổi trạng thái công văn
             return changeDocumentStatus(documentId, DocumentProcessingStatus.FORMAT_CORRECTION, clerk, comments);
         }
         return Optional.empty();
     }
 
     /**
-     * Tái trình văn bản đã chỉnh sửa thể thức trực tiếp cho văn thư
-     * Phương thức này dùng để tái trình văn bản sau khi chuyên viên đã chỉnh sửa
+     * Tái trình công văn đã chỉnh sửa thể thức trực tiếp cho văn thư
+     * Phương thức này dùng để tái trình công văn sau khi chuyên viên đã chỉnh sửa
      * theo yêu cầu của văn thư.
-     * Văn bản sẽ đi trực tiếp đến văn thư để xem xét cấp số, không cần qua chỉ huy
+     * công văn sẽ đi trực tiếp đến văn thư để xem xét cấp số, không cần qua chỉ huy
      * phòng.
      * 
-     * @param documentId ID của văn bản đã chỉnh sửa thể thức
+     * @param documentId ID của công văn đã chỉnh sửa thể thức
      * @param staff      Nhân viên/trợ lý thực hiện chỉnh sửa và gửi lại
      * @param comments   Ghi chú về các chỉnh sửa đã thực hiện
-     * @return Văn bản đã được cập nhật trạng thái
+     * @return công văn đã được cập nhật trạng thái
      */
     @Transactional
     public Optional<Document> resubmitAfterFormatCorrection(Long documentId, User staff, String comments) {

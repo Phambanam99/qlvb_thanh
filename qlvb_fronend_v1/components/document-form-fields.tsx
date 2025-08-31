@@ -55,10 +55,10 @@ export function DocumentFormFields({
     <div className="grid gap-6 md:grid-cols-2">
       {/* Document Number */}
       <div className="space-y-2">
-        <Label htmlFor="documentNumber">Số văn bản</Label>
+        <Label htmlFor="documentNumber">Số công văn</Label>
         <Input
           id="documentNumber"
-          placeholder="Nhập số văn bản"
+          placeholder="Nhập số công văn"
           value={documentNumber}
           onChange={(e) => setDocumentNumber(e.target.value)}
         />
@@ -69,7 +69,7 @@ export function DocumentFormFields({
         <Label htmlFor="documentCode">Ký hiệu</Label>
         <Input
           id="documentCode"
-          placeholder="Nhập ký hiệu văn bản"
+          placeholder="Nhập ký hiệu công văn"
           value={documentCode}
           onChange={(e) => setDocumentCode(e.target.value)}
         />
@@ -77,7 +77,7 @@ export function DocumentFormFields({
 
       {/* Document Date */}
       <div className="space-y-2">
-        <Label>Ngày văn bản</Label>
+        <Label>Ngày công văn</Label>
         <DatePicker
           date={documentDate}
           setDate={setDocumentDate}
@@ -87,7 +87,7 @@ export function DocumentFormFields({
 
       {/* Document Type */}
       <div className="space-y-2">
-        <Label htmlFor="documentType">Loại văn bản</Label>
+        <Label htmlFor="documentType">Loại công văn</Label>
         <Select
           value={selectedDocumentType?.toString() || ""}
           onValueChange={(value) =>
@@ -95,7 +95,7 @@ export function DocumentFormFields({
           }
         >
           <SelectTrigger id="documentType" disabled={isLoadingDocumentTypes}>
-            <SelectValue placeholder="Chọn loại văn bản" />
+            <SelectValue placeholder="Chọn loại công văn" />
           </SelectTrigger>
           <SelectContent>
             {documentTypes.map((type) => (
@@ -122,7 +122,7 @@ export function DocumentFormFields({
         <Label htmlFor="documentSummary">Trích yếu</Label>
         <Textarea
           id="documentSummary"
-          placeholder="Nhập trích yếu văn bản"
+          placeholder="Nhập trích yếu công văn"
           value={documentSummary}
           onChange={(e) => setDocumentSummary(e.target.value)}
           className="min-h-20"

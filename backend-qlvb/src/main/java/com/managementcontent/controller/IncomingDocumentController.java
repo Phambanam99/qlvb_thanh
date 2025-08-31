@@ -61,7 +61,7 @@ public class IncomingDocumentController {
             return ResponseEntity.ok(ResponseDTO.success(documents));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(ResponseDTO.error("Lỗi khi lấy danh sách văn bản đến: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi lấy danh sách công văn đến: " + e.getMessage()));
         }
     }
     
@@ -96,10 +96,10 @@ public class IncomingDocumentController {
             return incomingDocumentService.getIncomingDocumentById(id)
                     .map(doc -> ResponseEntity.ok(ResponseDTO.success(doc)))
                     .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)
-                            .body(ResponseDTO.error("Không tìm thấy văn bản")));
+                            .body(ResponseDTO.error("Không tìm thấy công văn")));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(ResponseDTO.error("Lỗi khi lấy thông tin văn bản: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi lấy thông tin công văn: " + e.getMessage()));
         }
     }
 
@@ -117,7 +117,7 @@ public class IncomingDocumentController {
             return ResponseEntity.ok(ResponseDTO.success(documents));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(ResponseDTO.error("Lỗi khi tìm kiếm văn bản: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi tìm kiếm công văn: " + e.getMessage()));
         }
     }
 
@@ -135,7 +135,7 @@ public class IncomingDocumentController {
             return ResponseEntity.ok(ResponseDTO.success(documents));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(ResponseDTO.error("Lỗi khi lọc văn bản theo độ khẩn cấp: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi lọc công văn theo độ khẩn cấp: " + e.getMessage()));
         }
     }
 
@@ -153,7 +153,7 @@ public class IncomingDocumentController {
             return ResponseEntity.ok(ResponseDTO.success(documents));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(ResponseDTO.error("Lỗi khi lọc văn bản theo trạng thái xử lý: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi lọc công văn theo trạng thái xử lý: " + e.getMessage()));
         }
     }
 
@@ -172,7 +172,7 @@ public class IncomingDocumentController {
             return ResponseEntity.ok(ResponseDTO.success(documents));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(ResponseDTO.error("Lỗi khi lọc văn bản theo khoảng thời gian: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi lọc công văn theo khoảng thời gian: " + e.getMessage()));
         }
     }
 
@@ -188,10 +188,10 @@ public class IncomingDocumentController {
         try {
             IncomingDocumentDTO createdDocument = incomingDocumentService.createIncomingDocument(documentDTO);
             return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(ResponseDTO.success("Tạo văn bản đến thành công", createdDocument));
+                    .body(ResponseDTO.success("Tạo công văn đến thành công", createdDocument));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(ResponseDTO.error("Không thể tạo văn bản đến: " + e.getMessage()));
+                    .body(ResponseDTO.error("Không thể tạo công văn đến: " + e.getMessage()));
         }
     }
 
@@ -208,12 +208,12 @@ public class IncomingDocumentController {
             @Parameter(description = "Updated document details", required = true) @RequestBody IncomingDocumentDTO documentDTO) {
         try {
             return incomingDocumentService.updateIncomingDocument(id, documentDTO)
-                    .map(doc -> ResponseEntity.ok(ResponseDTO.success("Cập nhật văn bản thành công", doc)))
+                    .map(doc -> ResponseEntity.ok(ResponseDTO.success("Cập nhật công văn thành công", doc)))
                     .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)
-                            .body(ResponseDTO.error("Không tìm thấy văn bản")));
+                            .body(ResponseDTO.error("Không tìm thấy công văn")));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(ResponseDTO.error("Không thể cập nhật văn bản: " + e.getMessage()));
+                    .body(ResponseDTO.error("Không thể cập nhật công văn: " + e.getMessage()));
         }
     }
     
@@ -233,7 +233,7 @@ public class IncomingDocumentController {
             return ResponseEntity.ok(ResponseDTO.success(documents));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(ResponseDTO.error("Lỗi khi lấy văn bản theo phòng ban: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi lấy công văn theo phòng ban: " + e.getMessage()));
         }
     }
 
@@ -250,13 +250,13 @@ public class IncomingDocumentController {
         try {
             boolean deleted = incomingDocumentService.deleteIncomingDocument(id);
             if (deleted) {
-                return ResponseEntity.ok(ResponseDTO.success("Xóa văn bản thành công"));
+                return ResponseEntity.ok(ResponseDTO.success("Xóa công văn thành công"));
             }
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(ResponseDTO.error("Không tìm thấy văn bản"));
+                    .body(ResponseDTO.error("Không tìm thấy công văn"));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(ResponseDTO.error("Không thể xóa văn bản: " + e.getMessage()));
+                    .body(ResponseDTO.error("Không thể xóa công văn: " + e.getMessage()));
         }
     }
 
@@ -276,7 +276,7 @@ public class IncomingDocumentController {
             return incomingDocumentService.addAttachment(id, file)
                     .map(doc -> ResponseEntity.ok(ResponseDTO.success("Tải lên tệp đính kèm thành công", doc)))
                     .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)
-                            .body(ResponseDTO.error("Không tìm thấy văn bản")));
+                            .body(ResponseDTO.error("Không tìm thấy công văn")));
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(ResponseDTO.error("Lỗi khi tải lên tệp đính kèm: " + e.getMessage()));
@@ -326,7 +326,7 @@ public class IncomingDocumentController {
             // Check if document exists
             if (incomingDocumentService.findIncomingDocumentById(id).isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body(ResponseDTO.error("Không tìm thấy văn bản"));
+                        .body(ResponseDTO.error("Không tìm thấy công văn"));
             }
 
             // Track successful and failed uploads
@@ -369,7 +369,7 @@ public class IncomingDocumentController {
             // Check if document exists
             if (incomingDocumentService.findIncomingDocumentById(id).isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body(ResponseDTO.error("Không tìm thấy văn bản"));
+                        .body(ResponseDTO.error("Không tìm thấy công văn"));
             }
 
             List<DocumentAttachment> attachments = incomingDocumentService.getDocumentAttachments(id);
@@ -419,7 +419,7 @@ public class IncomingDocumentController {
             // Check if document exists
             if (incomingDocumentService.findIncomingDocumentById(id).isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body(ResponseDTO.error("Không tìm thấy văn bản"));
+                        .body(ResponseDTO.error("Không tìm thấy công văn"));
             }
 
             IncomingDocumentService.AttachmentSummary summary = incomingDocumentService.getAttachmentSummary(id);
@@ -445,7 +445,7 @@ public class IncomingDocumentController {
             // Check if document exists
             if (incomingDocumentService.findIncomingDocumentById(documentId).isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body(ResponseDTO.error("Không tìm thấy văn bản"));
+                        .body(ResponseDTO.error("Không tìm thấy công văn"));
             }
 
             ResponseEntity<Resource> resource = incomingDocumentService.downloadSpecificAttachment(documentId, attachmentId);

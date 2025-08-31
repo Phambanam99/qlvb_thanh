@@ -150,7 +150,7 @@ export function DocumentInfoForm({
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <div className="space-y-2">
           <Label htmlFor="documentNumber">
-            Số văn bản <span className="text-red-500">*</span>
+            Số công văn <span className="text-red-500">*</span>
           </Label>
           <Input
             id="documentNumber"
@@ -165,7 +165,7 @@ export function DocumentInfoForm({
                 }));
               }
             }}
-            placeholder="Nhập số văn bản"
+            placeholder="Nhập số công văn"
             className={validationErrors.documentNumber ? "border-red-500" : ""}
             required
           />
@@ -349,7 +349,7 @@ export function DocumentInfoForm({
 
         {/* Document Type Selection */}
         <div className="space-y-2">
-          <Label htmlFor="documentType">Loại văn bản</Label>
+          <Label htmlFor="documentType">Loại công văn</Label>
           <div className="flex gap-2">
             <SearchableSelect
               items={documentTypes.map((type): SearchableSelectItem => ({
@@ -358,9 +358,9 @@ export function DocumentInfoForm({
               }))}
               value={selectedDocumentType || "OFFICIAL_LETTER"}
               onValueChange={setSelectedDocumentType}
-              placeholder="Chọn loại văn bản"
-              searchPlaceholder="Tìm kiếm loại văn bản..."
-              emptyMessage="Không tìm thấy loại văn bản phù hợp"
+              placeholder="Chọn loại công văn"
+              searchPlaceholder="Tìm kiếm loại công văn..."
+              emptyMessage="Không tìm thấy loại công văn phù hợp"
               loading={isLoadingDocumentTypes}
               loadingMessage="Đang tải..."
               disabled={isLoadingDocumentTypes}
@@ -383,14 +383,14 @@ export function DocumentInfoForm({
               </DialogTrigger>
               <DialogContent>
                 <DialogHeader>
-                  <DialogTitle>Thêm loại văn bản mới</DialogTitle>
+                  <DialogTitle>Thêm loại công văn mới</DialogTitle>
                   <DialogDescription>
-                    Nhập tên loại văn bản chưa có trong hệ thống
+                    Nhập tên loại công văn chưa có trong hệ thống
                   </DialogDescription>
                 </DialogHeader>
                 <div className="space-y-4 py-4">
                   <div className="space-y-2">
-                    <Label htmlFor="newDocumentType">Tên loại văn bản</Label>
+                    <Label htmlFor="newDocumentType">Tên loại công văn</Label>
                     <Input
                       id="newDocumentType"
                       value={newDocumentType}
@@ -398,7 +398,7 @@ export function DocumentInfoForm({
                         setNewDocumentType(e.target.value);
                         setDocumentTypeError(null);
                       }}
-                      placeholder="Nhập tên loại văn bản mới"
+                      placeholder="Nhập tên loại công văn mới"
                       className={documentTypeError ? "border-red-500" : ""}
                     />
                     {documentTypeError && (
@@ -425,7 +425,7 @@ export function DocumentInfoForm({
                   >
                     {isCreatingDocumentType
                       ? "Đang thêm..."
-                      : "Thêm loại văn bản"}
+                      : "Thêm loại công văn"}
                   </Button>
                 </DialogFooter>
               </DialogContent>
@@ -486,7 +486,7 @@ export function DocumentInfoForm({
               }));
             }
           }}
-          placeholder="Nhập trích yếu văn bản"
+          placeholder="Nhập trích yếu công văn"
           className={validationErrors.documentTitle ? "border-red-500" : ""}
           required
         />
@@ -504,7 +504,7 @@ export function DocumentInfoForm({
           name="summary"
           value={documentSummary}
           onChange={(e) => setDocumentSummary(e.target.value)}
-          placeholder="Nhập tóm tắt nội dung văn bản"
+          placeholder="Nhập tóm tắt nội dung công văn"
           rows={5}
         />
       </div>

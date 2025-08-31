@@ -61,7 +61,7 @@ public class UnifiedDocumentController {
                         return ResponseEntity.ok(ResponseDTO.success(resultPage));
                 } catch (Exception e) {
                         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                                        .body(ResponseDTO.error("Lỗi khi lấy danh sách văn bản: " + e.getMessage()));
+                                        .body(ResponseDTO.error("Lỗi khi lấy danh sách công văn: " + e.getMessage()));
                 }
         }
 
@@ -92,10 +92,10 @@ public class UnifiedDocumentController {
                         }
 
                         return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                                        .body(ResponseDTO.error("Không tìm thấy văn bản"));
+                                        .body(ResponseDTO.error("Không tìm thấy công văn"));
                 } catch (Exception e) {
                         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                                        .body(ResponseDTO.error("Lỗi khi lấy thông tin văn bản: " + e.getMessage()));
+                                        .body(ResponseDTO.error("Lỗi khi lấy thông tin công văn: " + e.getMessage()));
                 }
         }
 
@@ -114,7 +114,7 @@ public class UnifiedDocumentController {
                         return ResponseEntity.ok(ResponseDTO.success(resultPage));
                 } catch (Exception e) {
                         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                                        .body(ResponseDTO.error("Lỗi khi tìm kiếm văn bản: " + e.getMessage()));
+                                        .body(ResponseDTO.error("Lỗi khi tìm kiếm công văn: " + e.getMessage()));
                 }
         }
 
@@ -135,7 +135,7 @@ public class UnifiedDocumentController {
                         return ResponseEntity.ok(ResponseDTO.success(resultPage));
                 } catch (Exception e) {
                         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                                        .body(ResponseDTO.error("Lỗi khi lọc văn bản theo khoảng thời gian: "
+                                        .body(ResponseDTO.error("Lỗi khi lọc công văn theo khoảng thời gian: "
                                                         + e.getMessage()));
                 }
         }
@@ -153,7 +153,7 @@ public class UnifiedDocumentController {
                         return ResponseEntity.ok(ResponseDTO.success(stats));
                 } catch (Exception e) {
                         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                                        .body(ResponseDTO.error("Lỗi khi lấy thống kê văn bản: " + e.getMessage()));
+                                        .body(ResponseDTO.error("Lỗi khi lấy thống kê công văn: " + e.getMessage()));
                 }
         }
 
@@ -178,7 +178,7 @@ public class UnifiedDocumentController {
                                                 .map(doc -> ResponseEntity.ok(ResponseDTO
                                                                 .success("Tải lên tệp đính kèm thành công", (Object)doc )))
                                                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)
-                                                                .body(ResponseDTO.error("Không tìm thấy văn bản")));
+                                                                .body(ResponseDTO.error("Không tìm thấy công văn")));
                         }
 
                         // If not found, try as outgoing document
@@ -188,11 +188,11 @@ public class UnifiedDocumentController {
                                                 .map(doc -> ResponseEntity.ok(ResponseDTO
                                                                 .success("Tải lên tệp đính kèm thành công",(Object) doc)))
                                                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)
-                                                                .body(ResponseDTO.error("Không tìm thấy văn bản")));
+                                                                .body(ResponseDTO.error("Không tìm thấy công văn")));
                         }
 
                         return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                                        .body(ResponseDTO.error("Không tìm thấy văn bản"));
+                                        .body(ResponseDTO.error("Không tìm thấy công văn"));
                 } catch (IOException e) {
                         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                                         .body(ResponseDTO.error("Lỗi khi tải lên tệp đính kèm: " + e.getMessage()));
@@ -222,7 +222,7 @@ public class UnifiedDocumentController {
 
                         if (!documentExists) {
                                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                                                .body(ResponseDTO.error("Không tìm thấy văn bản"));
+                                                .body(ResponseDTO.error("Không tìm thấy công văn"));
                         }
 
                         List<String> uploadedFiles = new ArrayList<>();
@@ -293,7 +293,7 @@ public class UnifiedDocumentController {
                         }
 
                         return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                                        .body(ResponseDTO.error("Không tìm thấy văn bản"));
+                                        .body(ResponseDTO.error("Không tìm thấy công văn"));
                 } catch (IOException e) {
                         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                                         .body(ResponseDTO.error("Lỗi khi tải xuống tệp đính kèm: " + e.getMessage()));
@@ -341,7 +341,7 @@ public class UnifiedDocumentController {
                         }
 
                         return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                                        .body(ResponseDTO.error("Không tìm thấy văn bản"));
+                                        .body(ResponseDTO.error("Không tìm thấy công văn"));
                 } catch (IOException e) {
                         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                                         .body(ResponseDTO.error("Lỗi khi xóa tệp đính kèm: " + e.getMessage()));
@@ -375,13 +375,13 @@ public class UnifiedDocumentController {
 
                         if (!documentExists) {
                                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                                                .body(ResponseDTO.error("Không tìm thấy văn bản"));
+                                                .body(ResponseDTO.error("Không tìm thấy công văn"));
                         }
 
                         var status = documentWorkflowService.getDocumentStatus(documentId);
                         if (status == null) {
                                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                                .body(ResponseDTO.error("Không thể xác định trạng thái văn bản"));
+                                                .body(ResponseDTO.error("Không thể xác định trạng thái công văn"));
                         }
 
                         Map<String, Object> response = new HashMap<>();
@@ -433,7 +433,7 @@ public class UnifiedDocumentController {
 
                         if (!documentExists) {
                                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                                                .body(ResponseDTO.error("Không tìm thấy văn bản"));
+                                                .body(ResponseDTO.error("Không tìm thấy công văn"));
                         }
 
                         List<DocumentHistory> history = documentWorkflowService.getDocumentHistory(documentId);
@@ -491,7 +491,7 @@ public class UnifiedDocumentController {
 
                         if (!documentExists) {
                                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                                                .body(ResponseDTO.error("Không tìm thấy văn bản"));
+                                                .body(ResponseDTO.error("Không tìm thấy công văn"));
                         }
 
                         // Extract parameters
@@ -534,7 +534,7 @@ public class UnifiedDocumentController {
                                                 .ok(ResponseDTO.success("Cập nhật trạng thái thành công", response));
                         } else {
                                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                                .body(ResponseDTO.error("Không thể cập nhật trạng thái văn bản"));
+                                                .body(ResponseDTO.error("Không thể cập nhật trạng thái công văn"));
                         }
                 } catch (Exception e) {
                         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -566,7 +566,7 @@ public class UnifiedDocumentController {
 
                         if (!documentExists) {
                                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                                                .body(ResponseDTO.error("Không tìm thấy văn bản"));
+                                                .body(ResponseDTO.error("Không tìm thấy công văn"));
                         }
 
                         // Extract parameters
@@ -601,14 +601,14 @@ public class UnifiedDocumentController {
                                 response.put("actorId", actor.getId());
                                 response.put("actorName", actor.getName());
                                 response.put("timestamp", history.get().getTimestamp());
-                                return ResponseEntity.ok(ResponseDTO.success("Phân công văn bản thành công", response));
+                                return ResponseEntity.ok(ResponseDTO.success("Phân công công văn thành công", response));
                         } else {
                                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                                .body(ResponseDTO.error("Không thể phân công văn bản"));
+                                                .body(ResponseDTO.error("Không thể phân công công văn"));
                         }
                 } catch (Exception e) {
                         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                        .body(ResponseDTO.error("Lỗi khi phân công văn bản: " + e.getMessage()));
+                                        .body(ResponseDTO.error("Lỗi khi phân công công văn: " + e.getMessage()));
                 }
         }
 
@@ -648,7 +648,7 @@ public class UnifiedDocumentController {
 
                         if (!documentExists) {
                                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                                                .body(ResponseDTO.error("Không tìm thấy văn bản"));
+                                                .body(ResponseDTO.error("Không tìm thấy công văn"));
                         }
 
                         // Use document comment service to add comment
@@ -684,7 +684,7 @@ public class UnifiedDocumentController {
 
                         if (!documentExists) {
                                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                                                .body(ResponseDTO.error("Không tìm thấy văn bản"));
+                                                .body(ResponseDTO.error("Không tìm thấy công văn"));
                         }
 
                         List<DocumentCommentDTO> comments;

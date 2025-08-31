@@ -38,13 +38,13 @@ export default function DocumentResponseForm({ documentId }: DocumentResponseFor
     setIsSubmitting(false)
 
     // Thông báo thành công (trong thực tế sẽ sử dụng toast hoặc notification)
-    alert("Đã gửi văn bản trả lời thành công!")
+    alert("Đã gửi công văn trả lời thành công!")
   }
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Soạn văn bản trả lời</CardTitle>
+        <CardTitle>Soạn công văn trả lời</CardTitle>
       </CardHeader>
       <form onSubmit={handleSubmit}>
         <CardContent className="space-y-4">
@@ -52,7 +52,7 @@ export default function DocumentResponseForm({ documentId }: DocumentResponseFor
             <Label htmlFor="content">Nội dung</Label>
             <Textarea
               id="content"
-              placeholder="Nhập nội dung văn bản trả lời..."
+              placeholder="Nhập nội dung công văn trả lời..."
               value={content}
               onChange={(e) => setContent(e.target.value)}
               rows={5}
@@ -91,7 +91,7 @@ export default function DocumentResponseForm({ documentId }: DocumentResponseFor
               "Đang gửi..."
             ) : (
               <>
-                <Send className="mr-2 h-4 w-4" /> Gửi văn bản
+                <Send className="mr-2 h-4 w-4" /> Gửi công văn
               </>
             )}
           </Button>

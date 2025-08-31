@@ -58,8 +58,8 @@ export default function UserGuidePage() {
       content: (
         <div className="space-y-4">
           <p className="text-muted-foreground">
-            Hệ thống Quản lý văn bản điện tử giúp tự động hóa quy trình xử lý
-            văn bản, quản lý lịch công tác và kế hoạch trong tổ chức.
+            Hệ thống Quản lý công văn điện tử giúp tự động hóa quy trình xử lý
+            công văn, quản lý lịch công tác và kế hoạch trong tổ chức.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="p-4 bg-blue-50 rounded-lg">
@@ -80,19 +80,19 @@ export default function UserGuidePage() {
     },
     {
       id: "documents",
-      title: "Quản lý văn bản",
+      title: "Quản lý công văn",
       icon: FileText,
       content: (
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold">Văn bản đến & Văn bản đi</h3>
+          <h3 className="text-lg font-semibold">công văn đến & công văn đi</h3>
           <ul className="space-y-2">
             <li className="flex items-center gap-2">
               <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
-              Tạo mới văn bản nội bộ và bên ngoài
+              Tạo mới công văn nội bộ và bên ngoài
             </li>
             <li className="flex items-center gap-2">
               <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
-              Phân công xử lý văn bản đến
+              Phân công xử lý công văn đến
             </li>
             <li className="flex items-center gap-2">
               <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
@@ -100,7 +100,7 @@ export default function UserGuidePage() {
             </li>
             <li className="flex items-center gap-2">
               <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
-              Lưu trữ và tìm kiếm văn bản
+              Lưu trữ và tìm kiếm công văn
             </li>
           </ul>
         </div>
@@ -370,7 +370,7 @@ export default function UserGuidePage() {
                 <div className="space-y-4">
                   <div className="text-center">
                     <h3 className="text-xl font-bold text-gray-800">
-                      Hệ thống Quản lý Văn bản Điện tử
+                      Hệ thống Quản lý công văn Điện tử
                     </h3>
                     <p className="text-gray-600">
                       Phiên bản V0.1 - Phát triển năm 2025

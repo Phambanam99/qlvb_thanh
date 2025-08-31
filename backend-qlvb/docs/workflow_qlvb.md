@@ -1,16 +1,16 @@
-# Chi Tiết Quy Trình Xử Lý Văn Bản Đến
+# Chi Tiết Quy Trình Xử Lý công văn Đến
 
-Tôi sẽ mô tả chi tiết quy trình xử lý văn bản đến từ khi tiếp nhận đến khi hoàn thành. Quy trình này được thiết kế để phản ánh đầy đủ các hoạt động nghiệp vụ và tận dụng API của hệ thống quản lý văn bản hiện có.
+Tôi sẽ mô tả chi tiết quy trình xử lý công văn đến từ khi tiếp nhận đến khi hoàn thành. Quy trình này được thiết kế để phản ánh đầy đủ các hoạt động nghiệp vụ và tận dụng API của hệ thống quản lý công văn hiện có.
 
-## 1. Tiếp nhận và tạo mới văn bản đến
+## 1. Tiếp nhận và tạo mới công văn đến
 
-### 1.1. Tiếp nhận văn bản từ bên ngoài
-- Văn thư nhận văn bản giấy hoặc văn bản điện tử qua email, hệ thống gửi nhận văn bản liên thông
-- Kiểm tra tính đầy đủ, hợp lệ của văn bản (có đúng đơn vị nhận không, có đầy đủ chữ ký, con dấu không)
-- Nếu là văn bản giấy, tiến hành scan thành file PDF
+### 1.1. Tiếp nhận công văn từ bên ngoài
+- Văn thư nhận công văn giấy hoặc công văn điện tử qua email, hệ thống gửi nhận công văn liên thông
+- Kiểm tra tính đầy đủ, hợp lệ của công văn (có đúng đơn vị nhận không, có đầy đủ chữ ký, con dấu không)
+- Nếu là công văn giấy, tiến hành scan thành file PDF
 
 ### 1.2. Tạo mới trong hệ thống
-- Gọi API tạo văn bản đến:
+- Gọi API tạo công văn đến:
 ```
 POST /api/documents/incoming
 ```
@@ -18,27 +18,27 @@ POST /api/documents/incoming
 - Dữ liệu gửi lên:
 ```json
 {
-  "title": "Văn bản về việc [nội dung chính của văn bản]",
+  "title": "công văn về việc [nội dung chính của công văn]",
   "referenceNumber": "123/CV-ABC", 
-  "issuingAuthority": "Tên cơ quan phát hành văn bản",
+  "issuingAuthority": "Tên cơ quan phát hành công văn",
   "documentType": "OFFICIAL_LETTER", // Công văn, quyết định, thông báo...
   "urgencyLevel": "HIGH", // NORMAL, HIGH, URGENT
   "securityLevel": "NORMAL", // NORMAL, CONFIDENTIAL, SECRET, TOP_SECRET
   "signingDate": "2025-04-20", 
   "receivedDate": "2025-04-22",
-  "sendingDepartmentName": "Phòng/Ban/Đơn vị gửi văn bản",
-  "summary": "Tóm tắt nội dung chính của văn bản",
-  "notes": "Ghi chú thêm về văn bản nếu có"
+  "sendingDepartmentName": "Phòng/Ban/Đơn vị gửi công văn",
+  "summary": "Tóm tắt nội dung chính của công văn",
+  "notes": "Ghi chú thêm về công văn nếu có"
 }
 ```
 
 ## 2. Đính kèm file và metadata
 
-### 2.1. Tải lên file văn bản đã scan
+### 2.1. Tải lên file công văn đã scan
 ```
 POST /api/documents/incoming/{documentId}/attachment
 ```
-- Gửi lên file văn bản dạng multipart/form-data với field name là "file"
+- Gửi lên file công văn dạng multipart/form-data với field name là "file"
 
 ### 2.2. Tải lên nhiều tài liệu kèm theo (nếu có)
 ```
@@ -46,15 +46,15 @@ POST /api/documents/unified/{documentId}/multiple-attachments
 ```
 - Gửi lên các file đính kèm dạng multipart/form-data với field name là "files"
 
-### 2.3. Trích xuất thông tin từ văn bản (tùy chọn)
+### 2.3. Trích xuất thông tin từ công văn (tùy chọn)
 ```
 POST /api/documents/incoming/extract-from-scan
 ```
-- Sử dụng OCR để trích xuất thông tin từ văn bản scan, tiết kiệm thời gian nhập liệu
+- Sử dụng OCR để trích xuất thông tin từ công văn scan, tiết kiệm thời gian nhập liệu
 
-## 3. Đăng ký và vào sổ văn bản
+## 3. Đăng ký và vào sổ công văn
 
-### 3.1. Văn thư đăng ký văn bản
+### 3.1. Văn thư đăng ký công văn
 ```
 PUT /api/workflow/{documentId}/register
 ```
@@ -62,16 +62,16 @@ PUT /api/workflow/{documentId}/register
 - Dữ liệu gửi lên:
 ```json
 {
-  "comments": "Đã kiểm tra và đăng ký văn bản vào hệ thống",
+  "comments": "Đã kiểm tra và đăng ký công văn vào hệ thống",
   "actorId": 123, // ID của văn thư
-  "registrationNumber": "VB-DEN-2025-123", // Số đăng ký văn bản đến
+  "registrationNumber": "VB-DEN-2025-123", // Số đăng ký công văn đến
   "registrationDate": "2025-04-22T10:30:00"
 }
 ```
 
-## 4. Chuyển văn bản đến lãnh đạo xem xét
+## 4. Chuyển công văn đến lãnh đạo xem xét
 
-### 4.1. Chuyển văn bản đến lãnh đạo
+### 4.1. Chuyển công văn đến lãnh đạo
 ```
 POST /api/workflow/{documentId}/forward
 ```
@@ -99,9 +99,9 @@ POST /api/documents/unified/{documentId}/comments
 }
 ```
 
-## 5. Phân phối văn bản đến phòng/ban xử lý
+## 5. Phân phối công văn đến phòng/ban xử lý
 
-### 5.1. Phân phối văn bản
+### 5.1. Phân phối công văn
 ```
 PUT /api/workflow/{documentId}/distribute
 ```
@@ -125,7 +125,7 @@ GET /api/workflow/{documentId}/departments
 
 ## 6. Phòng ban chủ trì tiếp nhận và phân công
 
-### 6.1. Trưởng phòng tiếp nhận văn bản
+### 6.1. Trưởng phòng tiếp nhận công văn
 ```
 PUT /api/workflow/{documentId}/department-acknowledge
 ```
@@ -134,7 +134,7 @@ PUT /api/workflow/{documentId}/department-acknowledge
 ```json
 {
   "departmentId": 101, // ID phòng ban
-  "comments": "Đã nhận văn bản. Sẽ phân công chuyên viên xử lý",
+  "comments": "Đã nhận công văn. Sẽ phân công chuyên viên xử lý",
   "actorId": 200 // ID của trưởng phòng
 }
 ```
@@ -148,13 +148,13 @@ POST /api/workflow/{documentId}/assign-specialist
 ```json
 {
   "assignedToId": 456, // ID của chuyên viên được phân công
-  "comments": "Giao anh/chị nghiên cứu, tham mưu văn bản phúc đáp. Hoàn thành trước 28/04/2025",
+  "comments": "Giao anh/chị nghiên cứu, tham mưu công văn phúc đáp. Hoàn thành trước 28/04/2025",
   "actorId": 200, // ID của trưởng phòng
   "deadline": "2025-04-28T17:00:00" // Hạn xử lý nội bộ
 }
 ```
 
-## 7. Chuyên viên xử lý văn bản
+## 7. Chuyên viên xử lý công văn
 
 ### 7.1. Chuyên viên tiếp nhận xử lý
 ```
@@ -164,7 +164,7 @@ PUT /api/workflow/{documentId}/start-processing
 - Dữ liệu gửi lên:
 ```json
 {
-  "comments": "Đã nhận và bắt đầu xử lý văn bản",
+  "comments": "Đã nhận và bắt đầu xử lý công văn",
   "actorId": 456 // ID của chuyên viên
 }
 ```
@@ -190,7 +190,7 @@ POST /api/documents/unified/{documentId}/comments
 POST /api/documents/unified/{documentId}/comments
 ```
 
-### 7.4. Tạo văn bản dự thảo phản hồi (nếu cần)
+### 7.4. Tạo công văn dự thảo phản hồi (nếu cần)
 ```
 POST /api/documents/outgoing/draft
 ```
@@ -198,12 +198,12 @@ POST /api/documents/outgoing/draft
 - Dữ liệu gửi lên:
 ```json
 {
-  "title": "Văn bản phúc đáp về việc [nội dung]",
+  "title": "công văn phúc đáp về việc [nội dung]",
   "referenceNumber": "Dự thảo",
   "documentType": "OFFICIAL_LETTER",
   "receivingDepartments": ["Tên đơn vị nhận"],
-  "content": "Nội dung văn bản phúc đáp",
-  "relatedDocumentIds": [documentId] // ID văn bản đến đang xử lý
+  "content": "Nội dung công văn phúc đáp",
+  "relatedDocumentIds": [documentId] // ID công văn đến đang xử lý
 }
 ```
 
@@ -215,9 +215,9 @@ PUT /api/workflow/{documentId}/submit
 - Dữ liệu gửi lên:
 ```json
 {
-  "comments": "Đã xử lý xong, kính trình trưởng phòng xem xét. Đã tạo dự thảo văn bản phúc đáp ID: 456",
+  "comments": "Đã xử lý xong, kính trình trưởng phòng xem xét. Đã tạo dự thảo công văn phúc đáp ID: 456",
   "actorId": 456, // ID của chuyên viên
-  "relatedOutgoingDocumentId": 456 // ID văn bản đi đã dự thảo (nếu có)
+  "relatedOutgoingDocumentId": 456 // ID công văn đi đã dự thảo (nếu có)
 }
 ```
 
@@ -273,7 +273,7 @@ PUT /api/workflow/{documentId}/leader-reviewing
 - Dữ liệu gửi lên:
 ```json
 {
-  "comments": "Đang xem xét kết quả xử lý văn bản",
+  "comments": "Đang xem xét kết quả xử lý công văn",
   "actorId": 789 // ID của lãnh đạo
 }
 ```
@@ -288,9 +288,9 @@ PUT /api/workflow/{documentId}/approve
 - Dữ liệu gửi lên:
 ```json
 {
-  "comments": "Đồng ý với kết quả xử lý. Chuyển văn thư phát hành văn bản phúc đáp",
+  "comments": "Đồng ý với kết quả xử lý. Chuyển văn thư phát hành công văn phúc đáp",
   "actorId": 789, // ID của lãnh đạo
-  "approvedOutgoingDocumentId": 456 // ID văn bản đi được phê duyệt
+  "approvedOutgoingDocumentId": 456 // ID công văn đi được phê duyệt
 }
 ```
 
@@ -307,9 +307,9 @@ PUT /api/workflow/{documentId}/provide-feedback
 }
 ```
 
-## 10. Hoàn thành xử lý văn bản
+## 10. Hoàn thành xử lý công văn
 
-### 10.1. Văn thư thực hiện phát hành văn bản phúc đáp (nếu có)
+### 10.1. Văn thư thực hiện phát hành công văn phúc đáp (nếu có)
 ```
 PUT /api/workflow/{outgoingDocumentId}/publish
 ```
@@ -317,14 +317,14 @@ PUT /api/workflow/{outgoingDocumentId}/publish
 - Dữ liệu gửi lên:
 ```json
 {
-  "comments": "Đã phát hành văn bản phúc đáp",
+  "comments": "Đã phát hành công văn phúc đáp",
   "actorId": 123, // ID của văn thư
-  "documentNumber": "123/CV-XYZ", // Số hiệu chính thức của văn bản đi
+  "documentNumber": "123/CV-XYZ", // Số hiệu chính thức của công văn đi
   "publishDate": "2025-04-28T15:00:00"
 }
 ```
 
-### 10.2. Đánh dấu hoàn thành xử lý văn bản đến
+### 10.2. Đánh dấu hoàn thành xử lý công văn đến
 ```
 PUT /api/workflow/{documentId}/complete
 ```
@@ -332,14 +332,14 @@ PUT /api/workflow/{documentId}/complete
 - Dữ liệu gửi lên:
 ```json
 {
-  "comments": "Đã hoàn thành xử lý văn bản. Đã phát hành văn bản phúc đáp số 123/CV-XYZ",
+  "comments": "Đã hoàn thành xử lý công văn. Đã phát hành công văn phúc đáp số 123/CV-XYZ",
   "actorId": 123, // ID của người hoàn thành
   "result": "Đã xử lý và phản hồi",
-  "relatedDocuments": [456] // ID các văn bản liên quan (văn bản phúc đáp)
+  "relatedDocuments": [456] // ID các công văn liên quan (công văn phúc đáp)
 }
 ```
 
-### 10.3. Lưu trữ văn bản
+### 10.3. Lưu trữ công văn
 ```
 PUT /api/workflow/{documentId}/archive
 ```
@@ -347,7 +347,7 @@ PUT /api/workflow/{documentId}/archive
 - Dữ liệu gửi lên:
 ```json
 {
-  "comments": "Chuyển văn bản vào kho lưu trữ",
+  "comments": "Chuyển công văn vào kho lưu trữ",
   "actorId": 123, // ID của văn thư
   "archiveCategory": "ADMINISTRATIVE",
   "retentionPeriod": "5-YEARS" // Thời gian lưu trữ
@@ -361,22 +361,22 @@ PUT /api/workflow/{documentId}/archive
 GET /api/workflow/{documentId}/status
 ```
 
-### 11.2. Xem lịch sử xử lý văn bản
+### 11.2. Xem lịch sử xử lý công văn
 ```
 GET /api/workflow/{documentId}/history
 ```
 
-### 11.3. Tạo báo cáo xử lý văn bản
+### 11.3. Tạo báo cáo xử lý công văn
 ```
 GET /api/reports/document-processing?startDate=2025-04-01T00:00:00&endDate=2025-04-30T23:59:59&outputFormat=pdf
 ```
 
 ## Lưu ý quan trọng trong quy trình
 
-1. **Luồng phê duyệt linh hoạt**: Tùy theo tính chất văn bản, có thể rút gọn hoặc mở rộng các bước phê duyệt
+1. **Luồng phê duyệt linh hoạt**: Tùy theo tính chất công văn, có thể rút gọn hoặc mở rộng các bước phê duyệt
 2. **Đảm bảo tuân thủ thời hạn**: Hệ thống giám sát và gửi thông báo nhắc nhở khi gần đến hạn xử lý
 3. **Tính minh bạch**: Mọi hành động trong quy trình đều được ghi lại trong lịch sử
 4. **Hỗ trợ song song**: Các phòng ban phối hợp có thể xử lý đồng thời, trao đổi thông tin qua hệ thống
-5. **Tích hợp với quy trình văn bản đi**: Liên kết chặt chẽ giữa văn bản đến và văn bản phúc đáp để theo dõi xuyên suốt
+5. **Tích hợp với quy trình công văn đi**: Liên kết chặt chẽ giữa công văn đến và công văn phúc đáp để theo dõi xuyên suốt
 
-Quy trình này đảm bảo mọi văn bản đến đều được xử lý đúng quy định, có sự phân công trách nhiệm rõ ràng và theo dõi chặt chẽ từ khi tiếp nhận đến khi hoàn tất.
+Quy trình này đảm bảo mọi công văn đến đều được xử lý đúng quy định, có sự phân công trách nhiệm rõ ràng và theo dõi chặt chẽ từ khi tiếp nhận đến khi hoàn tất.

@@ -27,7 +27,7 @@ export function useInternalDocumentNotifications(callbacks?: InternalDocumentNot
       switch (type) {
         case 'INTERNAL_DOCUMENT_RECEIVED':
           return {
-            title: 'Văn bản mới',
+            title: 'công văn mới',
             description: notification.content,
             variant: 'default' as const,
             duration: 5000, // 5 seconds

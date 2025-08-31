@@ -20,7 +20,7 @@ export const validateDocumentForm = (
 
   // Basic required fields
   if (!documentNumber.trim()) {
-    errors.documentNumber = "Số văn bản là bắt buộc";
+    errors.documentNumber = "Số công văn là bắt buộc";
   }
 
   if (!documentTitle.trim()) {

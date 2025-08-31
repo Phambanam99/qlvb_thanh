@@ -361,7 +361,7 @@ export default function DepartmentDetailPage({
         <TabsList className="mb-4">
           <TabsTrigger value="details">Thông tin chung</TabsTrigger>
           <TabsTrigger value="users">Người dùng</TabsTrigger>
-          <TabsTrigger value="documents">Văn bản</TabsTrigger>
+          <TabsTrigger value="documents">công văn</TabsTrigger>
         </TabsList>
 
         <TabsContent value="details">
@@ -639,9 +639,9 @@ export default function DepartmentDetailPage({
         <TabsContent value="documents">
           <Card>
             <CardHeader>
-              <CardTitle>Văn bản liên quan</CardTitle>
+              <CardTitle>công văn liên quan</CardTitle>
               <CardDescription>
-                Danh sách văn bản liên quan đến phòng ban này
+                Danh sách công văn liên quan đến phòng ban này
               </CardDescription>
             </CardHeader>
             <CardContent>

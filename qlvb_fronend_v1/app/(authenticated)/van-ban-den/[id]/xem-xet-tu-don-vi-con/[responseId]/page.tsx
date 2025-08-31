@@ -81,7 +81,7 @@ export default function ParentDepartmentReviewPage({
       } catch (error) {
         toast({
           title: "Lỗi",
-          description: "Không thể tải thông tin văn bản và phản hồi",
+          description: "Không thể tải thông tin công văn và phản hồi",
           variant: "destructive",
         });
       } finally {
@@ -108,7 +108,7 @@ export default function ParentDepartmentReviewPage({
             </Link>
           </Button>
           <h1 className="text-2xl font-bold tracking-tight">
-            Xem xét văn bản từ đơn vị con
+            Xem xét công văn từ đơn vị con
           </h1>
         </div>
 
@@ -116,7 +116,7 @@ export default function ParentDepartmentReviewPage({
           <AlertCircle className="h-4 w-4" />
           <AlertTitle>Lỗi</AlertTitle>
           <AlertDescription>
-            Không thể tải thông tin văn bản và phản hồi. Vui lòng thử lại sau.
+            Không thể tải thông tin công văn và phản hồi. Vui lòng thử lại sau.
           </AlertDescription>
         </Alert>
       </div>
@@ -137,7 +137,7 @@ export default function ParentDepartmentReviewPage({
           </Link>
         </Button>
         <h1 className="text-2xl font-bold tracking-tight text-primary">
-          Xem xét văn bản từ đơn vị con
+          Xem xét công văn từ đơn vị con
         </h1>
       </div>
 
@@ -152,7 +152,7 @@ export default function ParentDepartmentReviewPage({
         <div className="md:col-span-3">
           <div className="bg-primary/5 border rounded-md p-4">
             <h3 className="font-medium mb-2">
-              Hướng dẫn xem xét văn bản từ đơn vị con
+              Hướng dẫn xem xét công văn từ đơn vị con
             </h3>
             <ul className="space-y-2 text-sm">
               <li className="flex items-start">
@@ -160,7 +160,7 @@ export default function ParentDepartmentReviewPage({
                   1
                 </span>
                 <span>
-                  Xem xét nội dung văn bản trả lời đã được đơn vị con phê duyệt
+                  Xem xét nội dung công văn trả lời đã được đơn vị con phê duyệt
                 </span>
               </li>
               <li className="flex items-start">
@@ -192,7 +192,7 @@ export default function ParentDepartmentReviewPage({
               <p className="text-sm text-amber-800">
                 <span className="font-medium">Lưu ý:</span> Đây là bước trong
                 quy trình phê duyệt theo cấp. Nếu đơn vị của bạn có đơn vị cha,
-                sau khi phê duyệt, văn bản sẽ được chuyển lên cấp trên tiếp theo
+                sau khi phê duyệt, công văn sẽ được chuyển lên cấp trên tiếp theo
                 để xem xét. Khi trả lại, đơn vị con sẽ nhận được thông báo và ý
                 kiến chỉ đạo của bạn.
               </p>

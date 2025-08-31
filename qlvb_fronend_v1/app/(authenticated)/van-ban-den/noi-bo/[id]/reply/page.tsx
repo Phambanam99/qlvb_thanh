@@ -236,7 +236,7 @@ export default function ReplyInternalDocumentPage() {
         toast({
           title: "Lỗi",
           description:
-            "Không thể tải thông tin văn bản gốc. Vui lòng thử lại sau.",
+            "Không thể tải thông tin công văn gốc. Vui lòng thử lại sau.",
           variant: "destructive",
         });
       } finally {
@@ -312,13 +312,13 @@ export default function ReplyInternalDocumentPage() {
     const errors: Record<string, string> = {};
     
     if (!formData.documentNumber) {
-      errors.documentNumber = "Vui lòng nhập số văn bản";
+      errors.documentNumber = "Vui lòng nhập số công văn";
     }
     if (!formData.title) {
       errors.title = "Vui lòng nhập tiêu đề";
     }
     if (!formData.documentType) {
-      errors.documentType = "Vui lòng chọn loại văn bản";
+      errors.documentType = "Vui lòng chọn loại công văn";
     }
     if (!formData.documentSignerId) {
       errors.documentSignerId = "Vui lòng chọn người ký";
@@ -359,7 +359,7 @@ export default function ReplyInternalDocumentPage() {
       if (!formData.documentSignerId) {
         toast({
           title: "Lỗi",
-          description: "Vui lòng chọn người ký văn bản",
+          description: "Vui lòng chọn người ký công văn",
           variant: "destructive",
         });
         return;
@@ -409,7 +409,7 @@ export default function ReplyInternalDocumentPage() {
       if (result_.success === false || (result_.message && result_.data === null)) {
         toast({
           title: "Lỗi",
-          description: result_.message || "Có lỗi xảy ra khi gửi văn bản",
+          description: result_.message || "Có lỗi xảy ra khi gửi công văn",
           variant: "destructive",
         });
         return; // Stop execution if there's an error
@@ -420,13 +420,13 @@ export default function ReplyInternalDocumentPage() {
         // Show success message
         toast({
           title: "Thành công",
-          description: "Văn bản trả lời đã được gửi",
+          description: "công văn trả lời đã được gửi",
         });
 
         // Add notification
         addNotification({
-          title: "Văn bản trả lời mới",
-          message: `Văn bản trả lời "${formDataToSubmit.title}" đã được gửi`,
+          title: "công văn trả lời mới",
+          message: `công văn trả lời "${formDataToSubmit.title}" đã được gửi`,
           type: "success",
         });
 
@@ -436,7 +436,7 @@ export default function ReplyInternalDocumentPage() {
     } catch (error) {
       toast({
         title: "Lỗi",
-        description: "Không thể gửi văn bản. Vui lòng thử lại sau.",
+        description: "Không thể gửi công văn. Vui lòng thử lại sau.",
         variant: "destructive",
       });
     } finally {
@@ -449,7 +449,7 @@ export default function ReplyInternalDocumentPage() {
     if (!formData.documentNumber || !formData.title) {
       toast({
         title: "Thiếu thông tin",
-        description: "Vui lòng điền ít nhất số văn bản và tiêu đề",
+        description: "Vui lòng điền ít nhất số công văn và tiêu đề",
         variant: "destructive",
       });
       return;
@@ -492,7 +492,7 @@ export default function ReplyInternalDocumentPage() {
 
       toast({
         title: "Thành công",
-        description: "Văn bản trả lời đã được lưu nháp",
+        description: "công văn trả lời đã được lưu nháp",
       });
 
       router.push(`/van-ban-den/noi-bo/${originalDocumentId}`);
@@ -525,9 +525,9 @@ export default function ReplyInternalDocumentPage() {
     return (
       <div className="flex h-[80vh] items-center justify-center">
         <div className="text-center">
-          <h2 className="text-xl font-semibold">Không tìm thấy văn bản</h2>
+          <h2 className="text-xl font-semibold">Không tìm thấy công văn</h2>
           <p className="mt-2 text-sm text-muted-foreground">
-            Không thể tải thông tin văn bản gốc để trả lời
+            Không thể tải thông tin công văn gốc để trả lời
           </p>
           <Button asChild className="mt-4">
             <Link href="/van-ban-den">
@@ -549,7 +549,7 @@ export default function ReplyInternalDocumentPage() {
             </Link>
           </Button>
           <h1 className="text-2xl font-bold tracking-tight text-primary">
-            Trả lời văn bản nội bộ
+            Trả lời công văn nội bộ
           </h1>
         </div>
         <div className="flex items-center space-x-2">
@@ -589,15 +589,15 @@ export default function ReplyInternalDocumentPage() {
           <CardHeader className="bg-secondary/10 border-b">
             <CardTitle className="flex items-center gap-2">
               <MessageSquare className="h-5 w-5" />
-              Văn bản gốc
+              công văn gốc
             </CardTitle>
-            <CardDescription>Thông tin văn bản đang trả lời</CardDescription>
+            <CardDescription>Thông tin công văn đang trả lời</CardDescription>
           </CardHeader>
           <CardContent className="pt-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="text-sm font-medium text-muted-foreground">
-                  Số văn bản
+                  Số công văn
                 </label>
                 <p className="font-medium">{originalDocument.documentNumber}</p>
               </div>
@@ -649,9 +649,9 @@ export default function ReplyInternalDocumentPage() {
         <form ref={formRef} id="reply-form" onSubmit={handleSubmit}>
           <Card>
             <CardHeader className="bg-primary/5 border-b">
-              <CardTitle>Thông tin văn bản trả lời</CardTitle>
+              <CardTitle>Thông tin công văn trả lời</CardTitle>
               <CardDescription>
-                Nhập thông tin cho văn bản trả lời
+                Nhập thông tin cho công văn trả lời
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-8 pt-6">
@@ -663,14 +663,14 @@ export default function ReplyInternalDocumentPage() {
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="documentNumber">
-                      Số văn bản <span className="text-red-500">*</span>
+                      Số công văn <span className="text-red-500">*</span>
                     </Label>
                     <Input
                       id="documentNumber"
                       name="documentNumber"
                       value={formData.documentNumber}
                       onChange={handleInputChange}
-                      placeholder="Nhập số văn bản trả lời"
+                      placeholder="Nhập số công văn trả lời"
                       required
                       className={
                         validationErrors.documentNumber ? "border-red-500" : ""
@@ -710,7 +710,7 @@ export default function ReplyInternalDocumentPage() {
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="documentType">
-                      Loại văn bản <span className="text-red-500">*</span>
+                      Loại công văn <span className="text-red-500">*</span>
                     </Label>
                     <Select
                       value={formData.documentType}
@@ -722,16 +722,16 @@ export default function ReplyInternalDocumentPage() {
                         id="documentType"
                         className={validationErrors.documentType ? "border-red-500" : ""}
                       >
-                        <SelectValue placeholder="Chọn loại văn bản" />
+                        <SelectValue placeholder="Chọn loại công văn" />
                       </SelectTrigger>
                       <SelectContent>
                         {isLoadingDocumentTypes ? (
                           <SelectItem value="loading" disabled>
-                            Đang tải danh sách loại văn bản...
+                            Đang tải danh sách loại công văn...
                           </SelectItem>
                         ) : documentTypes.length === 0 ? (
                           <SelectItem value="empty" disabled>
-                            Chưa có loại văn bản nào
+                            Chưa có loại công văn nào
                           </SelectItem>
                         ) : (
                           documentTypes.map((type) => (
@@ -979,7 +979,7 @@ export default function ReplyInternalDocumentPage() {
                 />
                 <p className="text-sm text-muted-foreground">
                   Có thể chọn nhiều file. Định dạng hỗ trợ: PDF, Word, Excel,
-                  PowerPoint, hình ảnh, văn bản.
+                  PowerPoint, hình ảnh, công văn.
                 </p>
 
                 {/* Display selected files */}
@@ -1030,7 +1030,7 @@ export default function ReplyInternalDocumentPage() {
                     name="title"
                     value={formData.title}
                     onChange={handleInputChange}
-                    placeholder="Nhập tiêu đề văn bản trả lời"
+                    placeholder="Nhập tiêu đề công văn trả lời"
                     required
                     className={validationErrors.title ? "border-red-500" : ""}
                   />

@@ -322,7 +322,7 @@ export const getReceivedDocumentsExcludingSent = async (
     params: { page, size },
   });
 
-  // Lọc ra những văn bản không phải do chính user tạo
+  // Lọc ra những công văn không phải do chính user tạo
   if (response.data && response.data.content) {
     // Lấy thông tin user hiện tại từ localStorage hoặc context
     const userStr = localStorage.getItem("user");
@@ -347,7 +347,7 @@ export const getReceivedDocumentsExcludingSent = async (
 export const getAllReceivedDocumentsExcludingSent = async () => {
   const response = await api.get("/internal-documents/received/all");
 
-  // Lọc ra những văn bản không phải do chính user tạo
+  // Lọc ra những công văn không phải do chính user tạo
   if (response.data && response.data.data) {
     // Lấy thông tin user hiện tại từ localStorage hoặc context
     const userStr = localStorage.getItem("user");

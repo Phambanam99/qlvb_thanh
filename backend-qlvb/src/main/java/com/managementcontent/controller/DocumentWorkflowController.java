@@ -91,12 +91,12 @@ public class DocumentWorkflowController {
                     targetStatus,
                     currentUser,
                     workflowDTO.getComments())
-                    .map(document -> ResponseEntity.ok(ResponseDTO.success("Cập nhật trạng thái văn bản thành công")))
+                    .map(document -> ResponseEntity.ok(ResponseDTO.success("Cập nhật trạng thái công văn thành công")))
                     .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)
-                            .body(ResponseDTO.error("Không tìm thấy văn bản")));
+                            .body(ResponseDTO.error("Không tìm thấy công văn")));
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                    .body(ResponseDTO.error("Lỗi khi thay đổi trạng thái văn bản: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi thay đổi trạng thái công văn: " + e.getMessage()));
         }
     }
 
@@ -137,12 +137,12 @@ public class DocumentWorkflowController {
                     assignedTo,
                     currentUser,
                     workflowDTO.getComments())
-                    .map(history -> ResponseEntity.ok(ResponseDTO.success("Phân công văn bản thành công")))
+                    .map(history -> ResponseEntity.ok(ResponseDTO.success("Phân công công văn thành công")))
                     .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)
-                            .body(ResponseDTO.error("Không tìm thấy văn bản")));
+                            .body(ResponseDTO.error("Không tìm thấy công văn")));
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                    .body(ResponseDTO.error("Lỗi khi phân công văn bản: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi phân công công văn: " + e.getMessage()));
         }
     }
 
@@ -161,7 +161,7 @@ public class DocumentWorkflowController {
 
             if (history.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body(ResponseDTO.error("Không tìm thấy lịch sử văn bản"));
+                        .body(ResponseDTO.error("Không tìm thấy lịch sử công văn"));
             }
 
             List<DocumentHistoryDTO> historyDTOs = history.stream()
@@ -171,7 +171,7 @@ public class DocumentWorkflowController {
             return ResponseEntity.ok(ResponseDTO.success(historyDTOs));
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                    .body(ResponseDTO.error("Lỗi khi lấy lịch sử văn bản: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi lấy lịch sử công văn: " + e.getMessage()));
         }
     }
 
@@ -190,7 +190,7 @@ public class DocumentWorkflowController {
 
             if (status == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body(ResponseDTO.error("Không tìm thấy văn bản"));
+                        .body(ResponseDTO.error("Không tìm thấy công văn"));
             }
 
             DocumentWorkflowDTO dto = new DocumentWorkflowDTO();
@@ -232,7 +232,7 @@ public class DocumentWorkflowController {
             return ResponseEntity.ok(ResponseDTO.success(dto));
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                    .body(ResponseDTO.error("Lỗi khi lấy trạng thái văn bản: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi lấy trạng thái công văn: " + e.getMessage()));
         }
     }
 
@@ -259,10 +259,10 @@ public class DocumentWorkflowController {
             return documentWorkflowService.registerIncomingDocument(documentId, currentUser, workflowDTO.getComments())
                     .map(document -> ResponseEntity.ok(ResponseDTO.success("Document successfully registered")))
                     .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)
-                            .body(ResponseDTO.error("Không tìm thấy văn bản")));
+                            .body(ResponseDTO.error("Không tìm thấy công văn")));
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                    .body(ResponseDTO.error("Lỗi khi đăng ký văn bản: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi đăng ký công văn: " + e.getMessage()));
         }
     }
 
@@ -287,14 +287,14 @@ public class DocumentWorkflowController {
             return documentWorkflowService.publishOutgoingDocument(documentId, currentUser, workflowDTO.getComments())
                     .map(document -> ResponseEntity.ok(ResponseDTO.success("Document successfully published")))
                     .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)
-                            .body(ResponseDTO.error("Không tìm thấy văn bản")));
+                            .body(ResponseDTO.error("Không tìm thấy công văn")));
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                    .body(ResponseDTO.error("Lỗi khi xuất bản văn bản: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi xuất bản công văn: " + e.getMessage()));
         }
     }
 
-    // ==================== 2. Phân văn bản Endpoints ====================
+    // ==================== 2. Phân công văn Endpoints ====================
 
     @Operation(summary = "Distribute document", description = "Distribute document to relevant departments")
     @ApiResponses({
@@ -359,7 +359,7 @@ public class DocumentWorkflowController {
                     }
                 }
 
-                // Phân phối văn bản đến các phòng ban
+                // Phân phối công văn đến các phòng ban
                 Optional<Document> result = documentWorkflowService.distributeDocument(
                         documentId,
                         primaryDepartmentId,
@@ -390,7 +390,7 @@ public class DocumentWorkflowController {
                     return ResponseEntity.ok(ResponseDTO.success(response));
                 } else {
                     return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                            .body(ResponseDTO.error("Không tìm thấy văn bản"));
+                            .body(ResponseDTO.error("Không tìm thấy công văn"));
                 }
             } else {
                 // Nếu không có thông tin phòng ban, sử dụng phương thức cũ
@@ -398,16 +398,16 @@ public class DocumentWorkflowController {
                         .map(document -> ResponseEntity
                                 .ok(ResponseDTO.success((Object) "Document successfully distributed")))
                         .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)
-                                .body(ResponseDTO.error("Không tìm thấy văn bản")));
+                                .body(ResponseDTO.error("Không tìm thấy công văn")));
             }
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                    .body(ResponseDTO.error("Lỗi khi phân phối văn bản: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi phân phối công văn: " + e.getMessage()));
         }
     }
 
     /**
-     * API để lấy danh sách phòng ban được phân công xử lý một văn bản
+     * API để lấy danh sách phòng ban được phân công xử lý một công văn
      */
     @Operation(summary = "Get document departments", description = "Get departments assigned to process a document")
     @ApiResponses({
@@ -464,12 +464,12 @@ public class DocumentWorkflowController {
             return documentWorkflowService
                     .assignToSpecialist(documentId, specialist, currentUser, workflowDTO.getComments())
                     .map(history -> ResponseEntity
-                            .ok(ResponseDTO.success("Phân công văn bản cho chuyên viên thành công")))
+                            .ok(ResponseDTO.success("Phân công công văn cho chuyên viên thành công")))
                     .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)
-                            .body(ResponseDTO.error("Không tìm thấy văn bản")));
+                            .body(ResponseDTO.error("Không tìm thấy công văn")));
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                    .body(ResponseDTO.error("Lỗi khi phân công văn bản cho chuyên viên: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi phân công công văn cho chuyên viên: " + e.getMessage()));
         }
     }
 
@@ -496,10 +496,10 @@ public class DocumentWorkflowController {
                     .map(document -> ResponseEntity
                             .ok(ResponseDTO.success("Document successfully forwarded to leadership")))
                     .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)
-                            .body(ResponseDTO.error("Không tìm thấy văn bản")));
+                            .body(ResponseDTO.error("Không tìm thấy công văn")));
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                    .body(ResponseDTO.error("Lỗi khi chuyển văn bản cho lãnh đạo: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi chuyển công văn cho lãnh đạo: " + e.getMessage()));
         }
     }
 
@@ -526,10 +526,10 @@ public class DocumentWorkflowController {
             return documentWorkflowService.startProcessingDocument(documentId, currentUser, workflowDTO.getComments())
                     .map(document -> ResponseEntity.ok(ResponseDTO.success("Document processing started")))
                     .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)
-                            .body(ResponseDTO.error("Không tìm thấy văn bản")));
+                            .body(ResponseDTO.error("Không tìm thấy công văn")));
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                    .body(ResponseDTO.error("Lỗi khi bắt đầu xử lý văn bản: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi bắt đầu xử lý công văn: " + e.getMessage()));
         }
     }
 
@@ -555,10 +555,10 @@ public class DocumentWorkflowController {
                     .map(document -> ResponseEntity
                             .ok(ResponseDTO.success("Document successfully submitted to leadership")))
                     .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)
-                            .body(ResponseDTO.error("Không tìm thấy văn bản")));
+                            .body(ResponseDTO.error("Không tìm thấy công văn")));
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                    .body(ResponseDTO.error("Lỗi khi gửi văn bản cho lãnh đạo: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi gửi công văn cho lãnh đạo: " + e.getMessage()));
         }
     }
 
@@ -585,10 +585,10 @@ public class DocumentWorkflowController {
             return documentWorkflowService.startReviewingDocument(documentId, currentUser, comment)
                     .map(document -> ResponseEntity.ok(ResponseDTO.success("Document review started")))
                     .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)
-                            .body(ResponseDTO.error("Không tìm thấy văn bản")));
+                            .body(ResponseDTO.error("Không tìm thấy công văn")));
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                    .body(ResponseDTO.error("Lỗi khi bắt đầu xem xét văn bản: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi bắt đầu xem xét công văn: " + e.getMessage()));
         }
     }
 
@@ -625,7 +625,7 @@ public class DocumentWorkflowController {
             return documentWorkflowService.provideDocumentFeedback(documentId, currentUser, workflowDTO.getComments())
                     .map(document -> ResponseEntity.ok(ResponseDTO.success("Feedback provided successfully")))
                     .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)
-                            .body(ResponseDTO.error("Không tìm thấy văn bản")));
+                            .body(ResponseDTO.error("Không tìm thấy công văn")));
         } catch (Exception e) {
             return ResponseEntity.badRequest()
                     .body(ResponseDTO.error("Lỗi khi cung cấp phản hồi: " + e.getMessage()));
@@ -633,7 +633,7 @@ public class DocumentWorkflowController {
     }
 
     /**
-     * Thủ trưởng cục cho ý kiến/từ chối văn bản với file đính kèm (endpoint hợp
+     * Thủ trưởng cục cho ý kiến/từ chối công văn với file đính kèm (endpoint hợp
      * nhất)
      */
     @Operation(summary = "Leader feedback with attachment", description = "Leader provides feedback/rejection with attachment")
@@ -674,13 +674,13 @@ public class DocumentWorkflowController {
                     savedFilename = null;
                 }
 
-                // Cập nhật trạng thái văn bản với hoặc không có file đính kèm
+                // Cập nhật trạng thái công văn với hoặc không có file đính kèm
                 return documentWorkflowService
                         .provideDocumentFeedbackWithAttachment(documentId, currentUser, comments, savedFilename)
                         .map(document -> ResponseEntity
                                 .ok(ResponseDTO.success("Leader feedback provided successfully")))
                         .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)
-                                .body(ResponseDTO.error("Không tìm thấy văn bản")));
+                                .body(ResponseDTO.error("Không tìm thấy công văn")));
             } catch (IOException e) {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                         .body(ResponseDTO.error("Failed to upload attachment: " + e.getMessage()));
@@ -730,14 +730,14 @@ public class DocumentWorkflowController {
                     savedFilename = null;
                 }
 
-                // Cập nhật trạng thái văn bản với file đính kèm
+                // Cập nhật trạng thái công văn với file đính kèm
                 return documentWorkflowService
                         .provideDocumentFeedbackWithAttachment(documentId, currentUser, comments, savedFilename)
 
                         .map(document -> ResponseEntity
                                 .ok(ResponseDTO.success("Feedback with attachment provided successfully")))
                         .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)
-                                .body(ResponseDTO.error("Không tìm thấy văn bản")));
+                                .body(ResponseDTO.error("Không tìm thấy công văn")));
             } catch (IOException e) {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                         .body(ResponseDTO.error("Failed to upload attachment: " + e.getMessage()));
@@ -773,16 +773,16 @@ public class DocumentWorkflowController {
 
             if (!isLeader) {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                        .body(ResponseDTO.error("Chỉ các trưởng phòng mới có quyền phê duyệt văn bản"));
+                        .body(ResponseDTO.error("Chỉ các trưởng phòng mới có quyền phê duyệt công văn"));
             }
 
             return documentWorkflowService.approveDocument(documentId, currentUser, workflowDTO.getComments())
                     .map(document -> ResponseEntity.ok(ResponseDTO.success("Document approved successfully")))
                     .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)
-                            .body(ResponseDTO.error("Không tìm thấy văn bản")));
+                            .body(ResponseDTO.error("Không tìm thấy công văn")));
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                    .body(ResponseDTO.error("Lỗi khi phê duyệt văn bản: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi phê duyệt công văn: " + e.getMessage()));
         }
     }
 
@@ -809,20 +809,20 @@ public class DocumentWorkflowController {
                 // Lưu file đính kèm
                 String savedFilename = saveAttachmentFile(file, "rejection_" + documentId + "_");
 
-                // Cập nhật trạng thái văn bản với file đính kèm
+                // Cập nhật trạng thái công văn với file đính kèm
                 return documentWorkflowService
                         .rejectDocumentWithAttachment(documentId, currentUser, comments, savedFilename)
                         .map(document -> ResponseEntity
                                 .ok(ResponseDTO.success("Document rejected with attachment successfully")))
                         .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)
-                                .body(ResponseDTO.error("Không tìm thấy văn bản")));
+                                .body(ResponseDTO.error("Không tìm thấy công văn")));
             } catch (IOException e) {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                         .body(ResponseDTO.error("Failed to upload attachment: " + e.getMessage()));
             }
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                    .body(ResponseDTO.error("Lỗi khi từ chối văn bản: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi từ chối công văn: " + e.getMessage()));
         }
     }
 
@@ -881,7 +881,7 @@ public class DocumentWorkflowController {
                 // Check if document number already exists
                 if (incomingDocumentService.findByDocumentNumber(documentNumber).isPresent()) {
                     return ResponseEntity.status(HttpStatus.CONFLICT)
-                            .body(ResponseDTO.error("Số văn bản '" + documentNumber + "' đã tồn tại trong hệ thống"));
+                            .body(ResponseDTO.error("Số công văn '" + documentNumber + "' đã tồn tại trong hệ thống"));
                 }
             }
 
@@ -912,16 +912,16 @@ public class DocumentWorkflowController {
             return ResponseEntity.status(HttpStatus.CREATED).body(ResponseDTO.success("Document created successfully"));
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ResponseDTO.error("Lỗi khi tạo văn bản: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi tạo công văn: " + e.getMessage()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ResponseDTO.error("Lỗi khi tạo văn bản: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi tạo công văn: " + e.getMessage()));
         }
     }
 
     /**
      * Tạo full document với nhiều file đính kèm
-     * 1. Tạo văn bản đến
+     * 1. Tạo công văn đến
      * 2. Đăng ký workflow
      * 3. Phân phối nếu có
      * 4. Upload nhiều file đính kèm
@@ -953,7 +953,7 @@ public class DocumentWorkflowController {
                 // Check if document number already exists
                 if (incomingDocumentService.findByDocumentNumber(documentNumber).isPresent()) {
                     return ResponseEntity.status(HttpStatus.CONFLICT)
-                            .body(ResponseDTO.error("Số văn bản '" + documentNumber + "' đã tồn tại trong hệ thống"));
+                            .body(ResponseDTO.error("Số công văn '" + documentNumber + "' đã tồn tại trong hệ thống"));
                 }
             }
 
@@ -1032,7 +1032,7 @@ public class DocumentWorkflowController {
             System.err.println("Error creating document: " + e.getMessage());
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ResponseDTO.error("Lỗi khi tạo văn bản: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi tạo công văn: " + e.getMessage()));
         }
     }
 
@@ -1068,7 +1068,7 @@ public class DocumentWorkflowController {
             } catch (RuntimeException e) {
                 if (e.getMessage().contains("not found")) {
                     return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                            .body(ResponseDTO.error("Không tìm thấy văn bản"));
+                            .body(ResponseDTO.error("Không tìm thấy công văn"));
                 }
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                         .body(ResponseDTO.error("Lỗi khi cập nhật file đính kèm: " + e.getMessage()));
@@ -1078,7 +1078,7 @@ public class DocumentWorkflowController {
             }
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                    .body(ResponseDTO.error("Lỗi khi cập nhật văn bản: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi cập nhật công văn: " + e.getMessage()));
         }
     }
 
@@ -1144,10 +1144,10 @@ public class DocumentWorkflowController {
         return dto;
     }
 
-    @Operation(summary = "Tạo văn bản đi trả lời cho văn bản đến", description = "Tạo văn bản đi mới liên kết với văn bản đến, với đầy đủ quy trình trả lời")
+    @Operation(summary = "Tạo công văn đi trả lời cho công văn đến", description = "Tạo công văn đi mới liên kết với công văn đến, với đầy đủ quy trình trả lời")
     @ApiResponses({
-            @ApiResponse(responseCode = "201", description = "Văn bản trả lời được tạo thành công"),
-            @ApiResponse(responseCode = "404", description = "Không tìm thấy văn bản đến"),
+            @ApiResponse(responseCode = "201", description = "công văn trả lời được tạo thành công"),
+            @ApiResponse(responseCode = "404", description = "Không tìm thấy công văn đến"),
             @ApiResponse(responseCode = "400", description = "Dữ liệu không hợp lệ")
     })
     @PostMapping(value = "/incoming/{incomingDocId}/reply", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -1156,12 +1156,12 @@ public class DocumentWorkflowController {
             @Parameter(description = "Document details", required = true) @RequestPart("data") FullOutgoingDocumentDTO data,
             @Parameter(description = "File to upload") @RequestPart(value = "attachments", required = false) MultipartFile file) {
         System.out.println("Creating response document for incomingDocId: " + incomingDocId);
-        // Kiểm tra văn bản đến tồn tại
+        // Kiểm tra công văn đến tồn tại
         Optional<IncomingDocument> incomingDocOpt = incomingDocumentService.findIncomingDocumentById(incomingDocId);
         if (incomingDocOpt.isEmpty()) {
 
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(ResponseDTO.error("Không tìm thấy văn bản đến"));
+                    .body(ResponseDTO.error("Không tìm thấy công văn đến"));
         }
 
         try {
@@ -1192,14 +1192,14 @@ public class DocumentWorkflowController {
         } catch (Exception e) {
             System.out.println("Error creating response document: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(ResponseDTO.error("Lỗi khi tạo văn bản trả lời: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi tạo công văn trả lời: " + e.getMessage()));
         }
     }
 
-    @Operation(summary = "Tạo văn bản đi trả lời cho văn bản đến với nhiều file đính kèm", description = "Tạo văn bản đi mới liên kết với văn bản đến, với đầy đủ quy trình trả lời và hỗ trợ nhiều file đính kèm")
+    @Operation(summary = "Tạo công văn đi trả lời cho công văn đến với nhiều file đính kèm", description = "Tạo công văn đi mới liên kết với công văn đến, với đầy đủ quy trình trả lời và hỗ trợ nhiều file đính kèm")
     @ApiResponses({
-            @ApiResponse(responseCode = "201", description = "Văn bản trả lời được tạo thành công với nhiều file đính kèm"),
-            @ApiResponse(responseCode = "404", description = "Không tìm thấy văn bản đến"),
+            @ApiResponse(responseCode = "201", description = "công văn trả lời được tạo thành công với nhiều file đính kèm"),
+            @ApiResponse(responseCode = "404", description = "Không tìm thấy công văn đến"),
             @ApiResponse(responseCode = "400", description = "Dữ liệu không hợp lệ")
     })
     @PostMapping(value = "/incoming/{incomingDocId}/reply-multi-attachments", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -1210,11 +1210,11 @@ public class DocumentWorkflowController {
 
         System.out.println("Creating response document with multiple attachments for incomingDocId: " + incomingDocId);
 
-        // Kiểm tra văn bản đến tồn tại
+        // Kiểm tra công văn đến tồn tại
         Optional<IncomingDocument> incomingDocOpt = incomingDocumentService.findIncomingDocumentById(incomingDocId);
         if (incomingDocOpt.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(ResponseDTO.error("Không tìm thấy văn bản đến"));
+                    .body(ResponseDTO.error("Không tìm thấy công văn đến"));
         }
 
         try {
@@ -1248,7 +1248,7 @@ public class DocumentWorkflowController {
         } catch (Exception e) {
             System.out.println("Error creating response document: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(ResponseDTO.error("Lỗi khi tạo văn bản trả lời: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi tạo công văn trả lời: " + e.getMessage()));
         }
     }
 
@@ -1306,7 +1306,7 @@ public class DocumentWorkflowController {
                         }
                     })
                     .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)
-                            .body(ResponseDTO.error("Không tìm thấy lịch sử văn bản")));
+                            .body(ResponseDTO.error("Không tìm thấy lịch sử công văn")));
         } catch (Exception e) {
             return ResponseEntity.badRequest()
                     .body(ResponseDTO.error("Lỗi khi tải file đính kèm: " + e.getMessage()));
@@ -1366,10 +1366,10 @@ public class DocumentWorkflowController {
                     .map(document -> ResponseEntity
                             .ok(ResponseDTO.success("Document review started by department header")))
                     .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)
-                            .body(ResponseDTO.error("Không tìm thấy văn bản")));
+                            .body(ResponseDTO.error("Không tìm thấy công văn")));
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                    .body(ResponseDTO.error("Lỗi khi bắt đầu xem xét văn bản bởi trưởng phòng: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi bắt đầu xem xét công văn bởi trưởng phòng: " + e.getMessage()));
         }
     }
 
@@ -1404,7 +1404,7 @@ public class DocumentWorkflowController {
                     .map(document -> ResponseEntity
                             .ok(ResponseDTO.success("Department header feedback provided successfully")))
                     .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)
-                            .body(ResponseDTO.error("Không tìm thấy văn bản")));
+                            .body(ResponseDTO.error("Không tìm thấy công văn")));
         } catch (Exception e) {
             return ResponseEntity.badRequest()
                     .body(ResponseDTO.error("Lỗi khi cung cấp phản hồi từ trưởng phòng: " + e.getMessage()));
@@ -1448,13 +1448,13 @@ public class DocumentWorkflowController {
                 // Lưu file đính kèm
                 String savedFilename = saveAttachmentFile(file, "header_feedback_" + documentId + "_");
 
-                // Cập nhật trạng thái văn bản với file đính kèm
+                // Cập nhật trạng thái công văn với file đính kèm
                 return documentWorkflowService
                         .commentHeaderDepartmentWithAttachment(documentId, currentUser, comments, savedFilename)
                         .map(document -> ResponseEntity.ok(ResponseDTO
                                 .success("Department header feedback with attachment provided successfully")))
                         .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)
-                                .body(ResponseDTO.error("Không tìm thấy văn bản")));
+                                .body(ResponseDTO.error("Không tìm thấy công văn")));
             } catch (IOException e) {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                         .body(ResponseDTO.error("Failed to upload attachment: " + e.getMessage()));
@@ -1466,7 +1466,7 @@ public class DocumentWorkflowController {
     }
 
     /**
-     * Chỉ huy đơn vị cho ý kiến/từ chối văn bản với file đính kèm (endpoint hợp
+     * Chỉ huy đơn vị cho ý kiến/từ chối công văn với file đính kèm (endpoint hợp
      * nhất)
      */
     @Operation(summary = "Department header feedback with attachment", description = "Department header provides feedback/rejection with attachment")
@@ -1511,13 +1511,13 @@ public class DocumentWorkflowController {
                     savedFilename = null;
                 }
 
-                // Cập nhật trạng thái văn bản với hoặc không có file đính kèm
+                // Cập nhật trạng thái công văn với hoặc không có file đính kèm
                 return documentWorkflowService
                         .commentHeaderDepartmentWithAttachment(documentId, currentUser, comments, savedFilename)
                         .map(document -> ResponseEntity
                                 .ok(ResponseDTO.success("Department header feedback provided successfully")))
                         .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)
-                                .body(ResponseDTO.error("Không tìm thấy văn bản")));
+                                .body(ResponseDTO.error("Không tìm thấy công văn")));
             } catch (IOException e) {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                         .body(ResponseDTO.error("Failed to upload attachment: " + e.getMessage()));
@@ -1557,17 +1557,17 @@ public class DocumentWorkflowController {
 
             if (!isHeaderDepartment) {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                        .body(ResponseDTO.error("Chỉ trưởng phòng mới có quyền phê duyệt văn bản"));
+                        .body(ResponseDTO.error("Chỉ trưởng phòng mới có quyền phê duyệt công văn"));
             }
 
             return documentWorkflowService.approveHeaderDepartment(documentId, currentUser, workflowDTO.getComments())
                     .map(document -> ResponseEntity
                             .ok(ResponseDTO.success("Document approved by department header successfully")))
                     .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)
-                            .body(ResponseDTO.error("Không tìm thấy văn bản")));
+                            .body(ResponseDTO.error("Không tìm thấy công văn")));
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                    .body(ResponseDTO.error("Lỗi khi phê duyệt văn bản bởi trưởng phòng: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi phê duyệt công văn bởi trưởng phòng: " + e.getMessage()));
         }
     }
 
@@ -1601,37 +1601,37 @@ public class DocumentWorkflowController {
 
             if (!isHeaderDepartment) {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                        .body(ResponseDTO.error("Chỉ trưởng phòng mới có quyền từ chối văn bản"));
+                        .body(ResponseDTO.error("Chỉ trưởng phòng mới có quyền từ chối công văn"));
             }
 
             try {
                 // Lưu file đính kèm
                 String savedFilename = saveAttachmentFile(file, "header_rejection_" + documentId + "_");
 
-                // Cập nhật trạng thái văn bản với file đính kèm
+                // Cập nhật trạng thái công văn với file đính kèm
                 return documentWorkflowService
                         .rejectDocumentWithAttachment(documentId, currentUser, comments, savedFilename)
                         .map(document -> ResponseEntity.ok(ResponseDTO
                                 .success("Document rejected with attachment by department header successfully")))
                         .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)
-                                .body(ResponseDTO.error("Không tìm thấy văn bản")));
+                                .body(ResponseDTO.error("Không tìm thấy công văn")));
             } catch (IOException e) {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                         .body(ResponseDTO.error("Failed to upload attachment: " + e.getMessage()));
             }
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                    .body(ResponseDTO.error("Lỗi khi từ chối văn bản bởi trưởng phòng: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi từ chối công văn bởi trưởng phòng: " + e.getMessage()));
         }
     }
 
-    // ==================== Tạo văn bản đi độc lập ====================
+    // ==================== Tạo công văn đi độc lập ====================
 
-    @Operation(summary = "Tạo văn bản đi độc lập", description = "Tạo văn bản đi mới không liên kết với văn bản đến nào")
+    @Operation(summary = "Tạo công văn đi độc lập", description = "Tạo công văn đi mới không liên kết với công văn đến nào")
     @ApiResponses({
-            @ApiResponse(responseCode = "201", description = "Văn bản đi độc lập được tạo thành công"),
+            @ApiResponse(responseCode = "201", description = "công văn đi độc lập được tạo thành công"),
             @ApiResponse(responseCode = "400", description = "Dữ liệu không hợp lệ"),
-            @ApiResponse(responseCode = "403", description = "Không có quyền tạo văn bản")
+            @ApiResponse(responseCode = "403", description = "Không có quyền tạo công văn")
     })
     @PostMapping(value = "/standalone-outgoing", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Transactional
@@ -1648,7 +1648,7 @@ public class DocumentWorkflowController {
         // Validate required fields
         if (documentDTO.getTitle() == null || documentDTO.getTitle().trim().isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(ResponseDTO.error("Tiêu đề văn bản không được để trống"));
+                    .body(ResponseDTO.error("Tiêu đề công văn không được để trống"));
         }
 
         if (documentDTO.getSummary() == null || documentDTO.getSummary().trim().isEmpty()) {
@@ -1657,7 +1657,7 @@ public class DocumentWorkflowController {
         }
 
         try {
-            // 1. Tạo văn bản đi
+            // 1. Tạo công văn đi
             OutgoingDocumentDTO createdDocument = outgoingDocumentService.createOutgoingDocument(documentDTO);
 
             // 2. Thêm nhiều file đính kèm nếu có
@@ -1684,9 +1684,9 @@ public class DocumentWorkflowController {
                 }
             }
 
-            // 3. Thiết lập trạng thái ban đầu cho văn bản đi độc lập
-            String comments = documentDTO.getSummary() != null ? "Tạo văn bản đi độc lập: " + documentDTO.getSummary()
-                    : "Tạo văn bản đi độc lập";
+            // 3. Thiết lập trạng thái ban đầu cho công văn đi độc lập
+            String comments = documentDTO.getSummary() != null ? "Tạo công văn đi độc lập: " + documentDTO.getSummary()
+                    : "Tạo công văn đi độc lập";
 
             documentWorkflowService.createStandaloneOutgoingDocument(
                     createdDocument.getId(),
@@ -1696,7 +1696,7 @@ public class DocumentWorkflowController {
             // 4. Chuẩn bị phản hồi
             Map<String, Object> response = new HashMap<>();
             response.put("document", createdDocument);
-            response.put("message", "Văn bản đi độc lập đã được tạo thành công");
+            response.put("message", "công văn đi độc lập đã được tạo thành công");
             response.put("status", "DRAFT");
 
             // Thông tin về file đính kèm
@@ -1715,22 +1715,22 @@ public class DocumentWorkflowController {
 
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(ResponseDTO.error("Lỗi khi tạo văn bản đi: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi tạo công văn đi: " + e.getMessage()));
         }
     }
 
-    // ==================== Chức năng Văn thư từ chối văn bản đi để chỉnh sửa thể
+    // ==================== Chức năng Văn thư từ chối công văn đi để chỉnh sửa thể
     // thức ====================
 
-    @Operation(summary = "Văn thư từ chối văn bản cần chỉnh sửa thể thức", description = "Văn thư từ chối văn bản để yêu cầu chỉnh sửa thể thức trước khi cấp số ban hành")
+    @Operation(summary = "Văn thư từ chối công văn cần chỉnh sửa thể thức", description = "Văn thư từ chối công văn để yêu cầu chỉnh sửa thể thức trước khi cấp số ban hành")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Văn bản đã được chuyển về trạng thái chỉnh sửa thể thức"),
-            @ApiResponse(responseCode = "404", description = "Không tìm thấy văn bản"),
-            @ApiResponse(responseCode = "403", description = "Không có quyền từ chối văn bản")
+            @ApiResponse(responseCode = "200", description = "công văn đã được chuyển về trạng thái chỉnh sửa thể thức"),
+            @ApiResponse(responseCode = "404", description = "Không tìm thấy công văn"),
+            @ApiResponse(responseCode = "403", description = "Không có quyền từ chối công văn")
     })
     @PutMapping("/{documentId}/format-correction")
     public ResponseEntity<ResponseDTO<Object>> rejectForFormatCorrection(
-            @Parameter(description = "ID của văn bản") @PathVariable Long documentId,
+            @Parameter(description = "ID của công văn") @PathVariable Long documentId,
             @Parameter(description = "Chi tiết yêu cầu chỉnh sửa", required = true) @RequestBody DocumentWorkflowDTO workflowDTO) {
 
         System.out.println("workflowDTO: " + workflowDTO);
@@ -1746,30 +1746,30 @@ public class DocumentWorkflowController {
 
         if (!isClerk) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                    .body(ResponseDTO.error("Chỉ văn thư mới có quyền từ chối văn bản để yêu cầu chỉnh sửa thể thức"));
+                    .body(ResponseDTO.error("Chỉ văn thư mới có quyền từ chối công văn để yêu cầu chỉnh sửa thể thức"));
         }
 
         return documentWorkflowService.rejectForFormatCorrection(documentId, currentUser, workflowDTO.getComments())
                 .map(document -> {
                     Map<String, Object> response = new HashMap<>();
-                    response.put("message", "Văn bản đã được chuyển về trạng thái chỉnh sửa thể thức");
+                    response.put("message", "công văn đã được chuyển về trạng thái chỉnh sửa thể thức");
                     response.put("documentId", documentId);
                     response.put("status", "FORMAT_CORRECTION");
                     return ResponseEntity.ok(ResponseDTO.success((Object) response));
                 })
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body(ResponseDTO.error("Không tìm thấy văn bản")));
+                        .body(ResponseDTO.error("Không tìm thấy công văn")));
     }
 
-    @Operation(summary = "Văn thư từ chối văn bản kèm file hướng dẫn", description = "Văn thư từ chối văn bản đi kèm file mẫu/hướng dẫn để yêu cầu chỉnh sửa thể thức")
+    @Operation(summary = "Văn thư từ chối công văn kèm file hướng dẫn", description = "Văn thư từ chối công văn đi kèm file mẫu/hướng dẫn để yêu cầu chỉnh sửa thể thức")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Văn bản đã được từ chối thành công"),
-            @ApiResponse(responseCode = "404", description = "Không tìm thấy văn bản"),
-            @ApiResponse(responseCode = "403", description = "Không có quyền từ chối văn bản")
+            @ApiResponse(responseCode = "200", description = "công văn đã được từ chối thành công"),
+            @ApiResponse(responseCode = "404", description = "Không tìm thấy công văn"),
+            @ApiResponse(responseCode = "403", description = "Không có quyền từ chối công văn")
     })
     @PutMapping(value = "/{documentId}/format-correction-with-attachment", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ResponseDTO<String>> rejectForFormatCorrectionWithAttachment(
-            @Parameter(description = "ID của văn bản") @PathVariable Long documentId,
+            @Parameter(description = "ID của công văn") @PathVariable Long documentId,
             @Parameter(description = "Lý do từ chối") @RequestPart("comments") String comments,
             @Parameter(description = "File mẫu/hướng dẫn") @RequestPart("file") MultipartFile file) {
 
@@ -1785,35 +1785,35 @@ public class DocumentWorkflowController {
 
         if (!isClerk) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                    .body(ResponseDTO.error("Chỉ văn thư mới có quyền từ chối văn bản để yêu cầu chỉnh sửa thể thức"));
+                    .body(ResponseDTO.error("Chỉ văn thư mới có quyền từ chối công văn để yêu cầu chỉnh sửa thể thức"));
         }
 
         try {
             // Lưu file đính kèm
             String savedFilename = saveAttachmentFile(file, "format_correction_" + documentId + "_");
 
-            // Cập nhật trạng thái văn bản với file đính kèm
+            // Cập nhật trạng thái công văn với file đính kèm
             return documentWorkflowService
                     .rejectForFormatCorrectionWithAttachment(documentId, currentUser, comments, savedFilename)
                     .map(document -> ResponseEntity.ok(ResponseDTO
-                            .success("Văn bản đã được chuyển về trạng thái chỉnh sửa thể thức kèm file hướng dẫn")))
+                            .success("công văn đã được chuyển về trạng thái chỉnh sửa thể thức kèm file hướng dẫn")))
                     .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)
-                            .body(ResponseDTO.error("Không tìm thấy văn bản")));
+                            .body(ResponseDTO.error("Không tìm thấy công văn")));
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(ResponseDTO.error("Lỗi khi tải lên file đính kèm: " + e.getMessage()));
         }
     }
 
-    @Operation(summary = "Tái trình văn bản sau khi chỉnh sửa thể thức", description = "Trợ lý/nhân viên gửi lại văn bản đã chỉnh sửa thể thức để văn thư xem xét cấp số và ban hành")
+    @Operation(summary = "Tái trình công văn sau khi chỉnh sửa thể thức", description = "Trợ lý/nhân viên gửi lại công văn đã chỉnh sửa thể thức để văn thư xem xét cấp số và ban hành")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Văn bản đã được tái trình thành công"),
-            @ApiResponse(responseCode = "404", description = "Văn bản không tồn tại"),
-            @ApiResponse(responseCode = "403", description = "Không có quyền tái trình văn bản")
+            @ApiResponse(responseCode = "200", description = "công văn đã được tái trình thành công"),
+            @ApiResponse(responseCode = "404", description = "công văn không tồn tại"),
+            @ApiResponse(responseCode = "403", description = "Không có quyền tái trình công văn")
     })
     @PutMapping("/{documentId}/resubmit-after-correction")
     public ResponseEntity<ResponseDTO<Object>> resubmitAfterFormatCorrection(
-            @Parameter(description = "ID của văn bản") @PathVariable Long documentId,
+            @Parameter(description = "ID của công văn") @PathVariable Long documentId,
             @Parameter(description = "Chi tiết tái trình", required = true) @RequestBody DocumentWorkflowDTO workflowDTO) {
 
         try {
@@ -1823,25 +1823,25 @@ public class DocumentWorkflowController {
                         .body(ResponseDTO.error("Người dùng chưa được xác thực"));
             }
 
-            // Sử dụng trạng thái FORMAT_CORRECTED để đánh dấu văn bản đã được chỉnh sửa và
+            // Sử dụng trạng thái FORMAT_CORRECTED để đánh dấu công văn đã được chỉnh sửa và
             // sẵn sàng cho văn thư xem xét
-            // Trạng thái này cho phép văn thư biết văn bản đã được chỉnh sửa, và có thể cấp
+            // Trạng thái này cho phép văn thư biết công văn đã được chỉnh sửa, và có thể cấp
             // số, ban hành mà không cần gửi lại cho lãnh đạo
             return documentWorkflowService
                     .resubmitAfterFormatCorrection(documentId, currentUser, workflowDTO.getComments())
                     .map(document -> {
                         Map<String, Object> response = new HashMap<>();
                         response.put("message",
-                                "Văn bản đã được tái trình sau khi chỉnh sửa thể thức và sẵn sàng cho văn thư xem xét");
+                                "công văn đã được tái trình sau khi chỉnh sửa thể thức và sẵn sàng cho văn thư xem xét");
                         response.put("documentId", documentId);
                         response.put("status", "FORMAT_CORRECTED");
                         return ResponseEntity.ok(ResponseDTO.success((Object) response));
                     })
                     .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)
-                            .body(ResponseDTO.error("Không tìm thấy văn bản")));
+                            .body(ResponseDTO.error("Không tìm thấy công văn")));
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                    .body(ResponseDTO.error("Lỗi khi tái trình văn bản: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi tái trình công văn: " + e.getMessage()));
         }
     }
 
@@ -1966,7 +1966,7 @@ public class DocumentWorkflowController {
         }
     }
 
-    // lấy trang tái mới nhất cuả văn bản theo user
+    // lấy trang tái mới nhất cuả công văn theo user
     @Operation(summary = "Get latest document activities by user", description = "Returns the latest document activities for a specific user")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Successfully retrieved latest document activities"),
@@ -1993,7 +1993,7 @@ public class DocumentWorkflowController {
             return ResponseEntity.ok(ResponseDTO.success(latestActivities));
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                    .body(ResponseDTO.error("Lỗi khi lấy lịch sử văn bản: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi lấy lịch sử công văn: " + e.getMessage()));
         }
     }
 

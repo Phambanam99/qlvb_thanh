@@ -1,5 +1,5 @@
 /**
- * Error boundary component for văn bản đến module
+ * Error boundary component for công văn đến module
  * Provides graceful error handling and recovery
  */
 

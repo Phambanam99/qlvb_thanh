@@ -53,7 +53,7 @@ export function DocumentTypeManager({
       } catch (error) {
         addNotification({
           title: "Lỗi",
-          message: "Không thể tải danh sách loại văn bản",
+          message: "Không thể tải danh sách loại công văn",
           type: "error",
         });
       } finally {
@@ -68,7 +68,7 @@ export function DocumentTypeManager({
     if (!newDocumentType.trim()) {
       addNotification({
         title: "Cảnh báo",
-        message: "Tên loại văn bản không được để trống",
+        message: "Tên loại công văn không được để trống",
         type: "warning",
       });
       return;
@@ -80,7 +80,7 @@ export function DocumentTypeManager({
     );
 
     if (documentTypeExists) {
-      setDocumentTypeError("Loại văn bản này đã tồn tại trong hệ thống");
+      setDocumentTypeError("Loại công văn này đã tồn tại trong hệ thống");
       return;
     }
 
@@ -110,11 +110,11 @@ export function DocumentTypeManager({
 
       addNotification({
         title: "Thành công",
-        message: "Đã thêm loại văn bản mới",
+        message: "Đã thêm loại công văn mới",
         type: "success",
       });
     } catch (error: any) {
-      let errorMessage = "Có lỗi xảy ra khi thêm loại văn bản";
+      let errorMessage = "Có lỗi xảy ra khi thêm loại công văn";
       if (error.response?.data?.message) {
         errorMessage = error.response.data.message;
       }
@@ -126,20 +126,20 @@ export function DocumentTypeManager({
 
   return (
     <div className="space-y-2">
-      <Label htmlFor="documentType">Loại văn bản</Label>
+      <Label htmlFor="documentType">Loại công văn</Label>
       <div className="flex gap-2">
         <Select value={value} onValueChange={onValueChange}>
           <SelectTrigger id="documentType" className="flex-1">
-            <SelectValue placeholder="Chọn loại văn bản" />
+            <SelectValue placeholder="Chọn loại công văn" />
           </SelectTrigger>
           <SelectContent>
             {isLoadingDocumentTypes ? (
               <SelectItem value="loading" disabled>
-                Đang tải danh sách loại văn bản...
+                Đang tải danh sách loại công văn...
               </SelectItem>
             ) : documentTypes.length === 0 ? (
               <SelectItem value="empty" disabled>
-                Chưa có loại văn bản nào
+                Chưa có loại công văn nào
               </SelectItem>
             ) : (
               documentTypes.map((type) => (
@@ -158,14 +158,14 @@ export function DocumentTypeManager({
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Thêm loại văn bản mới</DialogTitle>
+              <DialogTitle>Thêm loại công văn mới</DialogTitle>
               <DialogDescription>
-                Nhập tên loại văn bản chưa có trong hệ thống
+                Nhập tên loại công văn chưa có trong hệ thống
               </DialogDescription>
             </DialogHeader>
             <div className="space-y-4 py-4">
               <div className="space-y-2">
-                <Label htmlFor="newDocumentType">Tên loại văn bản</Label>
+                <Label htmlFor="newDocumentType">Tên loại công văn</Label>
                 <Input
                   id="newDocumentType"
                   value={newDocumentType}
@@ -173,7 +173,7 @@ export function DocumentTypeManager({
                     setNewDocumentType(e.target.value);
                     setDocumentTypeError(null);
                   }}
-                  placeholder="Nhập tên loại văn bản mới"
+                  placeholder="Nhập tên loại công văn mới"
                   className={documentTypeError ? "border-red-500" : ""}
                 />
                 {documentTypeError && (
@@ -198,7 +198,7 @@ export function DocumentTypeManager({
                 onClick={handleCreateDocumentType}
                 disabled={isCreatingDocumentType || !newDocumentType.trim()}
               >
-                {isCreatingDocumentType ? "Đang thêm..." : "Thêm loại văn bản"}
+                {isCreatingDocumentType ? "Đang thêm..." : "Thêm loại công văn"}
               </Button>
             </DialogFooter>
           </DialogContent>

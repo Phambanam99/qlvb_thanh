@@ -115,7 +115,7 @@ public class DocumentDepartmentService {
                                             document,
                                             actor,
                                             NotificationType.ASSIGNMENT,
-                                            "Bạn được phân công xử lý văn bản " + document.getTitle());
+                                            "Bạn được phân công xử lý công văn " + document.getTitle());
                                     return convertToDTO(savedAssignment);
                                 })));
     }

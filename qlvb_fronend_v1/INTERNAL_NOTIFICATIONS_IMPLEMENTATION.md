@@ -16,7 +16,7 @@
 
 #### `lib/api/internal-documents.ts` (New)
 - **API methods** cho Internal Document workflow:
-  - `sendDocument()` - Gửi văn bản (triggers RECEIVED notifications)
+  - `sendDocument()` - Gửi công văn (triggers RECEIVED notifications)
   - `markAsRead()` - Đánh dấu đã đọc (triggers READ notifications)
   - `getReceivedDocuments()`, `getSentDocuments()`, `getReadStatus()`
 
@@ -60,11 +60,11 @@ export function DocumentComponent() {
   
   useInternalDocumentNotifications({
     onReceived: (notification) => {
-      // Custom logic khi nhận văn bản mới
+      // Custom logic khi nhận công văn mới
       console.log('Received:', notification.content)
     },
     onRead: (notification) => {
-      // Custom logic khi ai đó đọc văn bản của mình
+      // Custom logic khi ai đó đọc công văn của mình
       console.log('Read by:', notification.user?.fullName)
     }
   })
@@ -90,8 +90,8 @@ export function DocumentComponent() {
 - **Message Format**: JSON với `type`, `entityType`, `entityId`, `content`, etc.
 
 ### Notification Flow
-1. **Gửi văn bản**: `sendDocument()` → Backend tạo notifications → WebSocket push → `INTERNAL_DOCUMENT_RECEIVED`
-2. **Đọc văn bản**: `markAsRead()` → Backend tạo notification → WebSocket push → `INTERNAL_DOCUMENT_READ`
+1. **Gửi công văn**: `sendDocument()` → Backend tạo notifications → WebSocket push → `INTERNAL_DOCUMENT_RECEIVED`
+2. **Đọc công văn**: `markAsRead()` → Backend tạo notification → WebSocket push → `INTERNAL_DOCUMENT_READ`
 
 ### Error Handling
 - **Connection errors**: Exponential backoff retry (max 5 attempts)

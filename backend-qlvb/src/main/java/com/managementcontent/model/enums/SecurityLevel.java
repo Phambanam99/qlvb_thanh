@@ -4,7 +4,7 @@ import lombok.Getter;
 
 /**
  * Enum representing security levels for documents
- * Độ mật của văn bản
+ * Độ mật của công văn
  */
 @Getter
 public enum SecurityLevel {

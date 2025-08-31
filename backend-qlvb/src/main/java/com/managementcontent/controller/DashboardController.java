@@ -166,7 +166,7 @@ public class DashboardController {
             return ResponseEntity.ok(ResponseDTO.success(incomingStats));
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                    .body(ResponseDTO.error("Lỗi khi lấy thống kê văn bản đến: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi lấy thống kê công văn đến: " + e.getMessage()));
         }
     }
 
@@ -182,7 +182,7 @@ public class DashboardController {
             return ResponseEntity.ok(ResponseDTO.success(outgoingStats));
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                    .body(ResponseDTO.error("Lỗi khi lấy thống kê văn bản đi: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi lấy thống kê công văn đi: " + e.getMessage()));
         }
     }
 
@@ -198,7 +198,7 @@ public class DashboardController {
             return ResponseEntity.ok(ResponseDTO.success(internalStats));
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                    .body(ResponseDTO.error("Lỗi khi lấy thống kê văn bản nội bộ: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi lấy thống kê công văn nội bộ: " + e.getMessage()));
         }
     }
 
@@ -245,7 +245,7 @@ public class DashboardController {
             return ResponseEntity.ok(ResponseDTO.success(recentDocs));
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                    .body(ResponseDTO.error("Lỗi khi lấy danh sách văn bản gần đây: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi lấy danh sách công văn gần đây: " + e.getMessage()));
         }
     }
 

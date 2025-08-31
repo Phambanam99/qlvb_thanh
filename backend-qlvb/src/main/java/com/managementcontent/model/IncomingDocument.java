@@ -49,19 +49,19 @@ public class IncomingDocument extends Document {
     private Set<DocumentRelationship> relatedOutgoingDocuments = new HashSet<>();
 
     /**
-     * Độ mật của văn bản (NORMAL, CONFIDENTIAL, SECRET, TOP_SECRET)
+     * Độ mật của công văn (NORMAL, CONFIDENTIAL, SECRET, TOP_SECRET)
      */
     @Column
     private String securityLevel;
 
     /**
-     * Tóm tắt nội dung chính của văn bản
+     * Tóm tắt nội dung chính của công văn
      */
     @Column
     private String summary;
 
     /**
-     * Ghi chú bổ sung về văn bản
+     * Ghi chú bổ sung về công văn
      */
     @Column
     private String notes;
@@ -73,13 +73,13 @@ public class IncomingDocument extends Document {
     private LocalDateTime receivedDate;
 
     /**
-     * Số thu - số thứ tự thu thập văn bản
+     * Số thu - số thứ tự thu thập công văn
      */
     @Column
     private String receiptNumber;
 
     /**
-     * Cán bộ xử lý - người được phân công xử lý văn bản
+     * Cán bộ xử lý - người được phân công xử lý công văn
      */
     @ManyToOne
     @JoinColumn(name = "processing_officer_id")

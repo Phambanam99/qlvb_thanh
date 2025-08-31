@@ -157,7 +157,7 @@ export default function ReplyInternalDocumentPage() {
     const fetchIncomingDocument = async () => {
       if (!replyToId) {
         // Redirect back if no replyToId
-        router.push("/van-ban-di/them-moi");
+        router.push("/van-ban-di");
         return;
       }
 
@@ -193,10 +193,10 @@ export default function ReplyInternalDocumentPage() {
       } catch (error) {
         toast({
           title: "Lỗi",
-          description: "Không thể tải thông tin văn bản đến",
+          description: "Không thể tải thông tin công văn đến",
           variant: "destructive",
         });
-        router.push("/van-ban-di/them-moi");
+        router.push("/van-ban-di");
       } finally {
         setIsLoadingIncomingDoc(false);
       }
@@ -249,11 +249,11 @@ export default function ReplyInternalDocumentPage() {
     const errors: Record<string, string> = {};
 
     if (!formData.documentNumber.trim()) {
-      errors.documentNumber = "Số văn bản là bắt buộc";
+      errors.documentNumber = "Số công văn là bắt buộc";
     }
 
     if (!formData.title.trim()) {
-      errors.title = "Tiêu đề văn bản là bắt buộc";
+      errors.title = "Tiêu đề công văn là bắt buộc";
     }
 
     if (secondaryDepartments.length === 0) {
@@ -282,7 +282,7 @@ export default function ReplyInternalDocumentPage() {
     if (!replyToId) {
       toast({
         title: "Lỗi",
-        description: "Không tìm thấy văn bản cần trả lời",
+        description: "Không tìm thấy công văn cần trả lời",
         variant: "destructive",
       });
       return;
@@ -327,12 +327,12 @@ export default function ReplyInternalDocumentPage() {
       // Show success notification
       toast({
         title: "Thành công",
-        description: "Văn bản trả lời nội bộ đã được tạo và gửi",
+        description: "công văn trả lời nội bộ đã được tạo và gửi",
       });
 
       addNotification({
-        title: "Văn bản trả lời nội bộ mới",
-        message: `Văn bản trả lời "${formData.title}" đã được tạo và gửi`,
+        title: "công văn trả lời nội bộ mới",
+        message: `công văn trả lời "${formData.title}" đã được tạo và gửi`,
         type: "success",
       });
 
@@ -343,7 +343,7 @@ export default function ReplyInternalDocumentPage() {
         title: "Lỗi",
         description:
           error.response?.data?.message ||
-          "Có lỗi xảy ra khi tạo văn bản trả lời",
+          "Có lỗi xảy ra khi tạo công văn trả lời",
         variant: "destructive",
       });
     } finally {
@@ -356,7 +356,7 @@ export default function ReplyInternalDocumentPage() {
     if (!formData.documentNumber || !formData.title) {
       toast({
         title: "Thiếu thông tin",
-        description: "Vui lòng điền ít nhất số văn bản và tiêu đề",
+        description: "Vui lòng điền ít nhất số công văn và tiêu đề",
         variant: "destructive",
       });
       return;
@@ -365,7 +365,7 @@ export default function ReplyInternalDocumentPage() {
     if (!replyToId) {
       toast({
         title: "Lỗi",
-        description: "Không tìm thấy văn bản cần trả lời",
+        description: "Không tìm thấy công văn cần trả lời",
         variant: "destructive",
       });
       return;
@@ -410,7 +410,7 @@ export default function ReplyInternalDocumentPage() {
       // Show success notification
       toast({
         title: "Thành công",
-        description: "Văn bản trả lời nội bộ đã được lưu nháp",
+        description: "công văn trả lời nội bộ đã được lưu nháp",
       });
 
       // Redirect to outgoing documents list
@@ -420,7 +420,7 @@ export default function ReplyInternalDocumentPage() {
         title: "Lỗi",
         description:
           error.response?.data?.message ||
-          "Có lỗi xảy ra khi lưu nháp văn bản trả lời",
+          "Có lỗi xảy ra khi lưu nháp công văn trả lời",
         variant: "destructive",
       });
     } finally {
@@ -444,12 +444,12 @@ export default function ReplyInternalDocumentPage() {
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center space-x-2">
           <Button variant="outline" size="icon" asChild>
-            <Link href="/van-ban-di/them-moi">
+            <Link href="/van-ban-di">
               <ArrowLeft className="h-4 w-4" />
             </Link>
           </Button>
           <h1 className="text-2xl font-bold tracking-tight text-primary">
-            Trả lời văn bản đến - Nội bộ
+            Trả lời công văn đến - Nội bộ
           </h1>
         </div>
         <div className="flex items-center space-x-2">
@@ -478,7 +478,7 @@ export default function ReplyInternalDocumentPage() {
             ) : (
               <Send className="mr-2 h-4 w-4" />
             )}
-            Gửi văn bản
+            Gửi công văn
           </Button>
         </div>
       </div>
@@ -495,23 +495,23 @@ export default function ReplyInternalDocumentPage() {
           {/* Document Information Card */}
           <Card>
             <CardHeader className="bg-primary/5 border-b">
-              <CardTitle>Thông tin văn bản trả lời</CardTitle>
+              <CardTitle>Thông tin công văn trả lời</CardTitle>
               <CardDescription>
-                Nhập thông tin chi tiết của văn bản trả lời
+                Nhập thông tin chi tiết của công văn trả lời
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6 pt-6">
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor="documentNumber">
-                    Số văn bản <span className="text-red-500">*</span>
+                    Số công văn <span className="text-red-500">*</span>
                   </Label>
                   <Input
                     id="documentNumber"
                     name="documentNumber"
                     value={formData.documentNumber}
                     onChange={handleInputChange}
-                    placeholder="Nhập số văn bản"
+                    placeholder="Nhập số công văn"
                     required
                     className={
                       validationErrors.documentNumber ? "border-red-500" : ""
@@ -541,7 +541,7 @@ export default function ReplyInternalDocumentPage() {
                   name="title"
                   value={formData.title}
                   onChange={handleInputChange}
-                  placeholder="Nhập tiêu đề văn bản"
+                  placeholder="Nhập tiêu đề công văn"
                   required
                   className={validationErrors.title ? "border-red-500" : ""}
                 />
@@ -559,19 +559,19 @@ export default function ReplyInternalDocumentPage() {
                   name="content"
                   value={formData.content}
                   onChange={handleInputChange}
-                  placeholder="Nhập nội dung văn bản"
+                  placeholder="Nhập nội dung công văn"
                   rows={5}
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="documentType">Loại văn bản</Label>
+                <Label htmlFor="documentType">Loại công văn</Label>
                 <Input
                   id="documentType"
                   name="documentType"
                   value={formData.documentType}
                   onChange={handleInputChange}
-                  placeholder="Nhập loại văn bản"
+                  placeholder="Nhập loại công văn"
                 />
               </div>
 
@@ -646,7 +646,7 @@ export default function ReplyInternalDocumentPage() {
                       <div className="border rounded-md overflow-hidden">
                         <div className="bg-primary/5 px-4 py-2 border-b flex items-center justify-between">
                           <span className="text-sm font-medium">
-                            Chọn người nhận văn bản
+                            Chọn người nhận công văn
                           </span>
                         </div>
                         <div className="max-h-[400px] overflow-y-auto">
@@ -699,8 +699,8 @@ export default function ReplyInternalDocumentPage() {
 
             <div className="rounded-md bg-amber-50 border border-amber-200 p-3">
               <p className="text-sm text-amber-800">
-                <span className="font-medium">Lưu ý:</span> Văn bản nội bộ sẽ
-                được gửi đến tất cả phòng ban và cá nhân được chọn. Văn bản được
+                <span className="font-medium">Lưu ý:</span> công văn nội bộ sẽ
+                được gửi đến tất cả phòng ban và cá nhân được chọn. công văn được
                 gửi đến phòng ban sẽ được chuyển đến trưởng phòng của phòng ban
                 đó.
               </p>

@@ -1,5 +1,5 @@
 /**
- * Custom hook for managing internal documents (văn bản nội bộ đến)
+ * Custom hook for managing internal documents (công văn nội bộ đến)
  * Handle search, pagination, and read status for internal incoming documents
  */
 
@@ -89,7 +89,7 @@ export function useInternalIncomingDocuments({
       console.error("Error fetching internal incoming documents:", error);
       toast({
         title: "Lỗi",
-        description: "Không thể tải dữ liệu văn bản nội bộ. Vui lòng thử lại sau.",
+        description: "Không thể tải dữ liệu công văn nội bộ. Vui lòng thử lại sau.",
         variant: "destructive",
       });
       setDocuments([]);

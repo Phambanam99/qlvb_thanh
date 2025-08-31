@@ -56,7 +56,7 @@ export default function DocumentReviewPage({ params }: { params: { id: string; r
       } catch (error) {
         toast({
           title: "Lỗi",
-          description: "Không thể tải thông tin văn bản. Vui lòng thử lại sau.",
+          description: "Không thể tải thông tin công văn. Vui lòng thử lại sau.",
           variant: "destructive",
         })
       } finally {
@@ -75,9 +75,9 @@ export default function DocumentReviewPage({ params }: { params: { id: string; r
     return (
       <div className="flex flex-col items-center justify-center h-[50vh]">
         <h2 className="text-2xl font-bold mb-2">Không tìm thấy thông tin</h2>
-        <p className="text-muted-foreground mb-4">Văn bản hoặc phản hồi không tồn tại hoặc đã bị xóa</p>
+        <p className="text-muted-foreground mb-4">công văn hoặc phản hồi không tồn tại hoặc đã bị xóa</p>
         <Button asChild>
-          <Link href="/van-ban-den">Quay lại danh sách văn bản đến</Link>
+          <Link href="/van-ban-den">Quay lại danh sách công văn đến</Link>
         </Button>
       </div>
     )
@@ -91,7 +91,7 @@ export default function DocumentReviewPage({ params }: { params: { id: string; r
             <ArrowLeft className="h-4 w-4" />
           </Link>
         </Button>
-        <h1 className="text-2xl font-bold tracking-tight text-primary">Xem xét văn bản trả lời</h1>
+        <h1 className="text-2xl font-bold tracking-tight text-primary">Xem xét công văn trả lời</h1>
       </div>
 
       <div className="grid gap-6 md:grid-cols-7">
@@ -100,13 +100,13 @@ export default function DocumentReviewPage({ params }: { params: { id: string; r
         </div>
         <div className="md:col-span-3">
           <div className="bg-primary/5 border rounded-md p-4">
-            <h3 className="font-medium mb-2">Hướng dẫn xem xét văn bản</h3>
+            <h3 className="font-medium mb-2">Hướng dẫn xem xét công văn</h3>
             <ul className="space-y-2 text-sm">
               <li className="flex items-start">
                 <span className="h-5 w-5 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs mr-2 mt-0.5">
                   1
                 </span>
-                <span>Xem xét nội dung văn bản trả lời do cán bộ soạn thảo</span>
+                <span>Xem xét nội dung công văn trả lời do cán bộ soạn thảo</span>
               </li>
               <li className="flex items-start">
                 <span className="h-5 w-5 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs mr-2 mt-0.5">
@@ -132,7 +132,7 @@ export default function DocumentReviewPage({ params }: { params: { id: string; r
             </ul>
             <div className="mt-4 p-3 bg-amber-50 border border-amber-200 rounded-md">
               <p className="text-sm text-amber-800">
-                <span className="font-medium">Lưu ý:</span> Khi phê duyệt, văn bản sẽ được trình lên Thủ trưởng xem xét.
+                <span className="font-medium">Lưu ý:</span> Khi phê duyệt, công văn sẽ được trình lên Thủ trưởng xem xét.
                 Khi yêu cầu chỉnh sửa, cán bộ sẽ nhận được thông báo và ý kiến chỉ đạo của bạn.
               </p>
             </div>

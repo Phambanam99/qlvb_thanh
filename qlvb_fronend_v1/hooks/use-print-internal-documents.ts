@@ -45,7 +45,7 @@ export function usePrintInternalDocuments({
 
         // Check if there are documents to print
         if (!documents || documents.length === 0) {
-          setPrintError("Không có văn bản nào để in");
+          setPrintError("Không có công văn nào để in");
           return;
         }
 
@@ -83,7 +83,7 @@ export function usePrintInternalDocuments({
         setPrintError(
           error instanceof Error
             ? error.message
-            : "Có lỗi xảy ra khi in văn bản"
+            : "Có lỗi xảy ra khi in công văn"
         );
       } finally {
         setIsPrinting(false);
@@ -172,7 +172,7 @@ export function usePrintInternalDocuments({
         return filters.length > 0 ? ` (${filters.join(", ")})` : "";
       };
 
-      const title = customTitle || `Danh sách văn bản nội bộ ${documentType === "sent" ? "đi" : "đến"}${getFilterText()}`;
+      const title = customTitle || `Danh sách công văn nội bộ ${documentType === "sent" ? "đi" : "đến"}${getFilterText()}`;
 
       return `
 <!DOCTYPE html>
@@ -329,7 +329,7 @@ export function usePrintInternalDocuments({
     </div>
     
     <div class="print-summary">
-        Tổng số văn bản: ${documents.length}
+        Tổng số công văn: ${documents.length}
     </div>
     
     ${documents.length > 0 ? `
@@ -337,10 +337,10 @@ export function usePrintInternalDocuments({
         <thead>
             <tr>
                 <th style="width: 40px;">STT</th>
-                <th style="width: 120px;">Số văn bản</th>
+                <th style="width: 120px;">Số công văn</th>
                 <th style="width: 80px;">Ngày ký</th>
                 <th>Tiêu đề</th>
-                <th style="width: 100px;">Loại văn bản</th>
+                <th style="width: 100px;">Loại công văn</th>
                 <th style="width: 150px;">${documentType === "sent" ? "Người nhận" : "Người gửi"}</th>
                 <th style="width: 80px;" class="text-center">Độ khẩn</th>
             </tr>
@@ -372,7 +372,7 @@ export function usePrintInternalDocuments({
     </table>
     ` : `
     <div class="no-documents">
-        Không có văn bản nào để hiển thị
+        Không có công văn nào để hiển thị
     </div>
     `}
     
@@ -389,7 +389,7 @@ export function usePrintInternalDocuments({
   // Function to print preview (show in current window)
   const handlePrintPreview = useCallback(() => {
     if (!documents || documents.length === 0) {
-      setPrintError("Không có văn bản nào để xem trước");
+      setPrintError("Không có công văn nào để xem trước");
       return;
     }
 

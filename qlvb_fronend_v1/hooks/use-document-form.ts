@@ -74,7 +74,7 @@ export function useDocumentForm() {
       } catch (error) {
         toast({
           title: "Lỗi",
-          description: "Không thể tải danh sách loại văn bản",
+          description: "Không thể tải danh sách loại công văn",
           variant: "destructive",
         });
       } finally {
@@ -201,8 +201,8 @@ export function useDocumentForm() {
         title: "Thành công",
         description:
           documentPurpose === "PROCESS"
-            ? "Văn bản đến đã được tạo và chuyển xử lý thành công"
-            : "Văn bản đến đã được tạo và thông báo thành công",
+            ? "công văn đến đã được tạo và chuyển xử lý thành công"
+            : "công văn đến đã được tạo và thông báo thành công",
       });
 
       router.push("/van-ban-den");
@@ -212,7 +212,7 @@ export function useDocumentForm() {
         description:
           error instanceof Error
             ? error.message
-            : "Có lỗi xảy ra khi tạo văn bản",
+            : "Có lỗi xảy ra khi tạo công văn",
         variant: "destructive",
       });
     } finally {

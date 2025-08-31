@@ -17,23 +17,23 @@
 - **Real-time notifications**: Tích hợp hoàn chỉnh với WebSocket
 
 ### 3. API Endpoints
-- **POST** `/api/internal-documents/{id}/send`: Gửi văn bản → Tạo thông báo `INTERNAL_DOCUMENT_RECEIVED`
+- **POST** `/api/internal-documents/{id}/send`: Gửi công văn → Tạo thông báo `INTERNAL_DOCUMENT_RECEIVED`
 - **POST** `/api/internal-documents/{id}/mark-read`: Đánh dấu đã đọc → Tạo thông báo `INTERNAL_DOCUMENT_READ`
 - **GET** `/api/notifications`: Lấy danh sách thông báo (có sẵn)
 
 ## 🔄 Notification Flow
 
-### Flow 1: Gửi văn bản
+### Flow 1: Gửi công văn
 ```
-User A gửi văn bản → sendInternalDocument() → 
+User A gửi công văn → sendInternalDocument() → 
 NotificationService.createAndSendNotification() →
 WebSocket push to User B, C, D... →
 Frontend nhận thông báo "INTERNAL_DOCUMENT_RECEIVED"
 ```
 
-### Flow 2: Đọc văn bản
+### Flow 2: Đọc công văn
 ```
-User B đọc văn bản → markAsRead() →
+User B đọc công văn → markAsRead() →
 NotificationService.createAndSendNotification() →
 WebSocket push to User A (người gửi) →
 Frontend nhận thông báo "INTERNAL_DOCUMENT_READ"
@@ -45,7 +45,7 @@ Frontend nhận thông báo "INTERNAL_DOCUMENT_READ"
 - [ ] Tích hợp WebSocket connection (SockJS + STOMP)
 - [ ] Subscribe to `/user/queue/notifications`
 - [ ] Handle notification types: `INTERNAL_DOCUMENT_RECEIVED`, `INTERNAL_DOCUMENT_READ`
-- [ ] Call API `POST /api/internal-documents/{id}/mark-read` khi user đọc văn bản
+- [ ] Call API `POST /api/internal-documents/{id}/mark-read` khi user đọc công văn
 
 ### Tùy chọn
 - [ ] Toast notifications UI
@@ -75,7 +75,7 @@ function handleInternalDocNotification(notification) {
     if (notification.entityType === 'internal_document') {
         switch(notification.type) {
             case 'INTERNAL_DOCUMENT_RECEIVED':
-                showToast('Văn bản mới: ' + notification.content);
+                showToast('công văn mới: ' + notification.content);
                 updateUnreadCounter();
                 break;
             case 'INTERNAL_DOCUMENT_READ':

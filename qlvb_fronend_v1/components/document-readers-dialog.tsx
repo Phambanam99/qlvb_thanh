@@ -164,7 +164,7 @@ export function DocumentReadersDialog({
         <DialogHeader className="flex-shrink-0">
           <DialogTitle className="flex items-center gap-2">
             <Users className="h-5 w-5" />
-            Danh sách người đọc văn bản
+            Danh sách người đọc công văn
           </DialogTitle>
           <DialogDescription>
             {documentTitle && (

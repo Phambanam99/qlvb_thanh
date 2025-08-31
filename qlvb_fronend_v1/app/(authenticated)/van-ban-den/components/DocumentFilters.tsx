@@ -1,5 +1,5 @@
 /**
- * Document filters component for văn bản đến
+ * Document filters component for công văn đến
  * Modular, reusable filtering interface
  */
 
@@ -62,7 +62,7 @@ export const DocumentFiltersComponent: React.FC<DocumentFiltersProps> = ({
             <div className="relative">
               <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
               <Input
-                placeholder="Tìm kiếm văn bản..."
+                placeholder="Tìm kiếm công văn..."
                 value={filters.searchQuery}
                 onChange={(e) =>
                   handleFilterChange("searchQuery", e.target.value)
@@ -106,7 +106,7 @@ export const DocumentFiltersComponent: React.FC<DocumentFiltersProps> = ({
                 disabled={isLoading}
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Nguồn văn bản" />
+                  <SelectValue placeholder="Nguồn công văn" />
                 </SelectTrigger>
                 <SelectContent>
                   {sourceOptions.map((option) => (

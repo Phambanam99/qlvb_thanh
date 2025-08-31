@@ -1,10 +1,10 @@
-# Hướng dẫn tích hợp thông báo cho Văn bản nội bộ (Internal Documents)
+# Hướng dẫn tích hợp thông báo cho công văn nội bộ (Internal Documents)
 
 ## Tổng quan
 
-Hệ thống thông báo cho văn bản nội bộ được thiết kế để thông báo real-time khi:
-1. **Gửi văn bản**: Thông báo cho tất cả người nhận về văn bản mới
-2. **Đọc văn bản**: Thông báo ngược lại cho người gửi khi có người đọc văn bản
+Hệ thống thông báo cho công văn nội bộ được thiết kế để thông báo real-time khi:
+1. **Gửi công văn**: Thông báo cho tất cả người nhận về công văn mới
+2. **Đọc công văn**: Thông báo ngược lại cho người gửi khi có người đọc công văn
 
 ## 1. Cấu trúc thông báo
 
@@ -14,7 +14,7 @@ Hệ thống thông báo cho văn bản nội bộ được thiết kế để t
 {
   "id": 123,
   "type": "INTERNAL_DOCUMENT_RECEIVED", // hoặc "INTERNAL_DOCUMENT_READ"
-  "content": "Bạn đã nhận được văn bản nội bộ 'Thông báo họp' từ Nguyễn Văn A",
+  "content": "Bạn đã nhận được công văn nội bộ 'Thông báo họp' từ Nguyễn Văn A",
   "entityId": 456,
   "entityType": "internal_document",
   "createdAt": "2025-08-05T10:00:00Z",
@@ -31,8 +31,8 @@ Hệ thống thông báo cho văn bản nội bộ được thiết kế để t
 
 | Loại thông báo | Mô tả | Người nhận | Nội dung mẫu |
 |---|---|---|---|
-| `INTERNAL_DOCUMENT_RECEIVED` | Thông báo khi nhận văn bản mới | Người nhận văn bản | "Bạn đã nhận được văn bản nội bộ '[Tiêu đề]' từ [Tên người gửi]" |
-| `INTERNAL_DOCUMENT_READ` | Thông báo khi văn bản được đọc | Người gửi văn bản | "[Tên người đọc] đã đọc văn bản nội bộ '[Tiêu đề]' của bạn" |
+| `INTERNAL_DOCUMENT_RECEIVED` | Thông báo khi nhận công văn mới | Người nhận công văn | "Bạn đã nhận được công văn nội bộ '[Tiêu đề]' từ [Tên người gửi]" |
+| `INTERNAL_DOCUMENT_READ` | Thông báo khi công văn được đọc | Người gửi công văn | "[Tên người đọc] đã đọc công văn nội bộ '[Tiêu đề]' của bạn" |
 
 ## 2. WebSocket Connection
 
@@ -81,15 +81,15 @@ function handleNewInternalDocument(notification) {
     // Hiển thị toast notification
     showToast({
         type: 'info',
-        title: 'Văn bản mới',
+        title: 'công văn mới',
         message: notification.content,
         duration: 5000
     });
     
-    // Cập nhật counter số lượng văn bản chưa đọc
+    // Cập nhật counter số lượng công văn chưa đọc
     updateUnreadCounter();
     
-    // Thêm vào danh sách văn bản nhận được (nếu đang ở trang tương ứng)
+    // Thêm vào danh sách công văn nhận được (nếu đang ở trang tương ứng)
     if (isOnReceivedDocumentsPage()) {
         refreshReceivedDocumentsList();
     }
@@ -104,7 +104,7 @@ function handleDocumentRead(notification) {
         duration: 3000
     });
     
-    // Cập nhật read status trong danh sách văn bản đã gửi
+    // Cập nhật read status trong danh sách công văn đã gửi
     if (isOnSentDocumentsPage()) {
         updateDocumentReadStatus(notification.entityId);
     }
@@ -113,11 +113,11 @@ function handleDocumentRead(notification) {
 
 ## 3. API Endpoints
 
-### 3.1 Gửi văn bản (Trigger thông báo RECEIVED)
+### 3.1 Gửi công văn (Trigger thông báo RECEIVED)
 
 ```javascript
 /**
- * Gửi văn bản nội bộ đến danh sách người nhận
+ * Gửi công văn nội bộ đến danh sách người nhận
  * Sẽ tự động tạo thông báo cho tất cả người nhận
  */
 async function sendInternalDocument(documentId, recipientUserIds) {
@@ -153,7 +153,7 @@ async function sendInternalDocument(documentId, recipientUserIds) {
 
 ```javascript
 /**
- * Đánh dấu văn bản đã đọc
+ * Đánh dấu công văn đã đọc
  * Sẽ tự động gửi thông báo ngược lại cho người gửi
  */
 async function markAsRead(documentId) {
@@ -263,7 +263,7 @@ export default {
       if (notification.entityType === 'internal_document') {
         showToast({
           type: notification.type === 'INTERNAL_DOCUMENT_RECEIVED' ? 'info' : 'success',
-          title: notification.type === 'INTERNAL_DOCUMENT_RECEIVED' ? 'Văn bản mới' : 'Đã đọc',
+          title: notification.type === 'INTERNAL_DOCUMENT_RECEIVED' ? 'công văn mới' : 'Đã đọc',
           message: notification.content
         })
         
@@ -338,7 +338,7 @@ const InternalDocumentsNotifications = () => {
   const handleNotification = (notification) => {
     if (notification.entityType === 'internal_document') {
       const toastType = notification.type === 'INTERNAL_DOCUMENT_RECEIVED' ? 'info' : 'success';
-      const title = notification.type === 'INTERNAL_DOCUMENT_RECEIVED' ? 'Văn bản mới' : 'Đã đọc';
+      const title = notification.type === 'INTERNAL_DOCUMENT_RECEIVED' ? 'công văn mới' : 'Đã đọc';
       
       showToast({
         type: toastType,
@@ -582,10 +582,10 @@ debugStompClient.debug = function(str) {
 
 ## Kết luận
 
-Hệ thống thông báo cho văn bản nội bộ đã được thiết kế để:
+Hệ thống thông báo cho công văn nội bộ đã được thiết kế để:
 - **Đơn giản**: Chỉ 2 loại thông báo chính
 - **Real-time**: Sử dụng WebSocket để thông báo ngay lập tức
 - **Reliable**: Có error handling và retry mechanism
 - **Scalable**: Có thể dễ dàng mở rộng thêm loại thông báo mới
 
-Frontend developers chỉ cần tích hợp WebSocket connection và implement UI để hiển thị thông báo. Backend sẽ tự động gửi thông báo tại các thời điểm phù hợp trong quy trình xử lý văn bản nội bộ.
+Frontend developers chỉ cần tích hợp WebSocket connection và implement UI để hiển thị thông báo. Backend sẽ tự động gửi thông báo tại các thời điểm phù hợp trong quy trình xử lý công văn nội bộ.

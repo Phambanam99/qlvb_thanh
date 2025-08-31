@@ -37,10 +37,10 @@ public class DocumentReadStatusController {
 
                 try {
                         readStatusService.markAsRead(documentId, documentType);
-                        return ResponseEntity.ok(ResponseDTO.success("Đánh dấu văn bản đã đọc thành công"));
+                        return ResponseEntity.ok(ResponseDTO.success("Đánh dấu công văn đã đọc thành công"));
                 } catch (Exception e) {
                         return ResponseEntity.badRequest()
-                                        .body(ResponseDTO.error("Lỗi khi đánh dấu văn bản đã đọc: " + e.getMessage()));
+                                        .body(ResponseDTO.error("Lỗi khi đánh dấu công văn đã đọc: " + e.getMessage()));
                 }
         }
 
@@ -57,11 +57,11 @@ public class DocumentReadStatusController {
 
                 try {
                         readStatusService.markAsUnread(documentId, documentType);
-                        return ResponseEntity.ok(ResponseDTO.success("Đánh dấu văn bản chưa đọc thành công"));
+                        return ResponseEntity.ok(ResponseDTO.success("Đánh dấu công văn chưa đọc thành công"));
                 } catch (Exception e) {
                         return ResponseEntity.badRequest()
                                         .body(ResponseDTO
-                                                        .error("Lỗi khi đánh dấu văn bản chưa đọc: " + e.getMessage()));
+                                                        .error("Lỗi khi đánh dấu công văn chưa đọc: " + e.getMessage()));
                 }
         }
 
@@ -102,7 +102,7 @@ public class DocumentReadStatusController {
                         return ResponseEntity.ok(ResponseDTO.success(readStatuses));
                 } catch (Exception e) {
                         return ResponseEntity.badRequest()
-                                        .body(ResponseDTO.error("Lỗi khi lấy trạng thái đọc của nhiều văn bản: "
+                                        .body(ResponseDTO.error("Lỗi khi lấy trạng thái đọc của nhiều công văn: "
                                                         + e.getMessage()));
                 }
         }
@@ -121,7 +121,7 @@ public class DocumentReadStatusController {
                 try {
                         if (documentIds == null || documentIds.isBlank()) {
                                 return ResponseEntity.badRequest()
-                                                .body(ResponseDTO.error("Thiếu danh sách ID văn bản"));
+                                                .body(ResponseDTO.error("Thiếu danh sách ID công văn"));
                         }
 
                         List<Long> ids = java.util.Arrays.stream(documentIds.split(","))
@@ -132,7 +132,7 @@ public class DocumentReadStatusController {
 
                         if (ids.isEmpty()) {
                                 return ResponseEntity.badRequest()
-                                                .body(ResponseDTO.error("Danh sách ID văn bản trống"));
+                                                .body(ResponseDTO.error("Danh sách ID công văn trống"));
                         }
 
                         Map<Long, Boolean> readStatuses = readStatusService.getReadStatusForDocuments(ids,
@@ -141,10 +141,10 @@ public class DocumentReadStatusController {
                 } catch (NumberFormatException nfe) {
                         return ResponseEntity.badRequest()
                                         .body(ResponseDTO.error(
-                                                        "Định dạng ID văn bản không hợp lệ: " + nfe.getMessage()));
+                                                        "Định dạng ID công văn không hợp lệ: " + nfe.getMessage()));
                 } catch (Exception e) {
                         return ResponseEntity.badRequest().body(
-                                        ResponseDTO.error("Lỗi khi lấy trạng thái đọc của nhiều văn bản: "
+                                        ResponseDTO.error("Lỗi khi lấy trạng thái đọc của nhiều công văn: "
                                                         + e.getMessage()));
                 }
         }
@@ -164,7 +164,7 @@ public class DocumentReadStatusController {
                         return ResponseEntity.ok(ResponseDTO.success(Map.of("unreadCount", unreadCount)));
                 } catch (Exception e) {
                         return ResponseEntity.badRequest()
-                                        .body(ResponseDTO.error("Lỗi khi đếm số văn bản chưa đọc: " + e.getMessage()));
+                                        .body(ResponseDTO.error("Lỗi khi đếm số công văn chưa đọc: " + e.getMessage()));
                 }
         }
 
@@ -183,7 +183,7 @@ public class DocumentReadStatusController {
                         return ResponseEntity.ok(ResponseDTO.success(unreadIds));
                 } catch (Exception e) {
                         return ResponseEntity.badRequest()
-                                        .body(ResponseDTO.error("Lỗi khi lấy danh sách ID văn bản chưa đọc: "
+                                        .body(ResponseDTO.error("Lỗi khi lấy danh sách ID công văn chưa đọc: "
                                                         + e.getMessage()));
                 }
         }
@@ -206,7 +206,7 @@ public class DocumentReadStatusController {
                 } catch (Exception e) {
                         return ResponseEntity.badRequest()
                                         .body(ResponseDTO.error(
-                                                        "Lỗi khi lấy danh sách người đọc văn bản: " + e.getMessage()));
+                                                        "Lỗi khi lấy danh sách người đọc công văn: " + e.getMessage()));
                 }
         }
 
@@ -227,7 +227,7 @@ public class DocumentReadStatusController {
                         return ResponseEntity.ok(ResponseDTO.success(readers));
                 } catch (Exception e) {
                         return ResponseEntity.badRequest()
-                                        .body(ResponseDTO.error("Lỗi khi lấy danh sách người đã đọc văn bản: "
+                                        .body(ResponseDTO.error("Lỗi khi lấy danh sách người đã đọc công văn: "
                                                         + e.getMessage()));
                 }
         }
@@ -249,7 +249,7 @@ public class DocumentReadStatusController {
                         return ResponseEntity.ok(ResponseDTO.success(statistics));
                 } catch (Exception e) {
                         return ResponseEntity.badRequest()
-                                        .body(ResponseDTO.error("Lỗi khi lấy thống kê đọc văn bản: " + e.getMessage()));
+                                        .body(ResponseDTO.error("Lỗi khi lấy thống kê đọc công văn: " + e.getMessage()));
                 }
         }
 }

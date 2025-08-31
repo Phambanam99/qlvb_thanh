@@ -59,12 +59,12 @@ public class DocumentAuthorizationService {
 
         switch (roleGroup) {
             case CHI_HUY_CUC:
-                // Chỉ huy cục: Xem tất cả văn bản nội bộ
+                // Chỉ huy cục: Xem tất cả công văn nội bộ
                 return internalDocumentRepository.findAll(pageable);
 
             case CHI_HUY_DON_VI:
             case VAN_THU:
-                // Chỉ huy đơn vị và văn thư: Xem văn bản của phòng ban
+                // Chỉ huy đơn vị và văn thư: Xem công văn của phòng ban
                 if (currentUser.getDepartment() != null) {
                     List<InternalDocument> allDocs = internalDocumentRepository.findAll();
                     List<InternalDocument> deptDocs = allDocs.stream()
@@ -84,7 +84,7 @@ public class DocumentAuthorizationService {
 
             case NHAN_VIEN:
             default:
-                // Nhân viên: Chỉ xem văn bản do họ gửi
+                // Nhân viên: Chỉ xem công văn do họ gửi
                 return internalDocumentRepository.findBySenderOrderByCreatedAtDesc(currentUser, pageable);
         }
     }
@@ -102,13 +102,13 @@ public class DocumentAuthorizationService {
 
         switch (roleGroup) {
             case CHI_HUY_CUC:
-                // Chỉ huy cục: Xem tất cả văn bản trong khoảng thời gian
+                // Chỉ huy cục: Xem tất cả công văn trong khoảng thời gian
                 return internalDocumentRepository.findByCreatedAtBetweenOrderByCreatedAtDesc(
                         dateRange.getStartDate(), dateRange.getEndDate(), pageable);
 
             case CHI_HUY_DON_VI:
             case VAN_THU:
-                // Chỉ huy đơn vị: Xem văn bản của phòng ban trong khoảng thời gian
+                // Chỉ huy đơn vị: Xem công văn của phòng ban trong khoảng thời gian
                 if (currentUser.getDepartment() != null) {
                     List<InternalDocument> allDocs = internalDocumentRepository
                             .findByCreatedAtBetweenOrderByCreatedAtDesc(
@@ -138,7 +138,7 @@ public class DocumentAuthorizationService {
 
             case NHAN_VIEN:
             default:
-                // Nhân viên: Chỉ xem văn bản do họ gửi trong khoảng thời gian
+                // Nhân viên: Chỉ xem công văn do họ gửi trong khoảng thời gian
                 if (month != null) {
                     return internalDocumentRepository.findBySenderAndYearAndMonth(currentUser, year, month, pageable);
                 } else {
@@ -158,17 +158,17 @@ public class DocumentAuthorizationService {
 
         switch (roleGroup) {
             case CHI_HUY_CUC:
-                // Chỉ huy cục: Xem tất cả văn bản nội bộ
+                // Chỉ huy cục: Xem tất cả công văn nội bộ
                 return internalDocumentRepository.findAll(pageable);
 
             case CHI_HUY_DON_VI:
             case VAN_THU:
-                // Chỉ huy đơn vị và văn thư: Xem văn bản nhận của phòng ban
+                // Chỉ huy đơn vị và văn thư: Xem công văn nhận của phòng ban
                 return internalDocumentRepository.findDocumentsReceivedByUser(currentUser, userDepartmentIds, pageable);
 
             case NHAN_VIEN:
             default:
-                // Nhân viên: Chỉ xem văn bản được gửi cho họ
+                // Nhân viên: Chỉ xem công văn được gửi cho họ
                 return internalDocumentRepository.findDocumentsReceivedByUser(currentUser, userDepartmentIds, pageable);
         }
     }
@@ -187,13 +187,13 @@ public class DocumentAuthorizationService {
 
         switch (roleGroup) {
             case CHI_HUY_CUC:
-                // Chỉ huy cục: Xem tất cả văn bản trong khoảng thời gian
+                // Chỉ huy cục: Xem tất cả công văn trong khoảng thời gian
                 return internalDocumentRepository.findByCreatedAtBetweenOrderByCreatedAtDesc(
                         dateRange.getStartDate(), dateRange.getEndDate(), pageable);
 
             case CHI_HUY_DON_VI:
             case VAN_THU:
-                // Chỉ huy đơn vị: Xem văn bản nhận của phòng ban trong khoảng thời gian
+                // Chỉ huy đơn vị: Xem công văn nhận của phòng ban trong khoảng thời gian
                 if (month != null) {
                     return internalDocumentRepository.findDocumentsReceivedByUserAndYearAndMonth(
                             currentUser, userDepartmentIds, year, month, pageable);
@@ -204,7 +204,7 @@ public class DocumentAuthorizationService {
 
             case NHAN_VIEN:
             default:
-                // Nhân viên: Xem văn bản được gửi cho họ trong khoảng thời gian
+                // Nhân viên: Xem công văn được gửi cho họ trong khoảng thời gian
                 if (month != null) {
                     return internalDocumentRepository.findDocumentsReceivedByUserAndYearAndMonth(
                             currentUser, userDepartmentIds, year, month, pageable);

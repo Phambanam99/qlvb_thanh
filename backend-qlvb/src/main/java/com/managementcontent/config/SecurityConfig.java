@@ -56,6 +56,9 @@ public class SecurityConfig {
                         .requestMatchers("/actuator/**", "/health").permitAll()
                         .requestMatchers("/ws/**").permitAll()
                         .requestMatchers("/ws/info/**").permitAll()
+                        // Allow SockJS endpoint and its info/polling paths
+                        .requestMatchers("/ws-sockjs/**").permitAll()
+                        .requestMatchers("/ws-sockjs/info/**").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)

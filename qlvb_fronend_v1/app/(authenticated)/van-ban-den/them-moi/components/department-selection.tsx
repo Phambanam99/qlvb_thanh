@@ -72,7 +72,7 @@ export function DepartmentSelection({
           <div className="bg-primary/5 px-4 py-2 border-b flex items-center justify-between">
             <span className="text-sm font-medium">
               {documentPurpose === "PROCESS"
-                ? "Chọn phòng ban xử lý văn bản"
+                ? "Chọn phòng ban xử lý công văn"
                 : "Chọn phòng ban nhận thông báo"}
             </span>
           </div>

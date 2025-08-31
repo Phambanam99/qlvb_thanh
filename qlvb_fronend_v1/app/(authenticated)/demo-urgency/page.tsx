@@ -193,7 +193,7 @@ export type UrgencyLevel = keyof typeof URGENCY_LEVELS;`}
             <CardHeader>
               <CardTitle>Thống kê và dashboard</CardTitle>
               <CardDescription>
-                Hiển thị thống kê văn bản theo mức độ khẩn
+                Hiển thị thống kê công văn theo mức độ khẩn
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -263,7 +263,7 @@ const newUrgency = migrateFromOldUrgency(oldPriority);`}
       <div className="text-center text-sm text-muted-foreground">
         <p>
           Hệ thống này đảm bảo tính nhất quán trong việc hiển thị và xử lý độ
-          khẩn trên toàn bộ ứng dụng quản lý văn bản.
+          khẩn trên toàn bộ ứng dụng quản lý công văn.
         </p>
       </div>
     </div>

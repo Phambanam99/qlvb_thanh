@@ -1,5 +1,5 @@
 /**
- * Document table component for displaying văn bản đến
+ * Document table component for displaying công văn đến
  * Reusable table with consistent styling and behavior
  */
 
@@ -96,12 +96,12 @@ export const DocumentTable: React.FC<DocumentTableProps> = ({
           <div className="flex flex-col items-center justify-center py-8 text-center">
             <AlertCircle className="h-12 w-12 text-muted-foreground mb-4" />
             <h3 className="text-lg font-medium text-muted-foreground mb-2">
-              Không có văn bản nào
+              Không có công văn nào
             </h3>
             <p className="text-sm text-muted-foreground">
               {isInternal 
-                ? "Chưa có văn bản nội bộ nào được gửi đến bạn"
-                : "Chưa có văn bản đến nào trong hệ thống"
+                ? "Chưa có công văn nội bộ nào được gửi đến bạn"
+                : "Chưa có công văn đến nào trong hệ thống"
               }
             </p>
           </div>
@@ -126,7 +126,7 @@ export const DocumentTable: React.FC<DocumentTableProps> = ({
           <TableHeader>
             <TableRow>
               <TableHead className="w-[40px]">STT</TableHead>
-              <TableHead>Số văn bản</TableHead>
+              <TableHead>Số công văn</TableHead>
               <TableHead>Tiêu đề</TableHead>
               <TableHead>Cơ quan gửi</TableHead>
               <TableHead>Ngày nhận</TableHead>

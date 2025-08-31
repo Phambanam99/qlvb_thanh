@@ -133,17 +133,17 @@ export function NotificationsProvider({ children }: { children: ReactNode }) {
   const getNotificationTitle = (realtimeNotification: RealTimeNotification): string => {
     switch (realtimeNotification.type) {
       case 'INTERNAL_DOCUMENT_RECEIVED':
-        return 'Văn bản nội bộ mới'
+        return 'công văn nội bộ mới'
       case 'INTERNAL_DOCUMENT_READ':
-        return 'Văn bản đã được đọc'
+        return 'công văn đã được đọc'
       case 'INTERNAL_DOCUMENT_SENT':
-        return 'Văn bản đã được gửi'
+        return 'công văn đã được gửi'
       case 'INTERNAL_DOCUMENT_UPDATED':
-        return 'Văn bản đã được cập nhật'
+        return 'công văn đã được cập nhật'
       case 'EXTERNAL_DOCUMENT_RECEIVED':
-        return 'Văn bản đến mới'
+        return 'công văn đến mới'
       case 'EXTERNAL_DOCUMENT_UPDATED':
-        return 'Văn bản đến đã được cập nhật'
+        return 'công văn đến đã được cập nhật'
       default:
         return 'Thông báo mới'
     }

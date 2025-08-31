@@ -177,9 +177,9 @@ export default function AddIncomingDocumentPage() {
           {/* Document Information Card */}
           <Card className="bg-card">
             <CardHeader className="bg-primary/5 border-b">
-              <CardTitle className="text-lg">Thông tin văn bản</CardTitle>
+              <CardTitle className="text-lg">Thông tin công văn</CardTitle>
               <CardDescription>
-                Nhập thông tin chi tiết của văn bản đến
+                Nhập thông tin chi tiết của công văn đến
               </CardDescription>
             </CardHeader>
             <CardContent className="pt-6">
@@ -236,8 +236,8 @@ export default function AddIncomingDocumentPage() {
           {/* Processing Assignment Card */}
           <Card className="bg-card">
             <CardHeader className="bg-primary/5 border-b">
-              <CardTitle>Phân loại văn bản</CardTitle>
-              <CardDescription>Chọn mục đích của văn bản</CardDescription>
+              <CardTitle>Phân loại công văn</CardTitle>
+              <CardDescription>Chọn mục đích của công văn</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6 pt-6">
               {/* Document Purpose Selection */}

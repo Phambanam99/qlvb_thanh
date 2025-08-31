@@ -1,5 +1,5 @@
 /**
- * Permission management utilities for văn bản đến
+ * Permission management utilities for công văn đến
  * Centralizes role-based access control logic
  */
 
@@ -36,9 +36,9 @@ export const ROLE_HIERARCHIES = {
 
 // Document source options for filtering
 export const DOCUMENT_SOURCE_OPTIONS = [
-  { value: "all" as DocumentSource, label: "Tất cả văn bản" },
-  { value: "department" as DocumentSource, label: "Văn bản phòng/đơn vị" },
-  { value: "assigned" as DocumentSource, label: "Văn bản được giao" },
+  { value: "all" as DocumentSource, label: "Tất cả công văn" },
+  { value: "department" as DocumentSource, label: "công văn phòng/đơn vị" },
+  { value: "assigned" as DocumentSource, label: "công văn được giao" },
 ];
 
 /**

@@ -46,7 +46,7 @@ export default function DocumentUpdatePage({
     const fetchDocument = async () => {
       try {
         setLoading(true);
-        // Lấy thông tin văn bản
+        // Lấy thông tin công văn
         const documentData_ = await incomingDocumentsAPI.getIncomingDocumentById(
           documentId
         );
@@ -83,7 +83,7 @@ export default function DocumentUpdatePage({
         if (!isUserAssigned && !hasRole(["ROLE_ADMIN", "ROLE_VAN_THU", "ROLE_CUC_TRUONG", "ROLE_CUC_PHO"])) {
           toast({
             title: "Không có quyền truy cập",
-            description: "Bạn không được phân công xử lý văn bản này",
+            description: "Bạn không được phân công xử lý công văn này",
             variant: "destructive",
           });
           router.push(`/van-ban-den/${documentId}`);
@@ -105,7 +105,7 @@ export default function DocumentUpdatePage({
       } catch (error) {
         toast({
           title: "Lỗi",
-          description: "Không thể tải thông tin văn bản. Vui lòng thử lại sau.",
+          description: "Không thể tải thông tin công văn. Vui lòng thử lại sau.",
           variant: "destructive",
         });
       } finally {
@@ -138,7 +138,7 @@ export default function DocumentUpdatePage({
       
       toast({
         title: "Thành công",
-        description: "Đã cập nhật thông tin xử lý văn bản",
+        description: "Đã cập nhật thông tin xử lý công văn",
       });
       
       // Chuyển về trang chi tiết
@@ -177,12 +177,12 @@ export default function DocumentUpdatePage({
   if (!document) {
     return (
       <div className="flex flex-col items-center justify-center h-[50vh]">
-        <h2 className="text-2xl font-bold mb-2">Không tìm thấy văn bản</h2>
+        <h2 className="text-2xl font-bold mb-2">Không tìm thấy công văn</h2>
         <p className="text-muted-foreground mb-4">
-          Văn bản này không tồn tại hoặc đã bị xóa
+          công văn này không tồn tại hoặc đã bị xóa
         </p>
         <Button asChild>
-          <Link href="/van-ban-den">Quay lại danh sách văn bản đến</Link>
+          <Link href="/van-ban-den">Quay lại danh sách công văn đến</Link>
         </Button>
       </div>
     );
@@ -210,9 +210,9 @@ export default function DocumentUpdatePage({
         <div className="md:col-span-4">
           <Card>
             <CardHeader>
-              <CardTitle>Thông tin văn bản</CardTitle>
+              <CardTitle>Thông tin công văn</CardTitle>
               <CardDescription>
-                Cập nhật tiến độ và trạng thái xử lý văn bản
+                Cập nhật tiến độ và trạng thái xử lý công văn
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -220,7 +220,7 @@ export default function DocumentUpdatePage({
                 <h2 className="font-medium text-lg">{document.title}</h2>
                 <div className="flex items-center space-x-2 mt-1 text-sm text-muted-foreground">
                   <FileText className="h-4 w-4" />
-                  <span>Số văn bản: {document.documentNumber}</span>
+                  <span>Số công văn: {document.documentNumber}</span>
                 </div>
                 <div className="flex flex-wrap gap-2 mt-2">
                   <Badge variant={document.status || "default"}>
@@ -337,7 +337,7 @@ export default function DocumentUpdatePage({
                   1
                 </span>
                 <span>
-                  Cập nhật trạng thái xử lý hiện tại của văn bản
+                  Cập nhật trạng thái xử lý hiện tại của công văn
                 </span>
               </li>
               <li className="flex items-start">
@@ -366,7 +366,7 @@ export default function DocumentUpdatePage({
             <div className="mt-4 p-3 bg-amber-50 border border-amber-200 rounded-md">
               <p className="text-sm text-amber-800">
                 <span className="font-medium">Lưu ý:</span> Khi chuyển trạng thái sang "Chờ phê duyệt", 
-                văn bản sẽ được gửi đến trưởng phòng hoặc người phê duyệt để xem xét.
+                công văn sẽ được gửi đến trưởng phòng hoặc người phê duyệt để xem xét.
               </p>
             </div>
           </div>

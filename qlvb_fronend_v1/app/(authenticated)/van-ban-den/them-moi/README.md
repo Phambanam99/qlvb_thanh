@@ -1,4 +1,4 @@
-# Tái cấu trúc trang thêm văn bản đến mới
+# Tái cấu trúc trang thêm công văn đến mới
 
 ## Tổng quan
 File `page.tsx` đã được tái cấu trúc để dễ bảo trì và ít lỗi hơn bằng cách chia nhỏ thành các component và utilities riêng biệt.
@@ -8,9 +8,9 @@ File `page.tsx` đã được tái cấu trúc để dễ bảo trì và ít l�
 ```
 them-moi/
 ├── components/
-│   ├── document-info-form.tsx          # Form thông tin văn bản
-│   ├── document-purpose-selector.tsx   # Selector mục đích văn bản  
-│   ├── processing-section.tsx          # Section xử lý văn bản
+│   ├── document-info-form.tsx          # Form thông tin công văn
+│   ├── document-purpose-selector.tsx   # Selector mục đích công văn  
+│   ├── processing-section.tsx          # Section xử lý công văn
 │   ├── notification-section.tsx        # Section thông báo
 │   ├── page-header.tsx                 # Header trang (mới)
 │   └── department-selection.tsx        # Component chọn phòng ban (mới)
@@ -95,7 +95,7 @@ const { toast } = useToast();
 const response = await apiWrapper(() => api.createDocument(data));
 
 // Handle response
-const result = handleApiResponse(response, toast, 'Tạo văn bản thành công');
+const result = handleApiResponse(response, toast, 'Tạo công văn thành công');
 
 if (result) {
   // Success case

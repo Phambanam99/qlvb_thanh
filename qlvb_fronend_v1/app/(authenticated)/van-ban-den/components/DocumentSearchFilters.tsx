@@ -94,7 +94,7 @@ export function DocumentSearchFilters({
         <div className="relative w-full sm:w-[300px]">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Tìm kiếm văn bản..."
+            placeholder="Tìm kiếm công văn..."
             className="pl-10 w-full border-primary/20 focus:border-primary"
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}

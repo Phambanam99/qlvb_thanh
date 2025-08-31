@@ -15,7 +15,7 @@ export function DocumentTypeSelector({
 }: DocumentTypeSelectorProps) {
   return (
     <div className="space-y-3">
-      <Label className="text-base font-medium">Phạm vi văn bản</Label>
+      <Label className="text-base font-medium">Phạm vi công văn</Label>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         <div
           className={cn(
@@ -44,10 +44,10 @@ export function DocumentTypeSelector({
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-2 mb-1">
                 <Building2 className="h-4 w-4 text-primary" />
-                <div className="text-sm font-medium">Văn bản nội bộ</div>
+                <div className="text-sm font-medium">công văn nội bộ</div>
               </div>
               <div className="text-xs text-muted-foreground">
-                Văn bản gửi trong nội bộ đơn vị, không cần phê duyệt
+                công văn gửi trong nội bộ đơn vị, không cần phê duyệt
               </div>
             </div>
           </div>
@@ -80,10 +80,10 @@ export function DocumentTypeSelector({
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-2 mb-1">
                 <Globe className="h-4 w-4 text-green-600" />
-                <div className="text-sm font-medium">Văn bản bên ngoài</div>
+                <div className="text-sm font-medium">công văn bên ngoài</div>
               </div>
               <div className="text-xs text-muted-foreground">
-                Văn bản gửi ra bên ngoài đơn vị, cần phê duyệt
+                công văn gửi ra bên ngoài đơn vị, cần phê duyệt
               </div>
             </div>
           </div>

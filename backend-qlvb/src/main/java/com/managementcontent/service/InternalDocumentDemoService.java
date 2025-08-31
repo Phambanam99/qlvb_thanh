@@ -15,8 +15,8 @@ import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
- * Service để tạo dữ liệu demo cho văn bản nội bộ
- * Tạo 1000 văn bản nội bộ với dữ liệu ngẫu nhiên nhưng thực tế
+ * Service để tạo dữ liệu demo cho công văn nội bộ
+ * Tạo 1000 công văn nội bộ với dữ liệu ngẫu nhiên nhưng thực tế
  */
 @Service
 @RequiredArgsConstructor
@@ -27,7 +27,7 @@ public class InternalDocumentDemoService {
     private final UserRepository userRepository;
     private final DepartmentRepository departmentRepository;
 
-    // Dữ liệu mẫu cho văn bản
+    // Dữ liệu mẫu cho công văn
     private static final String[] DOCUMENT_TYPES = {
         "Công văn", "Quyết định", "Chỉ thị", "Thông báo", "Báo cáo", 
         "Tờ trình", "Đề án", "Kế hoạch", "Hướng dẫn", "Quy định"
@@ -48,7 +48,7 @@ public class InternalDocumentDemoService {
     };
 
     private static final String[] SUMMARY_TEMPLATES = {
-        "Văn bản thông báo về việc {subject} nhằm {purpose}.",
+        "công văn thông báo về việc {subject} nhằm {purpose}.",
         "Hướng dẫn cụ thể về quy trình {subject} áp dụng từ ngày {date}.",
         "Báo cáo kết quả thực hiện {subject} trong tháng vừa qua.",
         "Đề xuất phương án {subject} để nâng cao hiệu quả công việc.",
@@ -72,11 +72,11 @@ public class InternalDocumentDemoService {
     };
 
     /**
-     * Tạo 1000 văn bản nội bộ demo
+     * Tạo 1000 công văn nội bộ demo
      */
     @Transactional
     public void createDemoInternalDocuments() {
-        log.info("Bắt đầu tạo 1000 văn bản nội bộ demo...");
+        log.info("Bắt đầu tạo 1000 công văn nội bộ demo...");
         
         // Lấy danh sách users và departments
         List<User> users = userRepository.findAll();
@@ -97,10 +97,10 @@ public class InternalDocumentDemoService {
                 successCount++;
                 
                 if (i % 100 == 0) {
-                    log.info("Đã tạo {} văn bản...", i);
+                    log.info("Đã tạo {} công văn...", i);
                 }
             } catch (Exception e) {
-                log.error("Lỗi khi tạo văn bản thứ {}: {}", i, e.getMessage());
+                log.error("Lỗi khi tạo công văn thứ {}: {}", i, e.getMessage());
                 errorCount++;
             }
         }
@@ -109,7 +109,7 @@ public class InternalDocumentDemoService {
     }
 
     /**
-     * Tạo một văn bản nội bộ ngẫu nhiên
+     * Tạo một công văn nội bộ ngẫu nhiên
      */
     private InternalDocument createRandomInternalDocument(int index, List<User> users, List<Department> departments) {
         Random random = new Random();
@@ -119,7 +119,7 @@ public class InternalDocumentDemoService {
         Department draftingDept = departments.get(random.nextInt(departments.size()));
         User signer = users.get(random.nextInt(users.size()));
         
-        // Tạo số văn bản
+        // Tạo số công văn
         String documentNumber = generateDocumentNumber(index);
         
         // Tạo tiêu đề
@@ -132,7 +132,7 @@ public class InternalDocumentDemoService {
         LocalDateTime signingDate = generateRandomDate();
         LocalDateTime processingDeadline = signingDate.plusDays(random.nextInt(30) + 7);
         
-        // Tạo văn bản
+        // Tạo công văn
         InternalDocument document = InternalDocument.builder()
                 .documentNumber(documentNumber)
                 .numberReceive((long) (random.nextInt(9999) + 1))
@@ -166,7 +166,7 @@ public class InternalDocumentDemoService {
     }
 
     /**
-     * Tạo số văn bản
+     * Tạo số công văn
      */
     private String generateDocumentNumber(int index) {
         String[] prefixes = {"CV", "QD", "CT", "TB", "BC", "TT", "DA", "KH", "HD", "QC"};
@@ -177,7 +177,7 @@ public class InternalDocumentDemoService {
     }
 
     /**
-     * Tạo tiêu đề văn bản
+     * Tạo tiêu đề công văn
      */
     private String generateTitle() {
         Random random = new Random();
@@ -187,7 +187,7 @@ public class InternalDocumentDemoService {
     }
 
     /**
-     * Tạo tóm tắt văn bản
+     * Tạo tóm tắt công văn
      */
     private String generateSummary() {
         Random random = new Random();
@@ -209,9 +209,9 @@ public class InternalDocumentDemoService {
             "Đề nghị các đơn vị liên quan phối hợp thực hiện.",
             "Báo cáo kết quả về Văn phòng trước ngày 30 hàng tháng.",
             "Trong quá trình thực hiện có vướng mắc liên hệ Văn phòng để được hướng dẫn.",
-            "Văn bản có hiệu lực kể từ ngày ký.",
+            "công văn có hiệu lực kể từ ngày ký.",
             "Đề nghị thực hiện nghiêm túc và đúng thời hạn.",
-            null // Một số văn bản không có ghi chú
+            null // Một số công văn không có ghi chú
         };
         Random random = new Random();
         return notes[random.nextInt(notes.length)];
@@ -274,11 +274,11 @@ public class InternalDocumentDemoService {
     }
 
     /**
-     * Thêm người nhận ngẫu nhiên cho văn bản
+     * Thêm người nhận ngẫu nhiên cho công văn
      */
     private void addRandomRecipients(InternalDocument document, List<User> users, 
                                    List<Department> departments, Random random) {
-        // Mỗi văn bản có từ 1-5 người nhận
+        // Mỗi công văn có từ 1-5 người nhận
         int recipientCount = random.nextInt(5) + 1;
         Set<Long> addedDepartments = new HashSet<>();
         
@@ -311,13 +311,13 @@ public class InternalDocumentDemoService {
     }
 
     /**
-     * Xóa tất cả văn bản demo (để test lại)
+     * Xóa tất cả công văn demo (để test lại)
      */
     @Transactional
     public void deleteAllDemoDocuments() {
-        log.info("Xóa tất cả văn bản demo...");
+        log.info("Xóa tất cả công văn demo...");
         
-        // Xóa các văn bản có pattern số văn bản demo
+        // Xóa các công văn có pattern số công văn demo
         List<InternalDocument> demoDocuments = internalDocumentRepository.findAll().stream()
             .filter(doc -> doc.getDocumentNumber() != null && 
                           (doc.getDocumentNumber().matches(".*-\\d{4}/2025") || 
@@ -325,11 +325,11 @@ public class InternalDocumentDemoService {
             .toList();
         
         internalDocumentRepository.deleteAll(demoDocuments);
-        log.info("Đã xóa {} văn bản demo", demoDocuments.size());
+        log.info("Đã xóa {} công văn demo", demoDocuments.size());
     }
 
     /**
-     * Kiểm tra số lượng văn bản hiện có
+     * Kiểm tra số lượng công văn hiện có
      */
     public long countTotalDocuments() {
         return internalDocumentRepository.count();

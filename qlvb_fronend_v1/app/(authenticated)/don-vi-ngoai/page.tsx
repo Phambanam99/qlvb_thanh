@@ -217,7 +217,7 @@ export default function SendersPage() {
             <h1 className="text-2xl font-semibold">Quản lý đơn vị ngoài</h1>
           </div>
           <p className="text-sm text-muted-foreground">
-            Quản lý danh sách các đơn vị bên ngoài gửi văn bản
+            Quản lý danh sách các đơn vị bên ngoài gửi công văn
           </p>
         </div>
 

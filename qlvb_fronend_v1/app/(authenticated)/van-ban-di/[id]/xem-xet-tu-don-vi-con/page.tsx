@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import { outgoingDocumentsAPI, workflowAPI } from "@/lib/api";
 import { hasRoleInGroup } from "@/lib/role-utils";
 
-// Danh sách các vai trò được phép xem xét văn bản
+// Danh sách các vai trò được phép xem xét công văn
 const REVIEW_ROLES = [
   "ROLE_TRUONG_PHONG",
   "ROLE_PHO_PHONG",
@@ -51,7 +51,7 @@ export default function OutgoingDocumentReviewPage({
       if (!isReviewRole) {
         toast({
           title: "Không có quyền",
-          description: "Bạn không có quyền xem xét văn bản này",
+          description: "Bạn không có quyền xem xét công văn này",
           variant: "destructive",
         });
         router.push(`/van-ban-di/${documentId}`);
@@ -60,7 +60,7 @@ export default function OutgoingDocumentReviewPage({
 
       try {
         setLoading(true);
-        // Tải thông tin văn bản
+        // Tải thông tin công văn
         const documentData_ = await outgoingDocumentsAPI.getOutgoingDocumentById(
           documentId
         );
@@ -68,7 +68,7 @@ export default function OutgoingDocumentReviewPage({
         const documentData = documentData_.data;
         setDocument(documentData.data);
 
-        // Kiểm tra xem văn bản có phải từ đơn vị con gửi lên không
+        // Kiểm tra xem công văn có phải từ đơn vị con gửi lên không
         const isFromChildDepartment =
           documentData.data.status === "department_approved" ||
           documentData.data.status === "parent_dept_review";
@@ -76,7 +76,7 @@ export default function OutgoingDocumentReviewPage({
         if (!isFromChildDepartment) {
           toast({
             title: "Không hợp lệ",
-            description: "Văn bản này không phải từ đơn vị con cần xem xét",
+            description: "công văn này không phải từ đơn vị con cần xem xét",
             variant: "destructive",
           });
           router.push(`/van-ban-di/${documentId}`);
@@ -87,7 +87,7 @@ export default function OutgoingDocumentReviewPage({
       } catch (error) {
         toast({
           title: "Lỗi",
-          description: "Không thể tải thông tin văn bản",
+          description: "Không thể tải thông tin công văn",
           variant: "destructive",
         });
         router.push(`/van-ban-di/${documentId}`);
@@ -117,7 +117,7 @@ export default function OutgoingDocumentReviewPage({
         </p>
         <div className="flex justify-center">
           <Button asChild>
-            <Link href="/van-ban-di">Quay lại danh sách văn bản đi</Link>
+            <Link href="/van-ban-di">Quay lại danh sách công văn đi</Link>
           </Button>
         </div>
       </div>
@@ -138,7 +138,7 @@ export default function OutgoingDocumentReviewPage({
           </Link>
         </Button>
         <h1 className="text-2xl font-bold tracking-tight text-primary">
-          Xem xét văn bản đi từ đơn vị con
+          Xem xét công văn đi từ đơn vị con
         </h1>
       </div>
 
@@ -148,13 +148,13 @@ export default function OutgoingDocumentReviewPage({
         </div>
         <div className="md:col-span-3">
           <div className="bg-primary/5 border rounded-md p-4">
-            <h3 className="font-medium mb-2">Hướng dẫn xem xét văn bản</h3>
+            <h3 className="font-medium mb-2">Hướng dẫn xem xét công văn</h3>
             <ul className="space-y-2 text-sm">
               <li className="flex items-start">
                 <span className="h-5 w-5 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs mr-2 mt-0.5">
                   1
                 </span>
-                <span>Đọc kỹ nội dung văn bản từ đơn vị con</span>
+                <span>Đọc kỹ nội dung công văn từ đơn vị con</span>
               </li>
               <li className="flex items-start">
                 <span className="h-5 w-5 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs mr-2 mt-0.5">
@@ -167,7 +167,7 @@ export default function OutgoingDocumentReviewPage({
                   3
                 </span>
                 <span>
-                  Chọn "Phê duyệt" để chuyển văn bản lên cấp cao hơn hoặc "Yêu
+                  Chọn "Phê duyệt" để chuyển công văn lên cấp cao hơn hoặc "Yêu
                   cầu chỉnh sửa" để trả về đơn vị con
                 </span>
               </li>

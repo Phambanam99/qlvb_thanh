@@ -2,7 +2,7 @@
 
 ## Tổng quan
 
-Hệ thống quản lý văn bản nội bộ cho phép gửi và nhận văn bản giữa các phòng ban và cá nhân trong tổ chức.
+Hệ thống quản lý công văn nội bộ cho phép gửi và nhận công văn giữa các phòng ban và cá nhân trong tổ chức.
 
 ## Base URL
 
@@ -12,14 +12,14 @@ Hệ thống quản lý văn bản nội bộ cho phép gửi và nhận văn b�
 
 ## Endpoints
 
-### 1. Tạo văn bản nội bộ (có đính kèm file)
+### 1. Tạo công văn nội bộ (có đính kèm file)
 
 **Endpoint:** `POST /api/internal-documents`  
 **Content-Type:** `multipart/form-data`
 
 #### Request Parameters:
 
-- `document` (JSON string, required): Thông tin văn bản
+- `document` (JSON string, required): Thông tin công văn
 - `files` (file[], optional): Các file đính kèm
 - `descriptions` (string[], optional): Mô tả cho từng file
 
@@ -128,7 +128,7 @@ curl -X POST \
 }
 ```
 
-### 2. Tạo văn bản nội bộ (chỉ JSON, không file)
+### 2. Tạo công văn nội bộ (chỉ JSON, không file)
 
 **Endpoint:** `POST /api/internal-documents/json`  
 **Content-Type:** `application/json`
@@ -149,7 +149,7 @@ curl -X POST \
   }'
 ```
 
-### 3. Xem văn bản theo ID
+### 3. Xem công văn theo ID
 
 **Endpoint:** `GET /api/internal-documents/{id}`
 
@@ -159,33 +159,33 @@ curl -X GET \
   -H 'Authorization: Bearer YOUR_TOKEN'
 ```
 
-### 4. Lấy danh sách văn bản
+### 4. Lấy danh sách công văn
 
-#### Văn bản đã gửi
+#### công văn đã gửi
 
 ```bash
 GET /api/internal-documents/sent?page=0&size=10&sort=createdAt,desc
 ```
 
-#### Văn bản đã nhận
+#### công văn đã nhận
 
 ```bash
 GET /api/internal-documents/received?page=0&size=10
 ```
 
-#### Văn bản chưa đọc
+#### công văn chưa đọc
 
 ```bash
 GET /api/internal-documents/unread?page=0&size=10
 ```
 
-#### Số lượng văn bản chưa đọc
+#### Số lượng công văn chưa đọc
 
 ```bash
 GET /api/internal-documents/unread/count
 ```
 
-### 5. Tìm kiếm văn bản
+### 5. Tìm kiếm công văn
 
 #### Tìm kiếm cơ bản
 
@@ -199,7 +199,7 @@ GET /api/internal-documents/search?keyword=họp&page=0&size=10
 GET /api/internal-documents/search/advanced?senderId=5&priority=HIGH&startDate=2025-06-01T00:00:00&endDate=2025-06-30T23:59:59
 ```
 
-### 6. Trả lời văn bản
+### 6. Trả lời công văn
 
 **Endpoint:** `POST /api/internal-documents/{id}/reply`
 
@@ -229,7 +229,7 @@ curl -X POST \
   -H 'Authorization: Bearer YOUR_TOKEN'
 ```
 
-### 8. Upload file đính kèm (sau khi tạo văn bản)
+### 8. Upload file đính kèm (sau khi tạo công văn)
 
 **Endpoint:** `POST /api/internal-documents/{id}/attachments`
 
@@ -319,7 +319,7 @@ Authorization: Bearer YOUR_JWT_TOKEN
 
 ## Frontend Integration Example (JavaScript)
 
-### Tạo văn bản với file đính kèm
+### Tạo công văn với file đính kèm
 
 ```javascript
 async function createDocumentWithFiles(documentData, files) {

@@ -84,13 +84,13 @@ public class OutgoingDocumentDTO {
     private Long draftingDepartmentEntityId;
 
     /**
-     * Độ mật của văn bản
+     * Độ mật của công văn
      */
     private String securityLevel;
     private String securityLevelDisplayName;
 
     /**
-     * Người ký văn bản
+     * Người ký công văn
      */
     private UserDTO documentSigner;
     private Long documentSignerId;
@@ -101,7 +101,7 @@ public class OutgoingDocumentDTO {
     private Boolean isSecureTransmission;
 
     /**
-     * Hạn xử lý văn bản
+     * Hạn xử lý công văn
      */
     private LocalDateTime processingDeadline;
 
@@ -122,7 +122,7 @@ public class OutgoingDocumentDTO {
     private Integer numberOfCopies;
 
     /**
-     * Số tờ của văn bản
+     * Số tờ của công văn
      */
     private Integer numberOfPages;
 

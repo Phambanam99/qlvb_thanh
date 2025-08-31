@@ -79,18 +79,18 @@ public class InternalDocumentController {
                         if (internalDocumentService.checkDocumentNumber(createDTO.getDocumentNumber())) {
                                 System.out.println("loiiiiiiiiiiiiiiiiiii");
                                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                                                .body(ResponseDTO.error("Số văn bản đã tồn tại"));
+                                                .body(ResponseDTO.error("Số công văn đã tồn tại"));
                         }
 
                         InternalDocumentDTO createdDocument = internalDocumentService.createDocumentWithAttachments(
                                         createDTO, files, descriptions);
 
                         return ResponseEntity.status(HttpStatus.CREATED)
-                                        .body(ResponseDTO.success("Tạo văn bản thành công", createdDocument));
+                                        .body(ResponseDTO.success("Tạo công văn thành công", createdDocument));
                 } catch (Exception e) {
                         e.printStackTrace();
                         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                                        .body(ResponseDTO.error("Không thể tạo văn bản: " + e.getMessage()));
+                                        .body(ResponseDTO.error("Không thể tạo công văn: " + e.getMessage()));
                 }
         }
         @Operation(summary = "Create new internal document", description = "Update a new internal document with recipients and optional file attachments")
@@ -119,7 +119,7 @@ public class InternalDocumentController {
                 } catch (Exception e) {
                         e.printStackTrace();
                         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                                .body(ResponseDTO.error("Không thể sửa văn bản: " + e.getMessage()));
+                                .body(ResponseDTO.error("Không thể sửa công văn: " + e.getMessage()));
                 }
         }
 
@@ -136,10 +136,10 @@ public class InternalDocumentController {
                 try {
                         InternalDocumentDTO createdDocument = internalDocumentService.createDocument(createDTO);
                         return ResponseEntity.status(HttpStatus.CREATED)
-                                        .body(ResponseDTO.success("Tạo văn bản thành công", createdDocument));
+                                        .body(ResponseDTO.success("Tạo công văn thành công", createdDocument));
                 } catch (Exception e) {
                         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                                        .body(ResponseDTO.error("Không thể tạo văn bản: " + e.getMessage()));
+                                        .body(ResponseDTO.error("Không thể tạo công văn: " + e.getMessage()));
                 }
         }
 
@@ -157,10 +157,10 @@ public class InternalDocumentController {
                         return internalDocumentService.getDocumentById(id)
                                         .map(doc -> ResponseEntity.ok(ResponseDTO.success(doc)))
                                         .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)
-                                                        .body(ResponseDTO.error("Không tìm thấy văn bản")));
+                                                        .body(ResponseDTO.error("Không tìm thấy công văn")));
                 } catch (Exception e) {
                         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                                        .body(ResponseDTO.error("Lỗi khi lấy thông tin văn bản: " + e.getMessage()));
+                                        .body(ResponseDTO.error("Lỗi khi lấy thông tin công văn: " + e.getMessage()));
                 }
         }
 
@@ -177,7 +177,7 @@ public class InternalDocumentController {
                 } catch (Exception e) {
                         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                                         .body(ResponseDTO.error(
-                                                        "Lỗi khi lấy danh sách văn bản đã gửi: " + e.getMessage()));
+                                                        "Lỗi khi lấy danh sách công văn đã gửi: " + e.getMessage()));
                 }
         }
 
@@ -194,7 +194,7 @@ public class InternalDocumentController {
                 } catch (Exception e) {
                         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                                         .body(ResponseDTO.error(
-                                                        "Lỗi khi lấy tất cả văn bản đã gửi: " + e.getMessage()));
+                                                        "Lỗi khi lấy tất cả công văn đã gửi: " + e.getMessage()));
                 }
         }
 
@@ -224,14 +224,14 @@ public class InternalDocumentController {
                         Page<InternalDocumentDTO> documents = internalDocumentService
                                         .getSentDocumentsByYearAndMonth(year, month, pageable);
                         String message = month != null
-                                        ? String.format("Lấy danh sách văn bản đã gửi tháng %d/%d thành công", month,
+                                        ? String.format("Lấy danh sách công văn đã gửi tháng %d/%d thành công", month,
                                                         year)
-                                        : String.format("Lấy danh sách văn bản đã gửi năm %d thành công", year);
+                                        : String.format("Lấy danh sách công văn đã gửi năm %d thành công", year);
                         return ResponseEntity.ok(ResponseDTO.success(message, documents));
                 } catch (Exception e) {
                         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                                         .body(ResponseDTO.error(
-                                                        "Lỗi khi lấy danh sách văn bản đã gửi: " + e.getMessage()));
+                                                        "Lỗi khi lấy danh sách công văn đã gửi: " + e.getMessage()));
                 }
         }
 
@@ -248,7 +248,7 @@ public class InternalDocumentController {
                 } catch (Exception e) {
                         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                                         .body(ResponseDTO.error(
-                                                        "Lỗi khi lấy danh sách văn bản đã nhận: " + e.getMessage()));
+                                                        "Lỗi khi lấy danh sách công văn đã nhận: " + e.getMessage()));
                 }
         }
 
@@ -265,7 +265,7 @@ public class InternalDocumentController {
                 } catch (Exception e) {
                         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                                         .body(ResponseDTO.error(
-                                                        "Lỗi khi lấy tất cả văn bản đã nhận: " + e.getMessage()));
+                                                        "Lỗi khi lấy tất cả công văn đã nhận: " + e.getMessage()));
                 }
         }
 
@@ -295,14 +295,14 @@ public class InternalDocumentController {
                         Page<InternalDocumentDTO> documents = internalDocumentService
                                         .getReceivedDocumentsByYearAndMonth(year, month, pageable);
                         String message = month != null
-                                        ? String.format("Lấy danh sách văn bản đã nhận tháng %d/%d thành công", month,
+                                        ? String.format("Lấy danh sách công văn đã nhận tháng %d/%d thành công", month,
                                                         year)
-                                        : String.format("Lấy danh sách văn bản đã nhận năm %d thành công", year);
+                                        : String.format("Lấy danh sách công văn đã nhận năm %d thành công", year);
                         return ResponseEntity.ok(ResponseDTO.success(message, documents));
                 } catch (Exception e) {
                         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                                         .body(ResponseDTO.error(
-                                                        "Lỗi khi lấy danh sách văn bản đã nhận: " + e.getMessage()));
+                                                        "Lỗi khi lấy danh sách công văn đã nhận: " + e.getMessage()));
                 }
         }
 
@@ -319,7 +319,7 @@ public class InternalDocumentController {
                 } catch (Exception e) {
                         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                                         .body(ResponseDTO.error(
-                                                        "Lỗi khi lấy danh sách văn bản chưa đọc: " + e.getMessage()));
+                                                        "Lỗi khi lấy danh sách công văn chưa đọc: " + e.getMessage()));
                 }
         }
 
@@ -336,7 +336,7 @@ public class InternalDocumentController {
                 } catch (Exception e) {
                         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                                         .body(ResponseDTO.error(
-                                                        "Lỗi khi lấy tất cả văn bản chưa đọc: " + e.getMessage()));
+                                                        "Lỗi khi lấy tất cả công văn chưa đọc: " + e.getMessage()));
                 }
         }
 
@@ -352,7 +352,7 @@ public class InternalDocumentController {
                         return ResponseEntity.ok(ResponseDTO.success(count));
                 } catch (Exception e) {
                         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                                        .body(ResponseDTO.error("Lỗi khi đếm số văn bản chưa đọc: " + e.getMessage()));
+                                        .body(ResponseDTO.error("Lỗi khi đếm số công văn chưa đọc: " + e.getMessage()));
                 }
         }
 
@@ -372,7 +372,7 @@ public class InternalDocumentController {
                         return ResponseEntity.ok(ResponseDTO.success(documents));
                 } catch (Exception e) {
                         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                                        .body(ResponseDTO.error("Lỗi khi tìm kiếm văn bản: " + e.getMessage()));
+                                        .body(ResponseDTO.error("Lỗi khi tìm kiếm công văn: " + e.getMessage()));
                 }
         }
 
@@ -419,10 +419,10 @@ public class InternalDocumentController {
                 try {
                         InternalDocumentDTO reply = internalDocumentService.replyToDocument(id, replyDTO);
                         return ResponseEntity.status(HttpStatus.CREATED)
-                                        .body(ResponseDTO.success("Trả lời văn bản thành công", reply));
+                                        .body(ResponseDTO.success("Trả lời công văn thành công", reply));
                 } catch (Exception e) {
                         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                                        .body(ResponseDTO.error("Không thể trả lời văn bản: " + e.getMessage()));
+                                        .body(ResponseDTO.error("Không thể trả lời công văn: " + e.getMessage()));
                 }
         }
 
@@ -447,13 +447,13 @@ public class InternalDocumentController {
                         /// check document number is already or not
                         if (internalDocumentService.checkDocumentNumber(replyDTO.getDocumentNumber())) {
                                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                                                .body(ResponseDTO.error("Số văn bản đã tồn tại"));
+                                                .body(ResponseDTO.error("Số công văn đã tồn tại"));
                         }
                         InternalDocumentDTO reply = internalDocumentService.replyToDocumentWithAttachments(
                                         id, replyDTO, files, descriptions);
 
                         return ResponseEntity.status(HttpStatus.CREATED)
-                                        .body(ResponseDTO.success("Trả lời văn bản thành công", reply));
+                                        .body(ResponseDTO.success("Trả lời công văn thành công", reply));
                 } catch (Exception e) {
                         System.err.println("Error in replyToDocumentWithAttachments: " + e.getMessage());
                         e.printStackTrace();
@@ -463,7 +463,7 @@ public class InternalDocumentController {
                         }
 
                         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                                        .body(ResponseDTO.error("Không thể trả lời văn bản: " + e.getMessage()));
+                                        .body(ResponseDTO.error("Không thể trả lời công văn: " + e.getMessage()));
                 }
         }
 
@@ -560,7 +560,7 @@ public class InternalDocumentController {
                         return ResponseEntity.ok(ResponseDTO.success(statistics));
                 } catch (Exception e) {
                         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                                        .body(ResponseDTO.error("Lỗi khi lấy thống kê văn bản: " + e.getMessage()));
+                                        .body(ResponseDTO.error("Lỗi khi lấy thống kê công văn: " + e.getMessage()));
                 }
         }
 
@@ -580,7 +580,7 @@ public class InternalDocumentController {
                 } catch (Exception e) {
                         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                                         .body(ResponseDTO.error(
-                                                        "Lỗi khi lấy văn bản theo độ ưu tiên: " + e.getMessage()));
+                                                        "Lỗi khi lấy công văn theo độ ưu tiên: " + e.getMessage()));
                 }
         }
 
@@ -600,7 +600,7 @@ public class InternalDocumentController {
                         return ResponseEntity.ok(ResponseDTO.success(documents));
                 } catch (Exception e) {
                         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                                        .body(ResponseDTO.error("Lỗi khi lấy văn bản theo khoảng thời gian: "
+                                        .body(ResponseDTO.error("Lỗi khi lấy công văn theo khoảng thời gian: "
                                                         + e.getMessage()));
                 }
         }
@@ -620,7 +620,7 @@ public class InternalDocumentController {
                         return ResponseEntity.ok(ResponseDTO.success(documents));
                 } catch (Exception e) {
                         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                                        .body(ResponseDTO.error("Lỗi khi lấy văn bản theo loại: " + e.getMessage()));
+                                        .body(ResponseDTO.error("Lỗi khi lấy công văn theo loại: " + e.getMessage()));
                 }
         }
 
@@ -634,7 +634,7 @@ public class InternalDocumentController {
                         return ResponseEntity.ok(ResponseDTO.success(history));
                 } catch (Exception e) {
                         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                                        .body(ResponseDTO.error("Lỗi khi lấy lịch sử văn bản: " + e.getMessage()));
+                                        .body(ResponseDTO.error("Lỗi khi lấy lịch sử công văn: " + e.getMessage()));
                 }
         }
 
@@ -662,7 +662,7 @@ public class InternalDocumentController {
                         return ResponseEntity.ok(ResponseDTO.success(thread));
                 } catch (Exception e) {
                         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                                        .body(ResponseDTO.error("Lỗi khi lấy chuỗi văn bản: " + e.getMessage()));
+                                        .body(ResponseDTO.error("Lỗi khi lấy chuỗi công văn: " + e.getMessage()));
                 }
         }
 
@@ -690,11 +690,11 @@ public class InternalDocumentController {
                                 return ResponseEntity.ok(ResponseDTO.success(stats));
                         } else {
                                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                                                .body(ResponseDTO.error("Không tìm thấy văn bản"));
+                                                .body(ResponseDTO.error("Không tìm thấy công văn"));
                         }
                 } catch (Exception e) {
                         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                                        .body(ResponseDTO.error("Lỗi khi lấy thống kê văn bản: " + e.getMessage()));
+                                        .body(ResponseDTO.error("Lỗi khi lấy thống kê công văn: " + e.getMessage()));
                 }
         }
 
@@ -714,7 +714,7 @@ public class InternalDocumentController {
                                 return ResponseEntity.ok(ResponseDTO.success(readers));
                         } else {
                                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                                                .body(ResponseDTO.error("Không tìm thấy văn bản"));
+                                                .body(ResponseDTO.error("Không tìm thấy công văn"));
                         }
                 } catch (Exception e) {
                         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -738,7 +738,7 @@ public class InternalDocumentController {
                                 return ResponseEntity.ok(ResponseDTO.success(readers));
                         } else {
                                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                                                .body(ResponseDTO.error("Không tìm thấy văn bản"));
+                                                .body(ResponseDTO.error("Không tìm thấy công văn"));
                         }
                 } catch (Exception e) {
                         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -763,7 +763,7 @@ public class InternalDocumentController {
                                 return ResponseEntity.ok(ResponseDTO.success(statistics));
                         } else {
                                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                                                .body(ResponseDTO.error("Không tìm thấy văn bản"));
+                                                .body(ResponseDTO.error("Không tìm thấy công văn"));
                         }
                 } catch (Exception e) {
                         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -772,9 +772,9 @@ public class InternalDocumentController {
         }
 
         /**
-         * Tạo 1000 văn bản nội bộ demo
+         * Tạo 1000 công văn nội bộ demo
          */
-        @Operation(summary = "Tạo 1000 văn bản nội bộ demo", description = "Tạo 1000 văn bản nội bộ với dữ liệu ngẫu nhiên nhưng thực tế")
+        @Operation(summary = "Tạo 1000 công văn nội bộ demo", description = "Tạo 1000 công văn nội bộ với dữ liệu ngẫu nhiên nhưng thực tế")
         @ApiResponses({
                         @ApiResponse(responseCode = "200", description = "Tạo dữ liệu demo thành công"),
                         @ApiResponse(responseCode = "500", description = "Lỗi khi tạo dữ liệu demo")
@@ -783,7 +783,7 @@ public class InternalDocumentController {
         public ResponseEntity<ResponseDTO<String>> createDemoDocuments() {
                 try {
                         demoService.createDemoInternalDocuments();
-                        return ResponseEntity.ok(ResponseDTO.success("Đã tạo thành công 1000 văn bản nội bộ demo"));
+                        return ResponseEntity.ok(ResponseDTO.success("Đã tạo thành công 1000 công văn nội bộ demo"));
                 } catch (Exception e) {
                         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                                         .body(ResponseDTO.error("Lỗi khi tạo dữ liệu demo: " + e.getMessage()));
@@ -791,9 +791,9 @@ public class InternalDocumentController {
         }
 
         /**
-         * Kiểm tra số lượng văn bản hiện có
+         * Kiểm tra số lượng công văn hiện có
          */
-        @Operation(summary = "Kiểm tra số lượng văn bản", description = "Trả về tổng số văn bản nội bộ hiện có trong hệ thống")
+        @Operation(summary = "Kiểm tra số lượng công văn", description = "Trả về tổng số công văn nội bộ hiện có trong hệ thống")
         @ApiResponses({
                         @ApiResponse(responseCode = "200", description = "Lấy thông tin thành công")
         })
@@ -804,26 +804,26 @@ public class InternalDocumentController {
                         return ResponseEntity.ok(ResponseDTO.success(count));
                 } catch (Exception e) {
                         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                        .body(ResponseDTO.error("Lỗi khi đếm văn bản: " + e.getMessage()));
+                                        .body(ResponseDTO.error("Lỗi khi đếm công văn: " + e.getMessage()));
                 }
         }
 
         // ================== NOTIFICATION ENDPOINTS ==================
 
         /**
-         * Gửi văn bản nội bộ đến danh sách người nhận
+         * Gửi công văn nội bộ đến danh sách người nhận
          */
-        @Operation(summary = "Gửi văn bản nội bộ", description = "Gửi văn bản nội bộ đến danh sách người nhận và tạo thông báo")
+        @Operation(summary = "Gửi công văn nội bộ", description = "Gửi công văn nội bộ đến danh sách người nhận và tạo thông báo")
         @ApiResponses({
-                        @ApiResponse(responseCode = "200", description = "Gửi văn bản thành công"),
-                        @ApiResponse(responseCode = "404", description = "Không tìm thấy văn bản"),
-                        @ApiResponse(responseCode = "403", description = "Không có quyền gửi văn bản"),
+                        @ApiResponse(responseCode = "200", description = "Gửi công văn thành công"),
+                        @ApiResponse(responseCode = "404", description = "Không tìm thấy công văn"),
+                        @ApiResponse(responseCode = "403", description = "Không có quyền gửi công văn"),
                         @ApiResponse(responseCode = "400", description = "Dữ liệu không hợp lệ")
         })
         @PostMapping("/{id}/send")
         // @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
         public ResponseEntity<ResponseDTO<String>> sendInternalDocument(
-                        @Parameter(description = "ID của văn bản nội bộ") @PathVariable Long id,
+                        @Parameter(description = "ID của công văn nội bộ") @PathVariable Long id,
                         @Parameter(description = "Danh sách ID người nhận") @RequestBody List<Long> recipientUserIds) {
 
                 try {
@@ -831,35 +831,35 @@ public class InternalDocumentController {
                                         id, recipientUserIds, getCurrentUser());
 
                         if (success) {
-                                return ResponseEntity.ok(ResponseDTO.success("Gửi văn bản thành công"));
+                                return ResponseEntity.ok(ResponseDTO.success("Gửi công văn thành công"));
                         } else {
                                 return ResponseEntity.badRequest()
-                                                .body(ResponseDTO.error("Gửi văn bản thất bại"));
+                                                .body(ResponseDTO.error("Gửi công văn thất bại"));
                         }
                 } catch (Exception e) {
                         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                        .body(ResponseDTO.error("Lỗi khi gửi văn bản: " + e.getMessage()));
+                                        .body(ResponseDTO.error("Lỗi khi gửi công văn: " + e.getMessage()));
                 }
         }
 
         /**
-         * Đánh dấu văn bản nội bộ đã đọc
+         * Đánh dấu công văn nội bộ đã đọc
          */
-        @Operation(summary = "Đánh dấu đã đọc", description = "Đánh dấu văn bản nội bộ đã được đọc và gửi thông báo cho người gửi")
+        @Operation(summary = "Đánh dấu đã đọc", description = "Đánh dấu công văn nội bộ đã được đọc và gửi thông báo cho người gửi")
         @ApiResponses({
                         @ApiResponse(responseCode = "200", description = "Đánh dấu đã đọc thành công"),
-                        @ApiResponse(responseCode = "404", description = "Không tìm thấy văn bản"),
-                        @ApiResponse(responseCode = "403", description = "Không có quyền đọc văn bản"),
-                        @ApiResponse(responseCode = "400", description = "Văn bản đã được đọc trước đó")
+                        @ApiResponse(responseCode = "404", description = "Không tìm thấy công văn"),
+                        @ApiResponse(responseCode = "403", description = "Không có quyền đọc công văn"),
+                        @ApiResponse(responseCode = "400", description = "công văn đã được đọc trước đó")
         })
         @PostMapping("/{id}/mark-read")
         // @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
         public ResponseEntity<ResponseDTO<String>> markAsRead(
-                        @Parameter(description = "ID của văn bản nội bộ") @PathVariable Long id) {
+                        @Parameter(description = "ID của công văn nội bộ") @PathVariable Long id) {
 
                 try {
                         internalDocumentService.markAsRead(id);
-                        return ResponseEntity.ok(ResponseDTO.success("Đã đánh dấu văn bản là đã đọc"));
+                        return ResponseEntity.ok(ResponseDTO.success("Đã đánh dấu công văn là đã đọc"));
                 } catch (Exception e) {
                         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                                         .body(ResponseDTO.error("Lỗi khi đánh dấu đã đọc: " + e.getMessage()));
@@ -867,16 +867,16 @@ public class InternalDocumentController {
         }
 
         /**
-         * Kiểm tra quyền truy cập văn bản
+         * Kiểm tra quyền truy cập công văn
          */
-        @Operation(summary = "Kiểm tra quyền truy cập", description = "Kiểm tra xem người dùng hiện tại có quyền truy cập văn bản không")
+        @Operation(summary = "Kiểm tra quyền truy cập", description = "Kiểm tra xem người dùng hiện tại có quyền truy cập công văn không")
         @ApiResponses({
                         @ApiResponse(responseCode = "200", description = "Kiểm tra thành công")
         })
         @GetMapping("/{id}/access-check")
         // @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
         public ResponseEntity<ResponseDTO<Boolean>> checkAccess(
-                        @Parameter(description = "ID của văn bản nội bộ") @PathVariable Long id) {
+                        @Parameter(description = "ID của công văn nội bộ") @PathVariable Long id) {
 
                 try {
                         boolean hasAccess = internalDocumentService.hasAccessToDocument(id, getCurrentUser());

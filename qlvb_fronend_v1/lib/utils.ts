@@ -6,8 +6,8 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 /**
- * Lấy thông tin variant và text cho Badge tương ứng với trạng thái văn bản
- * @param status Mã trạng thái văn bản
+ * Lấy thông tin variant và text cho Badge tương ứng với trạng thái công văn
+ * @param status Mã trạng thái công văn
  * @param displayName Tên hiển thị của trạng thái (tùy chọn)
  * @returns Object chứa variant và text tương ứng cho Badge
  */
@@ -31,7 +31,7 @@ export function getStatusBadgeInfo(
       display: string;
     }
   > = {
-    // Văn bản đến
+    // công văn đến
     draft: { variant: "outline", display: "Dự thảo" },
     registered: { variant: "outline", display: "Đã đăng ký" },
     distributed: { variant: "secondary", display: "Đã phân phối" },
@@ -59,16 +59,16 @@ export function getStatusBadgeInfo(
     rejected: { variant: "destructive", display: "Từ chối" },
     archived: { variant: "outline", display: "Lưu trữ" },
 
-    // Văn bản đi - lowercase versions
+    // công văn đi - lowercase versions
     sent: { variant: "success", display: "Đã gửi" },
     approved: { variant: "success", display: "Đã phê duyệt" },
 
-    // Văn bản đi nội bộ - uppercase versions (từ API)
+    // công văn đi nội bộ - uppercase versions (từ API)
     DRAFT: { variant: "outline", display: "Bản nháp" },
     SENT: { variant: "success", display: "Đã gửi" },
     APPROVED: { variant: "success", display: "Đã phê duyệt" },
 
-    // Văn bản phản hồi
+    // công văn phản hồi
     pendingLeaderReview: { variant: "outline", display: "Chờ ý kiến chỉ huy" },
     departmentReviewing: {
       variant: "outline",

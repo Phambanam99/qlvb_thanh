@@ -54,9 +54,9 @@ export function MainSidebar() {
             <FileText className="h-6 w-6 text-primary-foreground" />
           </div>
           <div className="ml-2">
-            <h3 className="text-lg font-semibold">Quản lý văn bản</h3>
+            <h3 className="text-lg font-semibold">Quản lý công văn</h3>
             <p className="text-xs text-muted-foreground">
-              Hệ thống quản lý văn bản
+              Hệ thống quản lý công văn
             </p>
           </div>
         </div>
@@ -77,7 +77,7 @@ export function MainSidebar() {
                 <SidebarMenuButton asChild isActive={isActive("/van-ban-den")}>
                   <Link href="/van-ban-den">
                     <FileText className="mr-2 h-4 w-4" />
-                    <span>Văn bản đến</span>
+                    <span>công văn đến</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -85,7 +85,7 @@ export function MainSidebar() {
                 <SidebarMenuButton asChild isActive={isActive("/van-ban-di")}>
                   <Link href="/van-ban-di">
                     <Send className="mr-2 h-4 w-4" />
-                    <span>Văn bản đi</span>
+                    <span>công văn đi</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>

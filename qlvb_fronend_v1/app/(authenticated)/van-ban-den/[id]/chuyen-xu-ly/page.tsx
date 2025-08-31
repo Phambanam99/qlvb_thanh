@@ -67,10 +67,10 @@ export default function AssignDocumentPage() {
         const response = response_.data;
         setDocument(response.data);
       } catch (error) {
-        setError("Không thể tải thông tin văn bản");
+        setError("Không thể tải thông tin công văn");
         toast({
           title: "Lỗi",
-          description: "Không thể tải thông tin văn bản",
+          description: "Không thể tải thông tin công văn",
           variant: "destructive",
         });
       } finally {
@@ -207,7 +207,7 @@ export default function AssignDocumentPage() {
       REPORT: "Báo cáo",
       ANNOUNCEMENT: "Thông báo",
       PROPOSAL: "Tờ trình",
-      INTERNAL_DOCUMENT: "Văn bản nội bộ",
+      INTERNAL_DOCUMENT: "công văn nội bộ",
       CONTRACT: "Hợp đồng",
       MEETING_MINUTES: "Biên bản họp",
       OTHER: "Khác",
@@ -246,14 +246,14 @@ export default function AssignDocumentPage() {
 
       toast({
         title: "Thành công",
-        description: "Văn bản đã được chuyển xử lý thành công",
+        description: "công văn đã được chuyển xử lý thành công",
       });
 
       router.push(`/van-ban-den/${documentId}`);
     } catch (error) {
       toast({
         title: "Lỗi",
-        description: "Không thể chuyển xử lý văn bản",
+        description: "Không thể chuyển xử lý công văn",
         variant: "destructive",
       });
     } finally {
@@ -272,7 +272,7 @@ export default function AssignDocumentPage() {
             </Link>
           </Button>
           <h1 className="text-2xl font-bold tracking-tight">
-            Chuyển xử lý văn bản
+            Chuyển xử lý công văn
           </h1>
         </div>
 
@@ -312,7 +312,7 @@ export default function AssignDocumentPage() {
             </Link>
           </Button>
           <h1 className="text-2xl font-bold tracking-tight">
-            Chuyển xử lý văn bản
+            Chuyển xử lý công văn
           </h1>
         </div>
 
@@ -320,7 +320,7 @@ export default function AssignDocumentPage() {
           <AlertCircle className="h-4 w-4" />
           <AlertTitle>Lỗi</AlertTitle>
           <AlertDescription>
-            {error || "Không thể tải thông tin văn bản. Vui lòng thử lại sau."}
+            {error || "Không thể tải thông tin công văn. Vui lòng thử lại sau."}
           </AlertDescription>
         </Alert>
       </div>
@@ -337,7 +337,7 @@ export default function AssignDocumentPage() {
             </Link>
           </Button>
           <h1 className="text-2xl font-bold tracking-tight">
-            Chuyển xử lý văn bản
+            Chuyển xử lý công văn
           </h1>
         </div>
         <div className="flex items-center space-x-2">
@@ -362,13 +362,13 @@ export default function AssignDocumentPage() {
         <div className="md:col-span-4">
           <Card>
             <CardHeader className="bg-primary/5 border-b">
-              <CardTitle>Thông tin văn bản</CardTitle>
+              <CardTitle>Thông tin công văn</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4 pt-6">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1">
                   <p className="text-sm font-medium text-muted-foreground">
-                    Số văn bản
+                    Số công văn
                   </p>
                   <p className="font-medium">
                     {_document.documentNumber || "Chưa có số"}
@@ -421,7 +421,7 @@ export default function AssignDocumentPage() {
                 </div>
                 <div className="space-y-1">
                   <p className="text-sm font-medium text-muted-foreground">
-                    Loại văn bản
+                    Loại công văn
                   </p>
                   <div className="flex items-center gap-2">
                     <FileText className="h-4 w-4 text-muted-foreground" />
@@ -497,8 +497,8 @@ export default function AssignDocumentPage() {
                 <CardTitle>Chuyển xử lý</CardTitle>
                 <CardDescription>
                   {isParentDepartmentHead
-                    ? "Chọn đơn vị con để xử lý văn bản"
-                    : "Chọn phòng ban xử lý văn bản"}
+                    ? "Chọn đơn vị con để xử lý công văn"
+                    : "Chọn phòng ban xử lý công văn"}
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6 pt-6">
@@ -633,8 +633,8 @@ export default function AssignDocumentPage() {
                       <div className="bg-primary/5 px-4 py-2 border-b flex items-center justify-between">
                         <span className="text-sm font-medium">
                           {isParentDepartmentHead
-                            ? "Chọn đơn vị con xử lý văn bản"
-                            : "Chọn phòng ban xử lý văn bản"}
+                            ? "Chọn đơn vị con xử lý công văn"
+                            : "Chọn phòng ban xử lý công văn"}
                         </span>
                       </div>
                       <div className="max-h-[300px] overflow-y-auto">

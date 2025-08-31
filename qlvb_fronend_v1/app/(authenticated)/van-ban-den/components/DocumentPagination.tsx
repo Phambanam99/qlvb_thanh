@@ -42,13 +42,13 @@ export function DocumentPagination({
   return (
     <div className="flex items-center justify-between px-4 py-4 border-t">
       <div className="text-sm text-muted-foreground">
-        Hiển thị {currentDocumentsLength} / {totalItems || 0} văn bản
+        Hiển thị {currentDocumentsLength} / {totalItems || 0} công văn
       </div>
 
       <div className="flex items-center space-x-6 lg:space-x-8">
         {/* Page Size Selector */}
         <div className="flex items-center space-x-2">
-          <p className="text-sm font-medium">Số văn bản mỗi trang</p>
+          <p className="text-sm font-medium">Số công văn mỗi trang</p>
           <Select
             value={String(pageSize)}
             onValueChange={(value) => onPageSizeChange(Number(value))}

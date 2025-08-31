@@ -96,7 +96,7 @@ public class DocumentClassificationService {
             return DocumentProcessingStatus.PROCESSED;
         }
 
-        // Chưa xử lý: FORMAT_CORRECTION và trạng thái cuối cùng của văn bản trong history là LEADER_APPROVED
+        // Chưa xử lý: FORMAT_CORRECTION và trạng thái cuối cùng của công văn trong history là LEADER_APPROVED
         if ("FORMAT_CORRECTION".equals(currentStatus) && 
             allHistory.stream().anyMatch(h -> "LEADER_APPROVED".equals(h.getNewStatus()))) {
             return DocumentProcessingStatus.NOT_PROCESSED;
@@ -121,7 +121,7 @@ public class DocumentClassificationService {
             return DocumentProcessingStatus.PROCESSED;
         }
 
-        // Chưa xử lý: trạng thái cuối cùng của văn bản trong history là DEPT_ASSIGNED, LEADER_COMMENTED, HEADER_DEPARTMENT_COMMENTED
+        // Chưa xử lý: trạng thái cuối cùng của công văn trong history là DEPT_ASSIGNED, LEADER_COMMENTED, HEADER_DEPARTMENT_COMMENTED
         String latestStatus = allHistory.isEmpty() ? currentStatus : allHistory.get(0).getNewStatus();
         if ("DEPT_ASSIGNED".equals(latestStatus) || 
             "LEADER_COMMENTED".equals(latestStatus) || 

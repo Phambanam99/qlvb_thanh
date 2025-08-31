@@ -41,12 +41,12 @@ export function DocumentInfoForm({
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div className="space-y-2">
           <Label htmlFor="documentNumber">
-            Số văn bản <span className="text-red-500">*</span>
+            Số công văn <span className="text-red-500">*</span>
           </Label>
           <Input
             id="documentNumber"
             name="documentNumber"
-            placeholder="Nhập số văn bản"
+            placeholder="Nhập số công văn"
             required
             value={formData.documentNumber}
             onChange={onInputChange}
@@ -85,7 +85,7 @@ export function DocumentInfoForm({
         <Input
           id="title"
           name="title"
-          placeholder="Nhập trích yếu văn bản"
+          placeholder="Nhập trích yếu công văn"
           required
           value={formData.title}
           onChange={onInputChange}
@@ -97,7 +97,7 @@ export function DocumentInfoForm({
         <Textarea
           id="content"
           name="content"
-          placeholder="Nhập nội dung văn bản"
+          placeholder="Nhập nội dung công văn"
           rows={10}
           value={formData.content}
           onChange={onInputChange}

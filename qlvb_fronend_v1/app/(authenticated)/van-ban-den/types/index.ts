@@ -1,5 +1,5 @@
 /**
- * Type definitions for văn bản đến (incoming documents) module
+ * Type definitions for công văn đến (incoming documents) module
  * Centralizes all types to improve type safety and maintainability
  */
 

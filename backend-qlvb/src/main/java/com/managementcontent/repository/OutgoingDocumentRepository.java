@@ -32,7 +32,7 @@ public interface OutgoingDocumentRepository extends JpaRepository<OutgoingDocume
     Page<OutgoingDocument> findAllByOrderByCreatedDesc(Pageable pageable);
 
     /**
-     * Tìm các văn bản dựa trên giá trị trường relatedDocuments
+     * Tìm các công văn dựa trên giá trị trường relatedDocuments
      * Sử dụng @Query để kiểm soát cách tìm kiếm chính xác hơn
      */
     @Query("SELECT d FROM OutgoingDocument d WHERE d.relatedDocuments = :relatedDocs OR d.relatedDocuments LIKE %:relatedDocs%")

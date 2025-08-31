@@ -23,6 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.core.io.UrlResource;
@@ -32,6 +33,7 @@ import com.managementcontent.util.RoleGroupUtil;
 import com.managementcontent.util.DateTimeRange;
 
 import java.io.IOException;
+import java.io.FileNotFoundException;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -72,7 +74,7 @@ public class InternalDocumentService {
                                 document.getId(), DocumentType.OUTGOING_INTERNAL, recipients);
                 // Add history
                 document.addHistory(InternalDocumentHistory.ACTION_CREATED,
-                                "Tạo văn bản nội bộ", currentUser);
+                                "Tạo công văn nội bộ", currentUser);
                 document = internalDocumentRepository.save(document);
 
                 // Send notifications to recipients
@@ -123,7 +125,7 @@ public class InternalDocumentService {
 
                 // Add creation history
                 document.addHistory(InternalDocumentHistory.ACTION_CREATED,
-                                "Cập nhật văn bản nội bộ" + (files != null && files.length > 0
+                                "Cập nhật công văn nội bộ" + (files != null && files.length > 0
                                                 ? " với " + files.length + " file đính kèm"
                                                 : ""),
                                 currentUser);
@@ -185,7 +187,7 @@ public class InternalDocumentService {
 
                 // Add update history
                 document.addHistory(InternalDocumentHistory.ACTION_UPDATED,
-                                "Chỉnh sửa văn bản nội bộ" + (files != null && files.length > 0
+                                "Chỉnh sửa công văn nội bộ" + (files != null && files.length > 0
                                                 ? " với " + files.length + " file đính kèm"
                                                 : ""),
                                 currentUser);
@@ -385,7 +387,7 @@ public class InternalDocumentService {
                                         .builder()
                                         .departmentId(originalDocument.getSender().getDepartment().getId())
                                         .userId(originalDocument.getSender().getId())
-                                        .notes("Trả lời văn bản")
+                                        .notes("Trả lời công văn")
                                         .build();
                         replyDTO.getRecipients().add(senderRecipient);
                 }
@@ -394,14 +396,14 @@ public class InternalDocumentService {
 
                 // Add history to the document being replied to
                 originalDocument.addHistory(InternalDocumentHistory.ACTION_REPLIED,
-                                "Có văn bản trả lời: " + reply.getTitle(), currentUser);
+                                "Có công văn trả lời: " + reply.getTitle(), currentUser);
                 internalDocumentRepository.save(originalDocument);
 
                 // Find and update the root document (first document in the chain)
                 InternalDocument rootDocument = findRootDocument(originalDocument);
                 if (!rootDocument.equals(originalDocument)) {
                         rootDocument.addHistory(InternalDocumentHistory.ACTION_REPLIED,
-                                        "Có văn bản trả lời lồng nhau: " + reply.getTitle() +
+                                        "Có công văn trả lời lồng nhau: " + reply.getTitle() +
                                                         " (trả lời cho " + originalDocument.getTitle() + ")",
                                         currentUser);
                         internalDocumentRepository.save(rootDocument);
@@ -435,7 +437,7 @@ public class InternalDocumentService {
                                         .builder()
                                         .departmentId(originalDocument.getSender().getDepartment().getId())
                                         .userId(originalDocument.getSender().getId())
-                                        .notes("Trả lời văn bản")
+                                        .notes("Trả lời công văn")
                                         .build();
                         replyDTO.getRecipients().add(senderRecipient);
                 }
@@ -445,14 +447,14 @@ public class InternalDocumentService {
 
                 // Add history to the document being replied to
                 originalDocument.addHistory(InternalDocumentHistory.ACTION_REPLIED,
-                                "Có văn bản trả lời: " + reply.getTitle(), currentUser);
+                                "Có công văn trả lời: " + reply.getTitle(), currentUser);
                 internalDocumentRepository.save(originalDocument);
 
                 // Find and update the root document (first document in the chain)
                 InternalDocument rootDocument = findRootDocument(originalDocument);
                 if (!rootDocument.equals(originalDocument)) {
                         rootDocument.addHistory(InternalDocumentHistory.ACTION_REPLIED,
-                                        "Có văn bản trả lời lồng nhau: " + reply.getTitle() +
+                                        "Có công văn trả lời lồng nhau: " + reply.getTitle() +
                                                         " (trả lời cho " + originalDocument.getTitle() + ")",
                                         currentUser);
                         internalDocumentRepository.save(rootDocument);
@@ -478,7 +480,7 @@ public class InternalDocumentService {
                         // Don't send notification if the reader is the sender
                         if (!sender.getId().equals(currentUser.getId())) {
                                 String notificationContent = String.format(
-                                                "%s đã đọc văn bản nội bộ '%s' của bạn",
+                                                "%s đã đọc công văn nội bộ '%s' của bạn",
                                                 currentUser.getName(),
                                                 document.getTitle());
 
@@ -489,7 +491,7 @@ public class InternalDocumentService {
                                                 NotificationType.INTERNAL_DOCUMENT_READ,
                                                 notificationContent);
 
-                                log.info("Đã gửi thông báo đọc văn bản cho người gửi: {} -> {}",
+                                log.info("Đã gửi thông báo đọc công văn cho người gửi: {} -> {}",
                                                 currentUser.getName(), sender.getName());
                         }
                 }
@@ -529,18 +531,23 @@ public class InternalDocumentService {
                 List<Long> userDepartmentIds = accessControlService.getUserDepartmentIds(currentUser);
 
                 InternalDocument document = internalDocumentRepository.findById(documentId)
-                                .orElseThrow(() -> new RuntimeException("Document not found"));
+                                .orElseThrow(() -> new FileNotFoundException("Document not found"));
 
                 if (!accessControlService.canUserAccessDocument(document, currentUser, userDepartmentIds)) {
-                        throw new RuntimeException("Access denied");
+                        throw new AccessDeniedException("Access denied");
                 }
 
                 InternalDocumentAttachment attachment = document.getAttachments().stream()
                                 .filter(att -> att.getId().equals(attachmentId))
                                 .findFirst()
-                                .orElseThrow(() -> new RuntimeException("Attachment not found"));
+                                .orElseThrow(() -> new FileNotFoundException("Attachment not found"));
 
-                Resource resource = loadFileAsResource(attachment.getFilePath());
+                Resource resource;
+                try {
+                        resource = loadFileAsResource(attachment.getFilePath());
+                } catch (IOException e) {
+                        throw new FileNotFoundException("File not found: " + attachment.getFilePath());
+                }
 
                 return ResponseEntity.ok()
                                 .contentType(MediaType.parseMediaType(attachment.getContentType()))
@@ -836,20 +843,20 @@ public class InternalDocumentService {
         }
 
         /**
-         * Gửi văn bản nội bộ đến danh sách người nhận và gửi thông báo
+         * Gửi công văn nội bộ đến danh sách người nhận và gửi thông báo
          * 
-         * @param internalDocId    ID của văn bản nội bộ
+         * @param internalDocId    ID của công văn nội bộ
          * @param recipientUserIds Danh sách ID người nhận
          * @param sender           Người gửi
          * @return true nếu gửi thành công
          */
         @Transactional
         public boolean sendInternalDocument(Long internalDocId, List<Long> recipientUserIds, User sender) {
-                log.info("Bắt đầu gửi văn bản nội bộ ID: {} từ người gửi: {}", internalDocId, sender.getName());
+                log.info("Bắt đầu gửi công văn nội bộ ID: {} từ người gửi: {}", internalDocId, sender.getName());
 
                 Optional<InternalDocument> docOpt = internalDocumentRepository.findById(internalDocId);
                 if (docOpt.isEmpty()) {
-                        log.error("Không tìm thấy văn bản nội bộ với ID: {}", internalDocId);
+                        log.error("Không tìm thấy công văn nội bộ với ID: {}", internalDocId);
                         return false;
                 }
 
@@ -857,7 +864,7 @@ public class InternalDocumentService {
 
                 // Kiểm tra quyền gửi (chỉ người tạo mới có thể gửi)
                 if (!document.getSender().getId().equals(sender.getId())) {
-                        log.error("Người dùng {} không có quyền gửi văn bản ID: {}", sender.getName(), internalDocId);
+                        log.error("Người dùng {} không có quyền gửi công văn ID: {}", sender.getName(), internalDocId);
                         return false;
                 }
 
@@ -875,7 +882,7 @@ public class InternalDocumentService {
                         try {
                                 // Gửi thông báo đến người nhận
                                 String notificationContent = String.format(
-                                                "Bạn đã nhận được văn bản nội bộ '%s' từ %s (%s)",
+                                                "Bạn đã nhận được công văn nội bộ '%s' từ %s (%s)",
                                                 document.getTitle(),
                                                 sender.getName(),
                                                 sender.getDepartment() != null ? sender.getDepartment().getName()
@@ -889,33 +896,33 @@ public class InternalDocumentService {
                                                 notificationContent);
 
                                 successfulSends++;
-                                log.debug("Đã gửi thành công văn bản đến: {}", recipient.getName());
+                                log.debug("Đã gửi thành công công văn đến: {}", recipient.getName());
 
                         } catch (Exception e) {
-                                log.error("Lỗi khi gửi văn bản đến người nhận ID: {}", recipientId, e);
+                                log.error("Lỗi khi gửi công văn đến người nhận ID: {}", recipientId, e);
                         }
                 }
 
-                log.info("Hoàn thành gửi văn bản nội bộ ID: {}. Thành công: {}/{}",
+                log.info("Hoàn thành gửi công văn nội bộ ID: {}. Thành công: {}/{}",
                                 internalDocId, successfulSends, recipientUserIds.size());
 
                 return successfulSends > 0;
         }
 
         /**
-         * Đánh dấu văn bản nội bộ đã được đọc và gửi thông báo cho người gửi
+         * Đánh dấu công văn nội bộ đã được đọc và gửi thông báo cho người gửi
          * 
-         * @param internalDocId ID của văn bản nội bộ
-         * @param currentUser   Người đọc văn bản
+         * @param internalDocId ID của công văn nội bộ
+         * @param currentUser   Người đọc công văn
          * @return true nếu đánh dấu thành công
          */
         @Transactional
         public boolean markInternalDocumentAsRead(Long internalDocId, User currentUser) {
-                log.info("Người dùng {} đánh dấu đã đọc văn bản nội bộ ID: {}", currentUser.getName(), internalDocId);
+                log.info("Người dùng {} đánh dấu đã đọc công văn nội bộ ID: {}", currentUser.getName(), internalDocId);
 
                 Optional<InternalDocument> docOpt = internalDocumentRepository.findById(internalDocId);
                 if (docOpt.isEmpty()) {
-                        log.error("Không tìm thấy văn bản nội bộ với ID: {}", internalDocId);
+                        log.error("Không tìm thấy công văn nội bộ với ID: {}", internalDocId);
                         return false;
                 }
 
@@ -926,7 +933,7 @@ public class InternalDocumentService {
                                 .findByDocumentAndUser(document, currentUser);
 
                 if (recipientOpt.isEmpty()) {
-                        log.error("Người dùng {} không phải là người nhận văn bản ID: {}", currentUser.getName(),
+                        log.error("Người dùng {} không phải là người nhận công văn ID: {}", currentUser.getName(),
                                         internalDocId);
                         return false;
                 }
@@ -935,7 +942,7 @@ public class InternalDocumentService {
 
                 // Nếu đã đọc rồi thì không cần làm gì
                 if (recipient.getIsRead()) {
-                        log.debug("Văn bản ID: {} đã được đánh dấu đọc trước đó bởi {}", internalDocId,
+                        log.debug("công văn ID: {} đã được đánh dấu đọc trước đó bởi {}", internalDocId,
                                         currentUser.getName());
                         return true;
                 }
@@ -948,7 +955,7 @@ public class InternalDocumentService {
 
                         // Gửi thông báo ngược về cho người gửi
                         String notificationContent = String.format(
-                                        "%s (%s) đã đọc văn bản nội bộ '%s' của bạn",
+                                        "%s (%s) đã đọc công văn nội bộ '%s' của bạn",
                                         currentUser.getName(),
                                         currentUser.getDepartment() != null ? currentUser.getDepartment().getName()
                                                         : "N/A",
@@ -961,19 +968,19 @@ public class InternalDocumentService {
                                         NotificationType.INTERNAL_DOCUMENT_READ,
                                         notificationContent);
 
-                        log.info("Đã đánh dấu văn bản ID: {} là đã đọc bởi {}", internalDocId, currentUser.getName());
+                        log.info("Đã đánh dấu công văn ID: {} là đã đọc bởi {}", internalDocId, currentUser.getName());
                         return true;
 
                 } catch (Exception e) {
-                        log.error("Lỗi khi đánh dấu văn bản đã đọc", e);
+                        log.error("Lỗi khi đánh dấu công văn đã đọc", e);
                         return false;
                 }
         }
 
         /**
-         * Kiểm tra xem người dùng có quyền truy cập văn bản không
+         * Kiểm tra xem người dùng có quyền truy cập công văn không
          * 
-         * @param internalDocId ID của văn bản
+         * @param internalDocId ID của công văn
          * @param user          Người dùng cần kiểm tra
          * @return true nếu có quyền truy cập
          */
@@ -1073,7 +1080,7 @@ public class InternalDocumentService {
          * Trích xuất từ logic sendInternalDocument để tái sử dụng
          */
         private void sendNotificationsToRecipients(InternalDocument document, List<User> recipients, User sender) {
-                log.info("Bắt đầu gửi thông báo văn bản '{}' đến {} người nhận",
+                log.info("Bắt đầu gửi thông báo công văn '{}' đến {} người nhận",
                                 document.getTitle(), recipients.size());
 
                 int successfulSends = 0;
@@ -1082,7 +1089,7 @@ public class InternalDocumentService {
                         try {
                                 // Gửi thông báo đến người nhận
                                 String notificationContent = String.format(
-                                                "Bạn đã nhận được văn bản nội bộ '%s' từ %s (%s)",
+                                                "Bạn đã nhận được công văn nội bộ '%s' từ %s (%s)",
                                                 document.getTitle(),
                                                 sender.getName(),
                                                 sender.getDepartment() != null ? sender.getDepartment().getName()
@@ -1096,19 +1103,19 @@ public class InternalDocumentService {
                                                 notificationContent);
 
                                 successfulSends++;
-                                log.debug("Đã gửi thành công thông báo văn bản đến: {}", recipient.getName());
+                                log.debug("Đã gửi thành công thông báo công văn đến: {}", recipient.getName());
 
                         } catch (Exception e) {
-                                log.error("Lỗi khi gửi thông báo văn bản đến người nhận ID: {}", recipient.getId(), e);
+                                log.error("Lỗi khi gửi thông báo công văn đến người nhận ID: {}", recipient.getId(), e);
                         }
                 }
 
-                log.info("Hoàn thành gửi thông báo văn bản ID: {}. Thành công: {}/{}",
+                log.info("Hoàn thành gửi thông báo công văn ID: {}. Thành công: {}/{}",
                                 document.getId(), successfulSends, recipients.size());
         }
 
         private void updateNotificationsToRecipients(InternalDocument document, List<User> recipients, User sender) {
-                log.info("Bắt đầu gửi thông báo văn bản đã update '{}' đến {} người nhận",
+                log.info("Bắt đầu gửi thông báo công văn đã update '{}' đến {} người nhận",
                                 document.getTitle(), recipients.size());
 
                 int successfulSends = 0;
@@ -1117,7 +1124,7 @@ public class InternalDocumentService {
                         try {
                                 // Gửi thông báo đến người nhận
                                 String notificationContent = String.format(
-                                                "Văn bản nội bộ đã đươc thay đổi '%s' từ %s (%s)",
+                                                "công văn nội bộ đã đươc thay đổi '%s' từ %s (%s)",
                                                 document.getTitle(),
                                                 sender.getName(),
                                                 sender.getDepartment() != null ? sender.getDepartment().getName()
@@ -1131,14 +1138,14 @@ public class InternalDocumentService {
                                                 notificationContent);
 
                                 successfulSends++;
-                                log.debug("Đã gửi thành công thông báo văn bản đến: {}", recipient.getName());
+                                log.debug("Đã gửi thành công thông báo công văn đến: {}", recipient.getName());
 
                         } catch (Exception e) {
-                                log.error("Lỗi khi gửi thông báo văn bản đến người nhận ID: {}", recipient.getId(), e);
+                                log.error("Lỗi khi gửi thông báo công văn đến người nhận ID: {}", recipient.getId(), e);
                         }
                 }
 
-                log.info("Hoàn thành gửi thông báo văn bản ID: {}. Thành công: {}/{}",
+                log.info("Hoàn thành gửi thông báo công văn ID: {}. Thành công: {}/{}",
                                 document.getId(), successfulSends, recipients.size());
         }
 

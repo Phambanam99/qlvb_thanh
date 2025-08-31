@@ -43,7 +43,7 @@ import { RichTextEditor } from "./ui";
 interface DepartmentHeadAssignmentProps {
   documentId: number;
   departmentId: number;
-  closureDeadline?: string | Date; // Thêm closureDeadline từ văn bản đến
+  closureDeadline?: string | Date; // Thêm closureDeadline từ công văn đến
 }
 
 export default function DepartmentHeadAssignment({
@@ -54,7 +54,7 @@ export default function DepartmentHeadAssignment({
   // Sử dụng số duy nhất cho người được chọn
   const [selectedStaff, setSelectedStaff] = useState<number | null>(null);
   const [comments, setComments] = useState("");
-  // Sử dụng thời hạn từ văn bản đến nếu có
+  // Sử dụng thời hạn từ công văn đến nếu có
   const [deadline, setDeadline] = useState<Date | undefined>(
     closureDeadline ? new Date(closureDeadline) : undefined
   );
@@ -135,7 +135,7 @@ export default function DepartmentHeadAssignment({
     setSelectedStaff(staffId);
   };
 
-  // Điều hướng đến trang phân phối văn bản
+  // Điều hướng đến trang phân phối công văn
   const handleDistributeToChildDepts = () => {
     router.push(`/van-ban-den/${documentId}/chuyen-xu-ly`);
   };
@@ -168,7 +168,7 @@ export default function DepartmentHeadAssignment({
       toast({
         title: "Không thể phân công trực tiếp",
         description:
-          "Đơn vị này có đơn vị con. Vui lòng phân phối văn bản cho đơn vị con trước.",
+          "Đơn vị này có đơn vị con. Vui lòng phân phối công văn cho đơn vị con trước.",
         variant: "destructive",
       });
       return;
@@ -188,12 +188,12 @@ export default function DepartmentHeadAssignment({
         // Thêm departmentId để API có thể kiểm tra
       };
 
-      // Gửi dữ liệu phân công xử lý văn bản đến API
+      // Gửi dữ liệu phân công xử lý công văn đến API
       await workflowAPI.assignToSpecialist(documentId, documentAssign);
 
       toast({
         title: "Thành công",
-        description: "Đã phân công xử lý văn bản thành công",
+        description: "Đã phân công xử lý công văn thành công",
       });
 
       // Chuyển về trang chi tiết
@@ -215,11 +215,11 @@ export default function DepartmentHeadAssignment({
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <UserCheck className="h-5 w-5" />
-          Phân công xử lý văn bản
+          Phân công xử lý công văn
         </CardTitle>
         {hasChildDepts && (
           <CardDescription className="text-amber-500">
-            Đơn vị này có đơn vị con. Nên phân phối văn bản cho đơn vị con
+            Đơn vị này có đơn vị con. Nên phân phối công văn cho đơn vị con
             trước.
           </CardDescription>
         )}
@@ -239,7 +239,7 @@ export default function DepartmentHeadAssignment({
               </AlertTitle>
               <AlertDescription className="text-amber-700">
                 Đơn vị này có {childDepartments.length} đơn vị con. Theo quy
-                trình, bạn cần phân phối văn bản cho các đơn vị con trước khi
+                trình, bạn cần phân phối công văn cho các đơn vị con trước khi
                 phân công cho cán bộ.
                 <Button
                   variant="outline"

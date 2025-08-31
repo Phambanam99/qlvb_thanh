@@ -28,13 +28,13 @@ export default function Sidebar() {
   // Định nghĩa các mục menu với quyền hạn tương ứng
   const navItems = [
     {
-      title: "Văn bản đến",
+      title: "công văn đến",
       href: "/van-ban-den",
       icon: FileText,
       permission: null, // Tất cả người dùng đều có thể xem
     },
     {
-      title: "Văn bản đi",
+      title: "công văn đi",
       href: "/van-ban-di",
       icon: Send,
       permission: null, // Tất cả người dùng đều có thể xem

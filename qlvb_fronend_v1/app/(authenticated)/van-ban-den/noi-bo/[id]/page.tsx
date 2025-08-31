@@ -178,7 +178,7 @@ export default function InternalDocumentReceivedDetailPage() {
       } catch (error) {
         toast({
           title: "Lỗi",
-          description: "Không thể tải thông tin văn bản. Vui lòng thử lại sau.",
+          description: "Không thể tải thông tin công văn. Vui lòng thử lại sau.",
           variant: "destructive",
         });
       } finally {
@@ -426,12 +426,12 @@ export default function InternalDocumentReceivedDetailPage() {
 
       toast({
         title: "Thành công",
-        description: "Đã đánh dấu văn bản là đã đọc",
+        description: "Đã đánh dấu công văn là đã đọc",
       });
     } catch (error) {
       toast({
         title: "Lỗi",
-        description: "Không thể đánh dấu văn bản đã đọc. Vui lòng thử lại sau.",
+        description: "Không thể đánh dấu công văn đã đọc. Vui lòng thử lại sau.",
         variant: "destructive",
       });
     } finally {
@@ -461,21 +461,21 @@ export default function InternalDocumentReceivedDetailPage() {
   const getActionDisplayName = (action: string) => {
     switch (action.toUpperCase()) {
       case "CREATED":
-        return "Tạo văn bản";
+        return "Tạo công văn";
       case "READ":
-        return "Đọc văn bản";
+        return "Đọc công văn";
       case "REPLIED":
-        return "Trả lời văn bản";
+        return "Trả lời công văn";
       case "SENT":
-        return "Gửi văn bản";
+        return "Gửi công văn";
       case "UPDATED":
-        return "Cập nhật văn bản";
+        return "Cập nhật công văn";
       case "ATTACHMENT_ADDED":
         return "Thêm file đính kèm";
       case "ATTACHMENT_REMOVED":
         return "Xóa file đính kèm";
       case "FORWARDED":
-        return "Chuyển tiếp văn bản";
+        return "Chuyển tiếp công văn";
       default:
         return action;
     }
@@ -498,9 +498,9 @@ export default function InternalDocumentReceivedDetailPage() {
     return (
       <div className="flex h-[80vh] items-center justify-center">
         <div className="text-center">
-          <h2 className="text-xl font-semibold">Không tìm thấy văn bản</h2>
+          <h2 className="text-xl font-semibold">Không tìm thấy công văn</h2>
           <p className="mt-2 text-sm text-muted-foreground">
-            Văn bản nội bộ không tồn tại hoặc đã bị xóa
+            công văn nội bộ không tồn tại hoặc đã bị xóa
           </p>
           <Button asChild className="mt-4">
             <Link href="/van-ban-den">
@@ -524,10 +524,10 @@ export default function InternalDocumentReceivedDetailPage() {
           </Button>
           <div className="space-y-1">
             <h1 className="text-2xl font-bold tracking-tight text-primary">
-              Chi tiết văn bản nội bộ nhận được
+              Chi tiết công văn nội bộ nhận được
             </h1>
             <p className="text-muted-foreground">
-              Thông tin chi tiết của văn bản {documentDetail.documentNumber}
+              Thông tin chi tiết của công văn {documentDetail.documentNumber}
             </p>
           </div>
         </div>
@@ -567,20 +567,20 @@ export default function InternalDocumentReceivedDetailPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <FileText className="h-5 w-5" />
-                Thông tin văn bản
+                Thông tin công văn
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="text-sm font-medium text-muted-foreground">
-                    Số văn bản
+                    Số công văn
                   </label>
                   <p className="font-medium">{documentDetail.documentNumber}</p>
                 </div>
                 <div>
                   <label className="text-sm font-medium text-muted-foreground">
-                    Loại văn bản
+                    Loại công văn
                   </label>
                   <p className="font-medium">{documentDetail.documentType}</p>
                 </div>
@@ -773,7 +773,7 @@ export default function InternalDocumentReceivedDetailPage() {
                 )}
               </CardTitle>
               <CardDescription>
-                Theo dõi các hoạt động và tương tác với văn bản
+                Theo dõi các hoạt động và tương tác với công văn
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -847,10 +847,10 @@ export default function InternalDocumentReceivedDetailPage() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <MessageSquare className="h-5 w-5" />
-                  Văn bản trả lời ({documentReplies.length})
+                  công văn trả lời ({documentReplies.length})
                 </CardTitle>
                 <CardDescription>
-                  Danh sách các văn bản trả lời cho văn bản này
+                  Danh sách các công văn trả lời cho công văn này
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -975,7 +975,7 @@ export default function InternalDocumentReceivedDetailPage() {
                 <div className="text-center py-8">
                   <Paperclip className="h-12 w-12 text-gray-300 mx-auto mb-4" />
                   <p className="text-gray-500">
-                    Văn bản này không có file đính kèm
+                    công văn này không có file đính kèm
                   </p>
                 </div>
               )}
@@ -1006,7 +1006,7 @@ export default function InternalDocumentReceivedDetailPage() {
 
               <div>
                 <label className="text-sm font-medium text-muted-foreground">
-                  Trạng thái văn bản
+                  Trạng thái công văn
                 </label>
                 <div className="mt-1">
                   {getStatusBadge(documentDetail.status)}
@@ -1119,7 +1119,7 @@ export default function InternalDocumentReceivedDetailPage() {
                     href={`/van-ban-den/noi-bo/${documentDetail.replyToId}`}
                   >
                     <MessageSquare className="h-4 w-4 mr-2" />
-                    Xem văn bản gốc
+                    Xem công văn gốc
                   </Link>
                 </Button>
               )}
@@ -1127,7 +1127,7 @@ export default function InternalDocumentReceivedDetailPage() {
               <Button className="w-full" variant="outline" asChild>
                 <Link href={`/van-ban-den/noi-bo/${documentDetail.id}/reply`}>
                   <MessageSquare className="h-4 w-4 mr-2" />
-                  Trả lời văn bản
+                  Trả lời công văn
                 </Link>
               </Button>
             </CardContent>

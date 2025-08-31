@@ -46,7 +46,7 @@ public class DocumentTypeController {
             return ResponseEntity.ok(ResponseDTO.success(documentTypes));
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                    .body(ResponseDTO.error("Lỗi khi lấy danh sách loại văn bản: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi lấy danh sách loại công văn: " + e.getMessage()));
         }
     }
 
@@ -62,7 +62,7 @@ public class DocumentTypeController {
             return ResponseEntity.ok(ResponseDTO.success(documentTypes));
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                    .body(ResponseDTO.error("Lỗi khi lấy danh sách loại văn bản đang hoạt động: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi lấy danh sách loại công văn đang hoạt động: " + e.getMessage()));
         }
     }
 
@@ -80,11 +80,11 @@ public class DocumentTypeController {
                 return ResponseEntity.ok(ResponseDTO.success(documentType.get()));
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body(ResponseDTO.error("Không tìm thấy loại văn bản với ID: " + id));
+                        .body(ResponseDTO.error("Không tìm thấy loại công văn với ID: " + id));
             }
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                    .body(ResponseDTO.error("Lỗi khi lấy thông tin loại văn bản: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi lấy thông tin loại công văn: " + e.getMessage()));
         }
     }
 
@@ -110,13 +110,13 @@ public class DocumentTypeController {
 
             DocumentType createdDocumentType = documentTypeService.createDocumentType(documentType);
             return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(ResponseDTO.success("Tạo loại văn bản thành công", createdDocumentType));
+                    .body(ResponseDTO.success("Tạo loại công văn thành công", createdDocumentType));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(ResponseDTO.error(e.getMessage()));
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                    .body(ResponseDTO.error("Lỗi khi tạo loại văn bản: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi tạo loại công văn: " + e.getMessage()));
         }
     }
 
@@ -147,17 +147,17 @@ public class DocumentTypeController {
 
             if (!isAdmin) {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                        .body(ResponseDTO.error("Bạn không có quyền cập nhật loại văn bản"));
+                        .body(ResponseDTO.error("Bạn không có quyền cập nhật loại công văn"));
             }
 
             DocumentType updatedDocumentType = documentTypeService.updateDocumentType(id, documentTypeDetails);
-            return ResponseEntity.ok(ResponseDTO.success("Cập nhật loại văn bản thành công", updatedDocumentType));
+            return ResponseEntity.ok(ResponseDTO.success("Cập nhật loại công văn thành công", updatedDocumentType));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(ResponseDTO.error(e.getMessage()));
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                    .body(ResponseDTO.error("Lỗi khi cập nhật loại văn bản: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi cập nhật loại công văn: " + e.getMessage()));
         }
     }
 
@@ -186,18 +186,18 @@ public class DocumentTypeController {
 
             if (!isAdmin) {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                        .body(ResponseDTO.error("Bạn không có quyền vô hiệu hóa loại văn bản"));
+                        .body(ResponseDTO.error("Bạn không có quyền vô hiệu hóa loại công văn"));
             }
 
             DocumentType deactivatedDocumentType = documentTypeService.deactivateDocumentType(id);
             return ResponseEntity
-                    .ok(ResponseDTO.success("Vô hiệu hóa loại văn bản thành công", deactivatedDocumentType));
+                    .ok(ResponseDTO.success("Vô hiệu hóa loại công văn thành công", deactivatedDocumentType));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(ResponseDTO.error(e.getMessage()));
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                    .body(ResponseDTO.error("Lỗi khi vô hiệu hóa loại văn bản: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi vô hiệu hóa loại công văn: " + e.getMessage()));
         }
     }
 
@@ -227,17 +227,17 @@ public class DocumentTypeController {
 
             if (!isAdmin) {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                        .body(ResponseDTO.error("Bạn không có quyền kích hoạt loại văn bản"));
+                        .body(ResponseDTO.error("Bạn không có quyền kích hoạt loại công văn"));
             }
 
             DocumentType activatedDocumentType = documentTypeService.activateDocumentType(id);
-            return ResponseEntity.ok(ResponseDTO.success("Kích hoạt loại văn bản thành công", activatedDocumentType));
+            return ResponseEntity.ok(ResponseDTO.success("Kích hoạt loại công văn thành công", activatedDocumentType));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(ResponseDTO.error(e.getMessage()));
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                    .body(ResponseDTO.error("Lỗi khi kích hoạt loại văn bản: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi kích hoạt loại công văn: " + e.getMessage()));
         }
     }
 
@@ -279,10 +279,10 @@ public class DocumentTypeController {
             response.put("existing", existingCount);
             response.put("total", documentTypeNames.length);
 
-            return ResponseEntity.ok(ResponseDTO.success("Khởi tạo loại văn bản hoàn thành", response));
+            return ResponseEntity.ok(ResponseDTO.success("Khởi tạo loại công văn hoàn thành", response));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ResponseDTO.error("Lỗi khi khởi tạo loại văn bản: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi khởi tạo loại công văn: " + e.getMessage()));
         }
     }
 
@@ -293,14 +293,14 @@ public class DocumentTypeController {
             Optional<DocumentType> documentType = documentTypeService.getDocumentTypeById(id);
             if (documentType.isPresent()) {
                 documentTypeService.deleteDocumentType(id);
-                return ResponseEntity.ok(ResponseDTO.success("Xóa loại văn bản thành công"));
+                return ResponseEntity.ok(ResponseDTO.success("Xóa loại công văn thành công"));
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body(ResponseDTO.error("Không tìm thấy loại văn bản"));
+                        .body(ResponseDTO.error("Không tìm thấy loại công văn"));
             }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ResponseDTO.error("Lỗi khi xóa loại văn bản: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi xóa loại công văn: " + e.getMessage()));
         }
     }
 }

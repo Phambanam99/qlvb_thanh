@@ -516,14 +516,14 @@
         "tags": [
           "Document Workflow"
         ],
-        "summary": "Tái trình văn bản sau khi chỉnh sửa thể thức",
-        "description": "Trợ lý/nhân viên gửi lại văn bản đã chỉnh sửa thể thức để văn thư xem xét cấp số và ban hành",
+        "summary": "Tái trình công văn sau khi chỉnh sửa thể thức",
+        "description": "Trợ lý/nhân viên gửi lại công văn đã chỉnh sửa thể thức để văn thư xem xét cấp số và ban hành",
         "operationId": "resubmitAfterFormatCorrection",
         "parameters": [
           {
             "name": "documentId",
             "in": "path",
-            "description": "ID của văn bản",
+            "description": "ID của công văn",
             "required": true,
             "schema": {
               "type": "integer",
@@ -543,7 +543,7 @@
         },
         "responses": {
           "200": {
-            "description": "Văn bản đã được tái trình thành công",
+            "description": "công văn đã được tái trình thành công",
             "content": {
               "application/hal+json": {
                 "schema": {
@@ -553,7 +553,7 @@
             }
           },
           "403": {
-            "description": "Không có quyền tái trình văn bản",
+            "description": "Không có quyền tái trình công văn",
             "content": {
               "application/hal+json": {
                 "schema": {
@@ -563,7 +563,7 @@
             }
           },
           "404": {
-            "description": "Văn bản không tồn tại",
+            "description": "công văn không tồn tại",
             "content": {
               "application/hal+json": {
                 "schema": {
@@ -1493,14 +1493,14 @@
         "tags": [
           "Document Workflow"
         ],
-        "summary": "Văn thư từ chối văn bản cần chỉnh sửa thể thức",
-        "description": "Văn thư từ chối văn bản để yêu cầu chỉnh sửa thể thức trước khi cấp số ban hành",
+        "summary": "Văn thư từ chối công văn cần chỉnh sửa thể thức",
+        "description": "Văn thư từ chối công văn để yêu cầu chỉnh sửa thể thức trước khi cấp số ban hành",
         "operationId": "rejectForFormatCorrection",
         "parameters": [
           {
             "name": "documentId",
             "in": "path",
-            "description": "ID của văn bản",
+            "description": "ID của công văn",
             "required": true,
             "schema": {
               "type": "integer",
@@ -1520,7 +1520,7 @@
         },
         "responses": {
           "200": {
-            "description": "Văn bản đã được chuyển về trạng thái chỉnh sửa thể thức",
+            "description": "công văn đã được chuyển về trạng thái chỉnh sửa thể thức",
             "content": {
               "application/hal+json": {
                 "schema": {
@@ -1530,7 +1530,7 @@
             }
           },
           "403": {
-            "description": "Không có quyền từ chối văn bản",
+            "description": "Không có quyền từ chối công văn",
             "content": {
               "application/hal+json": {
                 "schema": {
@@ -1540,7 +1540,7 @@
             }
           },
           "404": {
-            "description": "Không tìm thấy văn bản",
+            "description": "Không tìm thấy công văn",
             "content": {
               "application/hal+json": {
                 "schema": {
@@ -1557,14 +1557,14 @@
         "tags": [
           "Document Workflow"
         ],
-        "summary": "Văn thư từ chối văn bản kèm file hướng dẫn",
-        "description": "Văn thư từ chối văn bản đi kèm file mẫu/hướng dẫn để yêu cầu chỉnh sửa thể thức",
+        "summary": "Văn thư từ chối công văn kèm file hướng dẫn",
+        "description": "Văn thư từ chối công văn đi kèm file mẫu/hướng dẫn để yêu cầu chỉnh sửa thể thức",
         "operationId": "rejectForFormatCorrectionWithAttachment",
         "parameters": [
           {
             "name": "documentId",
             "in": "path",
-            "description": "ID của văn bản",
+            "description": "ID của công văn",
             "required": true,
             "schema": {
               "type": "integer",
@@ -1598,7 +1598,7 @@
         },
         "responses": {
           "200": {
-            "description": "Văn bản đã được từ chối thành công",
+            "description": "công văn đã được từ chối thành công",
             "content": {
               "application/hal+json": {
                 "schema": {
@@ -1608,7 +1608,7 @@
             }
           },
           "403": {
-            "description": "Không có quyền từ chối văn bản",
+            "description": "Không có quyền từ chối công văn",
             "content": {
               "application/hal+json": {
                 "schema": {
@@ -1618,7 +1618,7 @@
             }
           },
           "404": {
-            "description": "Không tìm thấy văn bản",
+            "description": "Không tìm thấy công văn",
             "content": {
               "application/hal+json": {
                 "schema": {
@@ -4353,8 +4353,8 @@
         "tags": [
           "Document Workflow"
         ],
-        "summary": "Tạo văn bản đi độc lập",
-        "description": "Tạo văn bản đi mới không liên kết với văn bản đến nào",
+        "summary": "Tạo công văn đi độc lập",
+        "description": "Tạo công văn đi mới không liên kết với công văn đến nào",
         "operationId": "createStandaloneOutgoingDocument",
         "requestBody": {
           "content": {
@@ -4383,7 +4383,7 @@
         },
         "responses": {
           "201": {
-            "description": "Văn bản đi độc lập được tạo thành công",
+            "description": "công văn đi độc lập được tạo thành công",
             "content": {
               "application/hal+json": {
                 "schema": {
@@ -4403,7 +4403,7 @@
             }
           },
           "403": {
-            "description": "Không có quyền tạo văn bản",
+            "description": "Không có quyền tạo công văn",
             "content": {
               "application/hal+json": {
                 "schema": {
@@ -4420,8 +4420,8 @@
         "tags": [
           "Document Workflow"
         ],
-        "summary": "Tạo văn bản đi trả lời cho văn bản đến",
-        "description": "Tạo văn bản đi mới liên kết với văn bản đến, với đầy đủ quy trình trả lời",
+        "summary": "Tạo công văn đi trả lời cho công văn đến",
+        "description": "Tạo công văn đi mới liên kết với công văn đến, với đầy đủ quy trình trả lời",
         "operationId": "createResponseDocument",
         "parameters": [
           {
@@ -4458,7 +4458,7 @@
         },
         "responses": {
           "201": {
-            "description": "Văn bản trả lời được tạo thành công",
+            "description": "công văn trả lời được tạo thành công",
             "content": {
               "application/hal+json": {
                 "schema": {
@@ -4478,7 +4478,7 @@
             }
           },
           "404": {
-            "description": "Không tìm thấy văn bản đến",
+            "description": "Không tìm thấy công văn đến",
             "content": {
               "application/hal+json": {
                 "schema": {
@@ -4495,8 +4495,8 @@
         "tags": [
           "Document Workflow"
         ],
-        "summary": "Tạo văn bản đi trả lời cho văn bản đến với nhiều file đính kèm",
-        "description": "Tạo văn bản đi mới liên kết với văn bản đến, với đầy đủ quy trình trả lời và hỗ trợ nhiều file đính kèm",
+        "summary": "Tạo công văn đi trả lời cho công văn đến với nhiều file đính kèm",
+        "description": "Tạo công văn đi mới liên kết với công văn đến, với đầy đủ quy trình trả lời và hỗ trợ nhiều file đính kèm",
         "operationId": "createResponseDocumentWithMultipleAttachments",
         "parameters": [
           {
@@ -4536,7 +4536,7 @@
         },
         "responses": {
           "201": {
-            "description": "Văn bản trả lời được tạo thành công với nhiều file đính kèm",
+            "description": "công văn trả lời được tạo thành công với nhiều file đính kèm",
             "content": {
               "application/hal+json": {
                 "schema": {
@@ -4556,7 +4556,7 @@
             }
           },
           "404": {
-            "description": "Không tìm thấy văn bản đến",
+            "description": "Không tìm thấy công văn đến",
             "content": {
               "application/hal+json": {
                 "schema": {
@@ -6529,8 +6529,8 @@
         "tags": [
           "Internal Documents"
         ],
-        "summary": "Tạo 1000 văn bản nội bộ demo",
-        "description": "Tạo 1000 văn bản nội bộ với dữ liệu ngẫu nhiên nhưng thực tế",
+        "summary": "Tạo 1000 công văn nội bộ demo",
+        "description": "Tạo 1000 công văn nội bộ với dữ liệu ngẫu nhiên nhưng thực tế",
         "operationId": "createDemoDocuments",
         "responses": {
           "200": {
@@ -8376,8 +8376,8 @@
         "tags": [
           "Demo Data"
         ],
-        "summary": "Tạo 1000 văn bản nội bộ demo",
-        "description": "Tạo 1000 văn bản nội bộ với dữ liệu ngẫu nhiên nhưng thực tế",
+        "summary": "Tạo 1000 công văn nội bộ demo",
+        "description": "Tạo 1000 công văn nội bộ với dữ liệu ngẫu nhiên nhưng thực tế",
         "operationId": "createDemoDocuments_1",
         "responses": {
           "200": {
@@ -11869,8 +11869,8 @@
         "tags": [
           "Internal Documents"
         ],
-        "summary": "Kiểm tra số lượng văn bản",
-        "description": "Trả về tổng số văn bản nội bộ hiện có trong hệ thống",
+        "summary": "Kiểm tra số lượng công văn",
+        "description": "Trả về tổng số công văn nội bộ hiện có trong hệ thống",
         "operationId": "countDocuments",
         "responses": {
           "200": {
@@ -14137,8 +14137,8 @@
         "tags": [
           "Demo Data"
         ],
-        "summary": "Kiểm tra số lượng văn bản",
-        "description": "Trả về tổng số văn bản nội bộ hiện có trong hệ thống",
+        "summary": "Kiểm tra số lượng công văn",
+        "description": "Trả về tổng số công văn nội bộ hiện có trong hệ thống",
         "operationId": "countDocuments_1",
         "responses": {
           "200": {
@@ -14968,8 +14968,8 @@
         "tags": [
           "Demo Data"
         ],
-        "summary": "Xóa tất cả văn bản demo",
-        "description": "Xóa tất cả văn bản demo đã tạo (để test lại)",
+        "summary": "Xóa tất cả công văn demo",
+        "description": "Xóa tất cả công văn demo đã tạo (để test lại)",
         "operationId": "clearDemoDocuments",
         "responses": {
           "200": {

@@ -1,16 +1,16 @@
-# Hướng dẫn tạo dữ liệu demo văn bản nội bộ
+# Hướng dẫn tạo dữ liệu demo công văn nội bộ
 
 ## Tổng quan
-Service này cho phép tạo 1000 văn bản nội bộ demo với dữ liệu ngẫu nhiên nhưng thực tế để test hệ thống.
+Service này cho phép tạo 1000 công văn nội bộ demo với dữ liệu ngẫu nhiên nhưng thực tế để test hệ thống.
 
 ## API Endpoints
 
-### 1. Tạo 1000 văn bản demo
+### 1. Tạo 1000 công văn demo
 ```
 POST /api/internal-documents/demo/create
 ```
 
-### 2. Kiểm tra số lượng văn bản
+### 2. Kiểm tra số lượng công văn
 ```
 GET /api/internal-documents/demo/count
 ```
@@ -30,10 +30,10 @@ DELETE /api/demo/internal-documents/clear
 
 ### Option 2: Sử dụng curl
 ```bash
-# Tạo 1000 văn bản demo
+# Tạo 1000 công văn demo
 curl -X POST http://localhost:8080/api/internal-documents/demo/create
 
-# Kiểm tra số lượng văn bản
+# Kiểm tra số lượng công văn
 curl -X GET http://localhost:8080/api/internal-documents/demo/count
 ```
 
@@ -44,12 +44,12 @@ curl -X GET http://localhost:8080/api/internal-documents/demo/count
 
 ## Dữ liệu demo được tạo
 
-Mỗi văn bản demo sẽ có:
+Mỗi công văn demo sẽ có:
 
 ### Thông tin cơ bản
-- **Số văn bản**: CV-0001/2025, QD-0002/2025, etc.
+- **Số công văn**: CV-0001/2025, QD-0002/2025, etc.
 - **Tiêu đề**: Ngẫu nhiên từ các template thực tế
-- **Loại văn bản**: Công văn, Quyết định, Chỉ thị, Thông báo, v.v.
+- **Loại công văn**: Công văn, Quyết định, Chỉ thị, Thông báo, v.v.
 - **Tóm tắt**: Nội dung mô tả ngắn gọn
 
 ### Thông tin người gửi/nhận
@@ -78,12 +78,12 @@ Mỗi văn bản demo sẽ có:
 - **Database connection**: Đảm bảo kết nối database hoạt động
 
 ### Performance
-- Tạo 1000 văn bản sẽ mất khoảng 30-60 giây tùy theo cấu hình hệ thống
-- Process sẽ log tiến độ mỗi 100 văn bản được tạo
+- Tạo 1000 công văn sẽ mất khoảng 30-60 giây tùy theo cấu hình hệ thống
+- Process sẽ log tiến độ mỗi 100 công văn được tạo
 - Sử dụng transaction nên nếu có lỗi sẽ rollback toàn bộ
 
 ### Dọn dẹp dữ liệu
-- Các văn bản demo có pattern số văn bản: `XX-XXXX/2025`
+- Các công văn demo có pattern số công văn: `XX-XXXX/2025`
 - Có thể xóa bằng endpoint `/api/demo/internal-documents/clear`
 - Hoặc xóa trực tiếp trong database với query:
 ```sql
@@ -97,7 +97,7 @@ DELETE FROM internal_document WHERE document_number LIKE '%/2025';
 - Chạy data migration hoặc tạo dữ liệu master trước
 
 ### Lỗi "Duplicate entry for key 'document_number'"
-- Có thể đã tồn tại văn bản với số tương tự
+- Có thể đã tồn tại công văn với số tương tự
 - Xóa dữ liệu demo cũ trước khi tạo mới
 
 ### Performance chậm

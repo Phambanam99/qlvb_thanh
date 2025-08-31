@@ -226,7 +226,7 @@ export function InternalDocumentsPrintList({
           <div className="text-sm">{departmentName}</div>
         )}
         <div className="print-title">
-          Danh sách văn bản nội bộ {documentType === "sent" ? "đi" : "đến"}
+          Danh sách công văn nội bộ {documentType === "sent" ? "đi" : "đến"}
           {getFilterText()}
         </div>
         <div className="print-subtitle">
@@ -236,7 +236,7 @@ export function InternalDocumentsPrintList({
 
       {/* Summary */}
       <div className="print-summary">
-        Tổng số văn bản: {documents.length}
+        Tổng số công văn: {documents.length}
       </div>
 
       {/* Documents Table */}
@@ -247,10 +247,10 @@ export function InternalDocumentsPrintList({
               <th className="text-center" style={{ width: "40px" }}>
                 STT
               </th>
-              <th style={{ width: "120px" }}>Số văn bản</th>
+              <th style={{ width: "120px" }}>Số công văn</th>
               <th style={{ width: "80px" }}>Ngày ký</th>
               <th>Tiêu đề</th>
-              <th style={{ width: "100px" }}>Loại văn bản</th>
+              <th style={{ width: "100px" }}>Loại công văn</th>
               <th style={{ width: "150px" }}>
                 {documentType === "sent" ? "Người nhận" : "Người gửi"}
               </th>
@@ -301,7 +301,7 @@ export function InternalDocumentsPrintList({
         </table>
       ) : (
         <div className="text-center py-8 text-gray-500">
-          Không có văn bản nào để hiển thị
+          Không có công văn nào để hiển thị
         </div>
       )}
 

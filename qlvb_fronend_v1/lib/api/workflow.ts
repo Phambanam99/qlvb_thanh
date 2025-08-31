@@ -76,7 +76,7 @@ export const workflowAPI = {
         // If there are child departments, we should distribute to them instead
         if (Array.isArray(childDepartments) && childDepartments.length > 0) {
           throw new Error(
-            "Đơn vị này có đơn vị con. Vui lòng phân phối văn bản cho đơn vị con trước."
+            "Đơn vị này có đơn vị con. Vui lòng phân phối công văn cho đơn vị con trước."
           );
         }
       }
@@ -267,11 +267,11 @@ export const workflowAPI = {
     return response.data;
   },
   /**
-   * Tạo văn bản đi trả lời cho văn bản đến
-   * @param incomingDocId ID của văn bản đến cần trả lời
-   * @param documentData Dữ liệu văn bản và workflow
+   * Tạo công văn đi trả lời cho công văn đến
+   * @param incomingDocId ID của công văn đến cần trả lời
+   * @param documentData Dữ liệu công văn và workflow
    * @param attachment Tệp đính kèm (nếu có)
-   * @returns Kết quả tạo văn bản đi và thông tin liên quan
+   * @returns Kết quả tạo công văn đi và thông tin liên quan
    */
   createResponseDocument: async (
     documentData: any,
@@ -280,7 +280,7 @@ export const workflowAPI = {
   ) => {
     const formData = new FormData();
 
-    // Thêm dữ liệu văn bản đi và workflow
+    // Thêm dữ liệu công văn đi và workflow
     formData.append(
       "data",
       new Blob([JSON.stringify(documentData)], { type: "application/json" })
@@ -329,9 +329,9 @@ export const workflowAPI = {
     return response.data;
   },
   /**
-   * Lấy danh sách văn bản liên quan
-   * @param documentId ID văn bản cần lấy danh sách liên quan
-   * @returns Danh sách văn bản liên quan
+   * Lấy danh sách công văn liên quan
+   * @param documentId ID công văn cần lấy danh sách liên quan
+   * @returns Danh sách công văn liên quan
    */
   getDocumentResponses: async (documentId: string) => {
     const response = await api.get(`/documents/outgoing/related`, {
@@ -342,8 +342,8 @@ export const workflowAPI = {
   },
 
   /**
-   * Chấp nhận văn bản phản hồi
-   * @param responseId ID văn bản phản hồi cần chấp nhận
+   * Chấp nhận công văn phản hồi
+   * @param responseId ID công văn phản hồi cần chấp nhận
    * @param data Dữ liệu bổ sung (nếu có)
    * @returns Kết quả xử lý
    */
@@ -360,8 +360,8 @@ export const workflowAPI = {
   },
 
   /**
-   * Từ chối văn bản phản hồi
-   * @param responseId ID văn bản phản hồi cần từ chối
+   * Từ chối công văn phản hồi
+   * @param responseId ID công văn phản hồi cần từ chối
    * @param data Dữ liệu bổ sung (lý do từ chối)
    * @returns Kết quả xử lý
    */
@@ -437,8 +437,8 @@ export const workflowAPI = {
   },
 
   /**
-   * Văn thư trả lại văn bản cho trợ lý để chỉnh sửa theo thể thức yêu cầu của thủ trưởng
-   * @param responseId ID văn bản phản hồi cần trả lại
+   * Văn thư trả lại công văn cho trợ lý để chỉnh sửa theo thể thức yêu cầu của thủ trưởng
+   * @param responseId ID công văn phản hồi cần trả lại
    * @param comments Lý do, yêu cầu chỉnh sửa
    * @param file File đính kèm (nếu có)
    * @returns Kết quả xử lý
@@ -511,10 +511,10 @@ export const workflowAPI = {
   },
 
   /**
-   * Tạo văn bản đi nội bộ mới
-   * @param documentData Dữ liệu văn bản và danh sách người nhận
+   * Tạo công văn đi nội bộ mới
+   * @param documentData Dữ liệu công văn và danh sách người nhận
    * @param attachment Tệp đính kèm (nếu có)
-   * @returns Kết quả tạo văn bản đi nội bộ
+   * @returns Kết quả tạo công văn đi nội bộ
    */
   createInternalOutgoingDocument: async (
     documentData: any,
@@ -522,7 +522,7 @@ export const workflowAPI = {
   ) => {
     const formData = new FormData();
 
-    // Thêm dữ liệu văn bản
+    // Thêm dữ liệu công văn
     formData.append(
       "data",
       new Blob([JSON.stringify(documentData)], { type: "application/json" })
@@ -543,10 +543,10 @@ export const workflowAPI = {
   },
 
   /**
-   * Tạo văn bản trả lời nội bộ cho văn bản đến
-   * @param documentData Dữ liệu văn bản và danh sách người nhận
+   * Tạo công văn trả lời nội bộ cho công văn đến
+   * @param documentData Dữ liệu công văn và danh sách người nhận
    * @param attachment Tệp đính kèm (nếu có)
-   * @returns Kết quả tạo văn bản trả lời nội bộ
+   * @returns Kết quả tạo công văn trả lời nội bộ
    */
   createInternalResponseDocument: async (
     documentData: any,
@@ -554,7 +554,7 @@ export const workflowAPI = {
   ) => {
     const formData = new FormData();
 
-    // Thêm dữ liệu văn bản
+    // Thêm dữ liệu công văn
     formData.append(
       "data",
       new Blob([JSON.stringify(documentData)], { type: "application/json" })

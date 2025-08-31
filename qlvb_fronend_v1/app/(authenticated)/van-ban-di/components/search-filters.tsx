@@ -89,8 +89,8 @@ export function SearchFilters({
             <Input
               placeholder={
                 activeTab === "internal" 
-                  ? "Tìm kiếm văn bản nội bộ..." 
-                  : "Tìm kiếm văn bản bên ngoài..."
+                  ? "Tìm kiếm công văn nội bộ..." 
+                  : "Tìm kiếm công văn bên ngoài..."
               }
               className="pl-10 w-full border-primary/20 focus:border-primary"
               value={searchQuery}
@@ -224,8 +224,8 @@ export function SearchFilters({
           <Link
             href={
               activeTab === "internal"
-                ? "/van-ban-di/them-moi/noi-bo/tao-moi"
-                : "/van-ban-di/them-moi/ben-ngoai/tao-moi"
+                ? "/van-ban-di/noi-bo/tao-moi"
+                : "/van-ban-di/ben-ngoai/tao-moi"
             }
             className="flex items-center"
           >

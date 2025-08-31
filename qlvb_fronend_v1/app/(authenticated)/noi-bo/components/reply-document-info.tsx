@@ -17,7 +17,7 @@ export function ReplyDocumentInfo({
     <Card className="bg-blue-50 border-blue-200">
       <CardHeader className="pb-2">
         <CardTitle className="text-sm text-blue-700">
-          Đang trả lời văn bản:
+          Đang trả lời công văn:
         </CardTitle>
       </CardHeader>
       <CardContent>

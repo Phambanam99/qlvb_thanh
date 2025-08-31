@@ -1,7 +1,7 @@
 # Hệ thống Backup QLVB
 
 ## Tổng quan
-Hệ thống backup tự động cho ứng dụng QLVB (Quản lý Văn bản), bao gồm backup database PostgreSQL (chạy trên Docker), files external storage và cấu hình.
+Hệ thống backup tự động cho ứng dụng QLVB (Quản lý công văn), bao gồm backup database PostgreSQL (chạy trên Docker), files external storage và cấu hình.
 
 > **Quan trọng**: Files được lưu trữ ở external storage (thư mục `./data/` trên host) và được mount vào Docker containers.
 

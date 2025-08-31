@@ -164,7 +164,7 @@ export function ApprovalSection({
 
       <div className="rounded-md bg-amber-50 border border-amber-200 p-3">
         <p className="text-sm text-amber-800">
-          <span className="font-medium">Lưu ý:</span> Sau khi gửi, văn bản sẽ
+          <span className="font-medium">Lưu ý:</span> Sau khi gửi, công văn sẽ
           được chuyển đến người phê duyệt để xem xét trước khi ban hành chính
           thức.
         </p>

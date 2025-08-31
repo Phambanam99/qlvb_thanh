@@ -29,7 +29,7 @@ export default function DocumentProcessingHistory({ documentId }: DocumentProces
         setIsLoading(true)
         setError(null)
         
-        // Gọi API để lấy lịch sử xử lý văn bản
+        // Gọi API để lấy lịch sử xử lý công văn
         const response_ = await workflowAPI.getDocumentHistory(documentId)
         const response = response_.data;
         // Chuyển đổi dữ liệu API thành định dạng hiển thị
@@ -44,7 +44,7 @@ export default function DocumentProcessingHistory({ documentId }: DocumentProces
         
         setHistory(formattedHistory)
       } catch (error) {
-        setError("Không thể tải lịch sử xử lý văn bản. Vui lòng thử lại sau.")
+        setError("Không thể tải lịch sử xử lý công văn. Vui lòng thử lại sau.")
       } finally {
         setIsLoading(false)
       }
@@ -136,7 +136,7 @@ export default function DocumentProcessingHistory({ documentId }: DocumentProces
     return (
       <Card>
         <CardContent className="p-6 flex justify-center items-center h-40">
-          <p className="text-muted-foreground">Chưa có lịch sử xử lý cho văn bản này</p>
+          <p className="text-muted-foreground">Chưa có lịch sử xử lý cho công văn này</p>
         </CardContent>
       </Card>
     )

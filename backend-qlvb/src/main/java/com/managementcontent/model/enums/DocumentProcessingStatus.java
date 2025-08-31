@@ -6,7 +6,7 @@ import org.hibernate.sql.Update;
 /**
  * Enum representing the processing status of documents in ISO-compliant
  * workflow
- * Enhanced for Quy trình 10.1 - Xử lý Văn bản đến, đi
+ * Enhanced for Quy trình 10.1 - Xử lý công văn đến, đi
  */
 @Getter
 public enum DocumentProcessingStatus {
@@ -47,7 +47,7 @@ public enum DocumentProcessingStatus {
     HEADER_DEPARTMENT_REVIEWING("department_reviewing", "Chỉ  huy đang xem xét"),
     HEADER_DEPARTMENT_APPROVED("department_approved", "Chỉ huy đã phê duyệt"),
     HEADER_DEPARTMENT_COMMENTED("department_commented", "Chỉ huy đã cho ý kiến"),
-    UPDATE("updated","Văn bản đã được chỉnh sửa");
+    UPDATE("updated","công văn đã được chỉnh sửa");
     private final String code;
     private final String displayName;
 

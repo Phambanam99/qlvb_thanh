@@ -8,7 +8,7 @@
 ```json
 {
   "title": "Kế hoạch triển khai dự án QLVB Q3/2025",
-  "description": "Kế hoạch triển khai các giai đoạn chính của dự án Quản lý văn bản điện tử cho Quý 3/2025",
+  "description": "Kế hoạch triển khai các giai đoạn chính của dự án Quản lý công văn điện tử cho Quý 3/2025",
   "departmentId": 1,
   "startDate": "2025-07-01T00:00:00",
   "endDate": "2025-09-30T00:00:00",
@@ -58,7 +58,7 @@
 {
   "id": 123,
   "title": "Kế hoạch triển khai dự án QLVB Q3/2025",
-  "description": "Kế hoạch triển khai các giai đoạn chính của dự án Quản lý văn bản điện tử cho Quý 3/2025",
+  "description": "Kế hoạch triển khai các giai đoạn chính của dự án Quản lý công văn điện tử cho Quý 3/2025",
   "departmentId": 1,
   "departmentName": "Phòng Công nghệ thông tin",
   "startDate": "2025-07-01T00:00:00",

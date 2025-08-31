@@ -1,10 +1,10 @@
 I'll help you understand how to manage a scanned incoming document using our document management system API. Let me explain the process step-by-step and identify any missing features that might be needed for your use case.
 
-## Quy trình xử lý văn bản đến từ bản giấy đã scan
+## Quy trình xử lý công văn đến từ bản giấy đã scan
 
-### Bước 1: Tạo văn bản đến mới
+### Bước 1: Tạo công văn đến mới
 
-Đầu tiên, bạn cần tạo một bản ghi văn bản đến trong hệ thống:
+Đầu tiên, bạn cần tạo một bản ghi công văn đến trong hệ thống:
 
 ```
 POST /api/documents/incoming
@@ -13,18 +13,18 @@ POST /api/documents/incoming
 Dữ liệu gửi lên (JSON):
 ```json
 {
-  "title": "Tên văn bản đến",
-  "referenceNumber": "Số hiệu văn bản",
+  "title": "Tên công văn đến",
+  "referenceNumber": "Số hiệu công văn",
   "issuingAuthority": "Cơ quan phát hành",
   "urgencyLevel": "NORMAL", // hoặc "HIGH", "URGENT"
-  "signingDate": "2025-04-20", // Ngày ký văn bản
+  "signingDate": "2025-04-20", // Ngày ký công văn
   "sendingDepartmentName": "Tên phòng/ban gửi"
 }
 ```
 
-### Bước 2: Tải lên file scan văn bản
+### Bước 2: Tải lên file scan công văn
 
-Sau khi văn bản được tạo, bạn cần tải lên file đã scan:
+Sau khi công văn được tạo, bạn cần tải lên file đã scan:
 
 ```
 POST /api/documents/incoming/{id}/attachment
@@ -38,9 +38,9 @@ Hoặc có thể sử dụng API thống nhất:
 POST /api/documents/unified/{id}/attachments
 ```
 
-### Bước 3: Đăng ký văn bản vào hệ thống (Văn thư)
+### Bước 3: Đăng ký công văn vào hệ thống (Văn thư)
 
-Sau khi tạo và tải lên scan, văn thư cần đăng ký chính thức văn bản này:
+Sau khi tạo và tải lên scan, văn thư cần đăng ký chính thức công văn này:
 
 ```
 PUT /api/workflow/{documentId}/register
@@ -49,12 +49,12 @@ PUT /api/workflow/{documentId}/register
 Dữ liệu gửi lên:
 ```json
 {
-  "comments": "Văn bản đến được scan và đăng ký vào hệ thống",
+  "comments": "công văn đến được scan và đăng ký vào hệ thống",
   "actorId": 123 // ID của người đăng ký (văn thư)
 }
 ```
 
-### Bước 4: Phân phối văn bản đến phòng/ban liên quan
+### Bước 4: Phân phối công văn đến phòng/ban liên quan
 
 ```
 PUT /api/workflow/{documentId}/distribute
@@ -63,7 +63,7 @@ PUT /api/workflow/{documentId}/distribute
 Dữ liệu gửi lên:
 ```json
 {
-  "comments": "Chuyển văn bản đến phòng XYZ để xử lý",
+  "comments": "Chuyển công văn đến phòng XYZ để xử lý",
   "actorId": 123 // ID của người phân phối
 }
 ```
@@ -80,12 +80,12 @@ Dữ liệu gửi lên:
 ```json
 {
   "assignedToId": 456, // ID của chuyên viên được phân công
-  "comments": "Giao chuyên viên ABC nghiên cứu và xử lý văn bản",
+  "comments": "Giao chuyên viên ABC nghiên cứu và xử lý công văn",
   "actorId": 789 // ID của trưởng phòng
 }
 ```
 
-### Bước 6: Chuyên viên xử lý văn bản
+### Bước 6: Chuyên viên xử lý công văn
 
 Chuyên viên bắt đầu xử lý:
 
@@ -96,7 +96,7 @@ PUT /api/workflow/{documentId}/start-processing
 Dữ liệu gửi lên:
 ```json
 {
-  "comments": "Đã nhận và bắt đầu xử lý văn bản",
+  "comments": "Đã nhận và bắt đầu xử lý công văn",
   "actorId": 456 // ID của chuyên viên
 }
 ```
@@ -115,7 +115,7 @@ Dữ liệu gửi lên:
 }
 ```
 
-### Bước 8: Lãnh đạo xem xét văn bản
+### Bước 8: Lãnh đạo xem xét công văn
 
 ```
 PUT /api/workflow/{documentId}/start-reviewing
@@ -124,7 +124,7 @@ PUT /api/workflow/{documentId}/start-reviewing
 Dữ liệu gửi lên:
 ```json
 {
-  "comments": "Đang xem xét văn bản",
+  "comments": "Đang xem xét công văn",
   "actorId": 999 // ID của lãnh đạo
 }
 ```
@@ -144,12 +144,12 @@ PUT /api/workflow/{documentId}/provide-feedback
 Dữ liệu gửi lên:
 ```json
 {
-  "comments": "Phê duyệt văn bản đã xử lý" | "Cần chỉnh sửa lại một số nội dung",
+  "comments": "Phê duyệt công văn đã xử lý" | "Cần chỉnh sửa lại một số nội dung",
   "actorId": 999 // ID của lãnh đạo
 }
 ```
 
-### Bước 10: Theo dõi quá trình xử lý văn bản
+### Bước 10: Theo dõi quá trình xử lý công văn
 
 Để xem trạng thái hiện tại:
 ```
@@ -169,11 +169,11 @@ GET /api/documents/unified/{documentId}/workflow/history
 
 ## API bổ sung cần thiết
 
-Sau khi phân tích quy trình của bạn, tôi thấy còn một số API cần bổ sung để phục vụ tốt hơn cho quy trình xử lý văn bản scan:
+Sau khi phân tích quy trình của bạn, tôi thấy còn một số API cần bổ sung để phục vụ tốt hơn cho quy trình xử lý công văn scan:
 
-### 1. API Nhận dạng và trích xuất thông tin từ văn bản scan (OCR)
+### 1. API Nhận dạng và trích xuất thông tin từ công văn scan (OCR)
 
-Khi bạn scan một văn bản giấy, việc nhập thủ công thông tin có thể mất thời gian và dễ sai sót. Một API OCR (Optical Character Recognition) sẽ giúp tự động trích xuất thông tin từ file scan.
+Khi bạn scan một công văn giấy, việc nhập thủ công thông tin có thể mất thời gian và dễ sai sót. Một API OCR (Optical Character Recognition) sẽ giúp tự động trích xuất thông tin từ file scan.
 
 ```java
 @PostMapping("/api/documents/incoming/extract-from-scan")
@@ -189,11 +189,11 @@ public ResponseEntity<?> extractDocumentInfoFromScan(
 }
 ```
 
-Lý do bổ sung: API này giúp tự động hóa việc nhập liệu từ văn bản scan, tiết kiệm thời gian và giảm sai sót. Đặc biệt hữu ích khi phải xử lý nhiều văn bản đến.
+Lý do bổ sung: API này giúp tự động hóa việc nhập liệu từ công văn scan, tiết kiệm thời gian và giảm sai sót. Đặc biệt hữu ích khi phải xử lý nhiều công văn đến.
 
 ### 2. API Tải nhiều file đính kèm
 
-Văn bản đến có thể có nhiều trang hoặc nhiều tệp đính kèm khác nhau. API hiện tại chỉ hỗ trợ một file đính kèm duy nhất cho mỗi văn bản.
+công văn đến có thể có nhiều trang hoặc nhiều tệp đính kèm khác nhau. API hiện tại chỉ hỗ trợ một file đính kèm duy nhất cho mỗi công văn.
 
 ```java
 @PostMapping(value = "/api/documents/unified/{id}/multiple-attachments", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -202,7 +202,7 @@ public ResponseEntity<?> uploadMultipleAttachments(
         @PathVariable Long id,
         @RequestPart("files") MultipartFile[] files) {
     
-    // Kiểm tra văn bản tồn tại
+    // Kiểm tra công văn tồn tại
     boolean documentExists = incomingDocumentService.findIncomingDocumentById(id).isPresent() || 
                            outgoingDocumentService.findOutgoingDocumentById(id).isPresent();
     if (!documentExists) {
@@ -214,7 +214,7 @@ public ResponseEntity<?> uploadMultipleAttachments(
     
     for (MultipartFile file : files) {
         try {
-            // Lưu file và liên kết với văn bản
+            // Lưu file và liên kết với công văn
             documentAttachmentService.addAttachmentToDocument(id, file);
             uploadedFiles.add(file.getOriginalFilename());
         } catch (Exception e) {
@@ -230,9 +230,9 @@ public ResponseEntity<?> uploadMultipleAttachments(
 }
 ```
 
-Lý do bổ sung: Văn bản scan thường có nhiều trang hoặc nhiều tài liệu đính kèm. API này cho phép tải lên nhiều file cùng một lúc, giúp quản lý đầy đủ hồ sơ văn bản.
+Lý do bổ sung: công văn scan thường có nhiều trang hoặc nhiều tài liệu đính kèm. API này cho phép tải lên nhiều file cùng một lúc, giúp quản lý đầy đủ hồ sơ công văn.
 
-### 3. API Tạo ghi chú và bình luận cho văn bản
+### 3. API Tạo ghi chú và bình luận cho công văn
 
 Trong quá trình xử lý, các bên liên quan có thể cần trao đổi thông tin mà không cần thay đổi trạng thái workflow.
 
@@ -268,11 +268,11 @@ public ResponseEntity<?> getDocumentComments(@PathVariable Long documentId) {
 }
 ```
 
-Lý do bổ sung: Trong quá trình xử lý văn bản, các bên liên quan cần có cơ chế trao đổi thông tin, góp ý, đánh dấu nội dung quan trọng mà không cần thay đổi trạng thái chính thức của văn bản.
+Lý do bổ sung: Trong quá trình xử lý công văn, các bên liên quan cần có cơ chế trao đổi thông tin, góp ý, đánh dấu nội dung quan trọng mà không cần thay đổi trạng thái chính thức của công văn.
 
-### 4. API Thêm thẻ đánh dấu (Tags) cho văn bản
+### 4. API Thêm thẻ đánh dấu (Tags) cho công văn
 
-Việc phân loại văn bản bằng tag sẽ giúp tìm kiếm và phân loại dễ dàng hơn:
+Việc phân loại công văn bằng tag sẽ giúp tìm kiếm và phân loại dễ dàng hơn:
 
 ```java
 @PostMapping("/api/documents/unified/{documentId}/tags")
@@ -297,9 +297,9 @@ public ResponseEntity<?> getDocumentTags(@PathVariable Long documentId) {
 }
 ```
 
-Lý do bổ sung: Thẻ đánh dấu giúp phân loại văn bản theo nội dung, chủ đề, độ ưu tiên, v.v. Điều này đặc biệt hữu ích khi cần tìm kiếm nhanh các văn bản liên quan đến một chủ đề cụ thể.
+Lý do bổ sung: Thẻ đánh dấu giúp phân loại công văn theo nội dung, chủ đề, độ ưu tiên, v.v. Điều này đặc biệt hữu ích khi cần tìm kiếm nhanh các công văn liên quan đến một chủ đề cụ thể.
 
-### 5. API Tạo và xuất báo cáo xử lý văn bản
+### 5. API Tạo và xuất báo cáo xử lý công văn
 
 ```java
 @GetMapping("/api/reports/document-processing")
@@ -322,16 +322,16 @@ public ResponseEntity<?> generateDocumentProcessingReport(
 }
 ```
 
-Lý do bổ sung: Báo cáo xử lý văn bản giúp lãnh đạo theo dõi hiệu quả công việc, thời gian xử lý trung bình, số lượng văn bản đã giải quyết và còn tồn đọng.
+Lý do bổ sung: Báo cáo xử lý công văn giúp lãnh đạo theo dõi hiệu quả công việc, thời gian xử lý trung bình, số lượng công văn đã giải quyết và còn tồn đọng.
 
 ## Tổng kết
 
-Với các API được đề xuất bổ sung, hệ thống quản lý văn bản của bạn sẽ hỗ trợ tốt hơn cho quy trình xử lý văn bản đến từ bản giấy đã scan. Những cải tiến này giúp:
+Với các API được đề xuất bổ sung, hệ thống quản lý công văn của bạn sẽ hỗ trợ tốt hơn cho quy trình xử lý công văn đến từ bản giấy đã scan. Những cải tiến này giúp:
 
-1. Tự động hóa nhập liệu từ văn bản scan
-2. Hỗ trợ nhiều tệp đính kèm cho một văn bản
+1. Tự động hóa nhập liệu từ công văn scan
+2. Hỗ trợ nhiều tệp đính kèm cho một công văn
 3. Tạo cơ chế trao đổi thông tin thông qua bình luận
-4. Phân loại văn bản dễ dàng bằng hệ thống thẻ đánh dấu
+4. Phân loại công văn dễ dàng bằng hệ thống thẻ đánh dấu
 5. Tạo báo cáo để theo dõi hiệu quả xử lý
 
 Để triển khai các API này, bạn cần bổ sung các service tương ứng như DocumentOcrService, DocumentAttachmentService, DocumentCommentService, DocumentTagService và ReportService, cùng với các repository và model cần thiết.

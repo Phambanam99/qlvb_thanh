@@ -24,21 +24,21 @@ public class DocumentRelationshipService {
     private final DocumentRelationshipRepository documentRelationshipRepository;
 
     /**
-     * Tạo mối quan hệ giữa văn bản đến và văn bản đi
+     * Tạo mối quan hệ giữa công văn đến và công văn đi
      * 
-     * @param incomingDocId    ID của văn bản đến
-     * @param outgoingDocId    ID của văn bản đi
+     * @param incomingDocId    ID của công văn đến
+     * @param outgoingDocId    ID của công văn đi
      * @param relationshipType Loại quan hệ (ví dụ: "RESPONSE", "REFERENCE", etc.)
      * @return DocumentRelationship đối tượng quan hệ đã tạo
-     * @throws EntityNotFoundException nếu không tìm thấy văn bản đến hoặc đi
+     * @throws EntityNotFoundException nếu không tìm thấy công văn đến hoặc đi
      */
     @Transactional
     public DocumentRelationship createRelationship(Long incomingDocId, Long outgoingDocId, String relationshipType) {
         IncomingDocument incomingDocument = incomingDocumentRepository.findById(incomingDocId)
-                .orElseThrow(() -> new EntityNotFoundException("Không tìm thấy văn bản đến với ID: " + incomingDocId));
+                .orElseThrow(() -> new EntityNotFoundException("Không tìm thấy công văn đến với ID: " + incomingDocId));
 
         OutgoingDocument outgoingDocument = outgoingDocumentRepository.findById(outgoingDocId)
-                .orElseThrow(() -> new EntityNotFoundException("Không tìm thấy văn bản đi với ID: " + outgoingDocId));
+                .orElseThrow(() -> new EntityNotFoundException("Không tìm thấy công văn đi với ID: " + outgoingDocId));
 
         // Kiểm tra xem đã có mối quan hệ chưa để tránh lặp
         Optional<DocumentRelationship> existingRelation = documentRelationshipRepository
@@ -59,20 +59,20 @@ public class DocumentRelationshipService {
     }
 
     /**
-     * Lấy danh sách văn bản đi đã trả lời cho một văn bản đến
+     * Lấy danh sách công văn đi đã trả lời cho một công văn đến
      * 
-     * @param incomingDocId ID của văn bản đến
-     * @return Danh sách các văn bản đi
+     * @param incomingDocId ID của công văn đến
+     * @return Danh sách các công văn đi
      */
     public List<OutgoingDocument> getResponseDocuments(Long incomingDocId) {
         return documentRelationshipRepository.findResponsesForIncomingDocument(incomingDocId);
     }
 
     /**
-     * Lấy danh sách văn bản đến mà một văn bản đi trả lời
+     * Lấy danh sách công văn đến mà một công văn đi trả lời
      * 
-     * @param outgoingDocId ID của văn bản đi
-     * @return Danh sách các văn bản đến
+     * @param outgoingDocId ID của công văn đi
+     * @return Danh sách các công văn đến
      */
     public List<IncomingDocument> getRelatedIncomingDocuments(Long outgoingDocId) {
         return documentRelationshipRepository.findIncomingDocumentsForOutgoingDocument(outgoingDocId);

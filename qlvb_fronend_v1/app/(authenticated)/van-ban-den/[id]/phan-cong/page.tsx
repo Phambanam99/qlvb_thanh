@@ -35,7 +35,7 @@ export default function DocumentAssignmentPage({
       } catch (error) {
         toast({
           title: "Lỗi",
-          description: "Không thể tải thông tin văn bản. Vui lòng thử lại sau.",
+          description: "Không thể tải thông tin công văn. Vui lòng thử lại sau.",
           variant: "destructive",
         });
       } finally {
@@ -53,12 +53,12 @@ export default function DocumentAssignmentPage({
   if (!document) {
     return (
       <div className="flex flex-col items-center justify-center h-[50vh]">
-        <h2 className="text-2xl font-bold mb-2">Không tìm thấy văn bản</h2>
+        <h2 className="text-2xl font-bold mb-2">Không tìm thấy công văn</h2>
         <p className="text-muted-foreground mb-4">
-          Văn bản này không tồn tại hoặc đã bị xóa
+          công văn này không tồn tại hoặc đã bị xóa
         </p>
         <Button asChild>
-          <Link href="/van-ban-den">Quay lại danh sách văn bản đến</Link>
+          <Link href="/van-ban-den">Quay lại danh sách công văn đến</Link>
         </Button>
       </div>
     );
@@ -78,7 +78,7 @@ export default function DocumentAssignmentPage({
           </Link>
         </Button>
         <h1 className="text-2xl font-bold tracking-tight text-primary">
-          Phân công xử lý văn bản
+          Phân công xử lý công văn
         </h1>
       </div>
 
@@ -98,13 +98,13 @@ export default function DocumentAssignmentPage({
                 <span className="h-5 w-5 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs mr-2 mt-0.5">
                   1
                 </span>
-                <span>Chọn cán bộ để phân công xử lý văn bản</span>
+                <span>Chọn cán bộ để phân công xử lý công văn</span>
               </li>
               <li className="flex items-start">
                 <span className="h-5 w-5 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs mr-2 mt-0.5">
                   2
                 </span>
-                <span>Thiết lập thời hạn xử lý văn bản</span>
+                <span>Thiết lập thời hạn xử lý công văn</span>
               </li>
               <li className="flex items-start">
                 <span className="h-5 w-5 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs mr-2 mt-0.5">
@@ -120,7 +120,7 @@ export default function DocumentAssignmentPage({
                   4
                 </span>
                 <span>
-                  Nhấn "Phân công" để hoàn tất việc phân công xử lý văn bản
+                  Nhấn "Phân công" để hoàn tất việc phân công xử lý công văn
                 </span>
               </li>
             </ul>
@@ -128,7 +128,7 @@ export default function DocumentAssignmentPage({
               <p className="text-sm text-amber-800">
                 <span className="font-medium">Lưu ý:</span> Sau khi phân công,
                 cán bộ được chọn sẽ nhận được thông báo và có thể bắt đầu xử lý
-                văn bản.
+                công văn.
               </p>
             </div>
           </div>

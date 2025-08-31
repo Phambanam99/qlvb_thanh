@@ -45,6 +45,15 @@ export function ExternalDocumentsTable({
   getDocumentCountByStatus,
   formatDate,
 }: ExternalDocumentsTableProps) {
+  const mapSecurityLevel = (level: string | undefined | null): string => {
+    if (!level) return "-";
+    const v = String(level).toUpperCase();
+    if (v === "NORMAL") return "Thường";
+    if (v === "CONFIDENTIAL") return "Mật";
+    if (v === "SECRET") return "Tối mật";
+    if (v === "TOP_SECRET" || v === "TOP-SECRET") return "Tuyệt mật";
+    return level;
+  };
   // Calculate count from allDocuments (unfiltered) for accurate tab counts
   const getStatusCount = (statusKey: string): number => {
     const documentsToCount = allDocuments || documents;
@@ -91,21 +100,29 @@ export function ExternalDocumentsTable({
         <Table>
           <TableHeader className="bg-accent/50">
             <TableRow>
-              <TableHead className="w-16">STT</TableHead>
-              <TableHead>Số văn bản</TableHead>
-              <TableHead>Ngày nhận</TableHead>
+              <TableHead className="w-16">Stt</TableHead>
+              <TableHead>Số cv</TableHead>
+              <TableHead>Ngày cv</TableHead>
+              <TableHead>Loại cv</TableHead>
+              <TableHead>Cơ quan ban hành</TableHead>
               <TableHead>Trích yếu</TableHead>
-              <TableHead>Đơn vị gửi</TableHead>
-              <TableHead>Trạng thái</TableHead>
-              <TableHead>Trạng thái đọc</TableHead>
-              <TableHead>Thao tác</TableHead>
+              <TableHead>Người gửi</TableHead>
+              <TableHead>Độ mật</TableHead>
+              <TableHead>Số trang</TableHead>
+              <TableHead>Tệp đính kèm</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {documents && documents.length > 0 ? (
               documents.map((doc: any, index: number) => {
                 const isRead = getReadStatus(doc.id!);
-              
+                const documentNumber = doc.documentNumber || doc.number || "-";
+                const dateValue = doc.receivedDate || doc.signingDate || doc.sentDate || null;
+                const documentType = doc.documentType || doc.type || "-";
+                const issuingAuthority = doc.issuingAuthority || doc.sendingDepartmentName || doc.departmentName || "-";
+                const securityLevel = mapSecurityLevel(doc.securityLevel);
+                const pageCount = doc.numberOfPages || doc.pages || doc.pageCount || "-";
+                const attachmentsCount = (doc.attachments?.length ?? doc.attachmentCount ?? 0) as number;
                 return (
                   <TableRow
                     key={doc.id}
@@ -119,10 +136,10 @@ export function ExternalDocumentsTable({
                     <TableCell className="text-center text-muted-foreground">
                       {index + 1}
                     </TableCell>
-                    <TableCell className="font-medium">
-                      {doc.documentNumber}
-                    </TableCell>
-                    <TableCell>{formatDate(doc.receivedDate)}</TableCell>
+                    <TableCell className="font-medium">{documentNumber}</TableCell>
+                    <TableCell>{formatDate(dateValue)}</TableCell>
+                    <TableCell>{documentType}</TableCell>
+                    <TableCell>{issuingAuthority}</TableCell>
                     <TableCell className="max-w-[300px] truncate">
                       <div className="flex items-center gap-2">
                         {!isRead && (
@@ -133,51 +150,17 @@ export function ExternalDocumentsTable({
                         </span>
                       </div>
                     </TableCell>
-                    <TableCell>{doc.issuingAuthority}</TableCell>
-                    <TableCell>
-                      <DocumentStatusBadge
-                        documentId={doc.id!}
-                        fallbackStatus={doc.processingStatus}
-                        isExternalDocument={true}
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className={`${
-                          isRead
-                            ? "text-green-600 hover:text-green-700"
-                            : "text-blue-600 hover:text-blue-700"
-                        }`}
-                        onClick={(e: React.MouseEvent) => {
-                          e.stopPropagation();
-                          onReadStatusToggle(doc.id!);
-                        }}
-                      >
-                        {isRead ? "Đã đọc" : "Chưa đọc"}
-                      </Button>
-                    </TableCell>
-                    <TableCell>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={(e: React.MouseEvent) => {
-                          e.stopPropagation();
-                          onDocumentClick(doc);
-                        }}
-                        className="hover:bg-primary/10 hover:text-primary"
-                      >
-                        Chi tiết
-                      </Button>
-                    </TableCell>
+                    <TableCell>{doc.senderName || "-"}</TableCell>
+                    <TableCell>{securityLevel}</TableCell>
+                    <TableCell>{pageCount}</TableCell>
+                    <TableCell>{attachmentsCount}</TableCell>
                   </TableRow>
                 );
               })
             ) : (
               <TableRow>
-                <TableCell colSpan={7} className="h-24 text-center">
-                  Không có văn bản nào phù hợp với điều kiện tìm kiếm
+                <TableCell colSpan={10} className="h-24 text-center">
+                  Không có công văn nào phù hợp với điều kiện tìm kiếm
                 </TableCell>
               </TableRow>
             )}

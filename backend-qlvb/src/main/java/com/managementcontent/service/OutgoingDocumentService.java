@@ -82,12 +82,12 @@ public class OutgoingDocumentService {
         // Áp dụng logic phân quyền theo nhóm role
         switch (highestRoleGroup) {
             case CHI_HUY_CUC:
-                // Chỉ huy cục: Xem tất cả văn bản
+                // Chỉ huy cục: Xem tất cả công văn
                 return outgoingDocumentRepository.findAll(pageable)
                         .map(this::convertToDTO);
 
             case CHI_HUY_DON_VI:
-                // Chỉ huy đơn vị: Xem văn bản của phòng ban mình và các phòng ban cấp dưới
+                // Chỉ huy đơn vị: Xem công văn của phòng ban mình và các phòng ban cấp dưới
                 if (currentUser.getDepartment() != null) {
                     return getAllDocumentsByDepartmentId(currentUser.getDepartment().getId(), pageable);
                 } else {
@@ -97,12 +97,12 @@ public class OutgoingDocumentService {
                 }
 
             case VAN_THU:
-                // Văn thư: Xem tất cả văn bản để quản lý
+                // Văn thư: Xem tất cả công văn để quản lý
                 return outgoingDocumentRepository.findAll(pageable)
                         .map(this::convertToDTO);
 
             case NHAN_VIEN:
-                // Nhân viên/Trợ lý: Chỉ xem văn bản do họ tạo hoặc được phân công
+                // Nhân viên/Trợ lý: Chỉ xem công văn do họ tạo hoặc được phân công
                 List<OutgoingDocument> userDocs = outgoingDocumentRepository.findAll().stream()
                     .filter(doc -> {
                         // Check if created by user
@@ -265,7 +265,7 @@ public class OutgoingDocumentService {
                     com.managementcontent.model.enums.SecurityLevel.fromCode(documentDTO.getSecurityLevel()));
         }
 
-        // Người ký văn bản
+        // Người ký công văn
         if (documentDTO.getDocumentSignerId() != null) {
             userRepository.findById(documentDTO.getDocumentSignerId())
                     .ifPresent(document::setDocumentSigner);
@@ -377,7 +377,7 @@ public class OutgoingDocumentService {
                                         .fromCode(documentDTO.getSecurityLevel()));
                     }
 
-                    // Người ký văn bản
+                    // Người ký công văn
                     if (documentDTO.getDocumentSignerId() != null) {
                         userRepository.findById(documentDTO.getDocumentSignerId())
                                 .ifPresent(document::setDocumentSigner);
@@ -485,7 +485,7 @@ public class OutgoingDocumentService {
             dto.setSecurityLevelDisplayName(document.getSecurityLevel().getDisplayName());
         }
 
-        // Người ký văn bản
+        // Người ký công văn
         if (document.getDocumentSigner() != null) {
             dto.setDocumentSigner(userService.convertToDTO(document.getDocumentSigner()));
             dto.setDocumentSignerId(document.getDocumentSigner().getId());
@@ -758,7 +758,7 @@ public class OutgoingDocumentService {
                 currentUser,
                 data.getWorkflow() != null && data.getWorkflow().getComments() != null
                         ? data.getWorkflow().getComments()
-                        : "Tạo văn bản trả lời cho văn bản đến #" + incomingDocId);
+                        : "Tạo công văn trả lời cho công văn đến #" + incomingDocId);
         System.out.println(4);
         // 5. Upload attachment if provided
         if (file != null) {
@@ -782,7 +782,7 @@ public class OutgoingDocumentService {
         documentWorkflowService.updateIncomingDocumentAsResponded(
                 incomingDocId,
                 currentUser,
-                "Đã trả lời bằng văn bản đi #" + createdDocument.getDocumentNumber());
+                "Đã trả lời bằng công văn đi #" + createdDocument.getDocumentNumber());
 
         return createdDocument;
     }
@@ -826,7 +826,7 @@ public class OutgoingDocumentService {
                 currentUser,
                 data.getWorkflow() != null && data.getWorkflow().getComments() != null
                         ? data.getWorkflow().getComments()
-                        : "Tạo văn bản trả lời cho văn bản đến #" + incomingDocId);
+                        : "Tạo công văn trả lời cho công văn đến #" + incomingDocId);
         System.out.println("4 - Workflow registered");
 
         // 5. Upload multiple attachments if provided
@@ -869,21 +869,21 @@ public class OutgoingDocumentService {
         documentWorkflowService.updateIncomingDocumentAsResponded(
                 incomingDocId,
                 currentUser,
-                "Đã trả lời bằng văn bản đi #" + createdDocument.getDocumentNumber());
+                "Đã trả lời bằng công văn đi #" + createdDocument.getDocumentNumber());
         System.out.println("6 - Incoming document marked as responded");
 
         return createdDocument;
     }
 
     /**
-     * Cập nhật văn bản đi kèm theo quy trình workflow
+     * Cập nhật công văn đi kèm theo quy trình workflow
      * Phương thức này bao gồm:
-     * 1. Cập nhật thông tin văn bản
+     * 1. Cập nhật thông tin công văn
      * 2. Cập nhật file đính kèm (nếu có)
      * 3. Thêm bản ghi lịch sử vào workflow
      * 
-     * @param documentId      ID của văn bản cần cập nhật
-     * @param fullDocumentDTO Dữ liệu cập nhật cho văn bản
+     * @param documentId      ID của công văn cần cập nhật
+     * @param fullDocumentDTO Dữ liệu cập nhật cho công văn
      * @param file            File đính kèm mới (nếu có)
      * @param currentUser     Người dùng hiện tại thực hiện việc cập nhật
      * @return Map chứa thông tin về kết quả cập nhật
@@ -896,7 +896,7 @@ public class OutgoingDocumentService {
             MultipartFile file,
             User currentUser) throws IOException {
 
-        // Kiểm tra văn bản tồn tại
+        // Kiểm tra công văn tồn tại
         Optional<OutgoingDocument> outgoingDocOpt = findOutgoingDocumentById(documentId);
         if (outgoingDocOpt.isEmpty()) {
             throw new RuntimeException("Document not found with ID: " + documentId);
@@ -905,7 +905,7 @@ public class OutgoingDocumentService {
         OutgoingDocument outgoingDoc = outgoingDocOpt.get();
         String originalDocumentNumber = outgoingDoc.getDocumentNumber();
 
-        // Cập nhật thông tin văn bản
+        // Cập nhật thông tin công văn
         Optional<OutgoingDocumentDTO> updatedDocument = updateOutgoingDocument(
                 documentId,
                 fullDocumentDTO.getDocument());
@@ -916,7 +916,7 @@ public class OutgoingDocumentService {
 
         // Tạo nội dung chi tiết về việc cập nhật
         StringBuilder detailedComments = new StringBuilder();
-        detailedComments.append("Văn bản số ").append(originalDocumentNumber).append(" đã được chỉnh sửa");
+        detailedComments.append("công văn số ").append(originalDocumentNumber).append(" đã được chỉnh sửa");
 
         // Thêm thông tin người chỉnh sửa
         String editorInfo = " bởi " + currentUser.getFullName();
@@ -948,7 +948,7 @@ public class OutgoingDocumentService {
             }
         }
 
-        // Thêm vào lịch sử văn bản
+        // Thêm vào lịch sử công văn
         documentWorkflowService.addDocumentHistoryEntry(
                 documentId,
                 "UPDATE",

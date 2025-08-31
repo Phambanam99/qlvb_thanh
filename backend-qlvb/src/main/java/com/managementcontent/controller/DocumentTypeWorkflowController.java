@@ -61,14 +61,14 @@ public class DocumentTypeWorkflowController {
 
             if (updatedDocument.isPresent()) {
                 return ResponseEntity
-                        .ok(ResponseDTO.success("Cập nhật loại văn bản thành công", updatedDocument.get()));
+                        .ok(ResponseDTO.success("Cập nhật loại công văn thành công", updatedDocument.get()));
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body(ResponseDTO.error("Không tìm thấy văn bản với ID: " + documentId));
+                        .body(ResponseDTO.error("Không tìm thấy công văn với ID: " + documentId));
             }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(ResponseDTO.error("Lỗi khi cập nhật loại văn bản: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi cập nhật loại công văn: " + e.getMessage()));
         }
     }
 
@@ -87,11 +87,11 @@ public class DocumentTypeWorkflowController {
                 return ResponseEntity.ok(ResponseDTO.success(documentType));
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body(ResponseDTO.error("Không tìm thấy loại văn bản hoặc văn bản với ID: " + documentId));
+                        .body(ResponseDTO.error("Không tìm thấy loại công văn hoặc công văn với ID: " + documentId));
             }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(ResponseDTO.error("Lỗi khi lấy loại văn bản: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi lấy loại công văn: " + e.getMessage()));
         }
     }
 }

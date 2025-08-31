@@ -76,7 +76,7 @@ export function PrintInternalDocumentsButton({
   React.useEffect(() => {
     if (printError) {
       toast({
-        title: "Lỗi in văn bản",
+        title: "Lỗi in công văn",
         description: printError,
         variant: "destructive",
       });
@@ -131,10 +131,10 @@ export function PrintInternalDocumentsButton({
           <TooltipContent>
             <p>
               {!canPrint
-                ? "Không có văn bản nào để in"
+                ? "Không có công văn nào để in"
                 : isPrinting
                 ? "Đang chuẩn bị in..."
-                : `In danh sách ${documents.length} văn bản`}
+                : `In danh sách ${documents.length} công văn`}
             </p>
           </TooltipContent>
         </Tooltip>
@@ -186,10 +186,10 @@ export function PrintInternalDocumentsButton({
         <TooltipContent>
           <p>
             {!canPrint
-              ? "Không có văn bản nào để in"
+              ? "Không có công văn nào để in"
               : isPrinting
               ? "Đang chuẩn bị in..."
-              : `In danh sách ${documents.length} văn bản`}
+              : `In danh sách ${documents.length} công văn`}
           </p>
         </TooltipContent>
       </Tooltip>

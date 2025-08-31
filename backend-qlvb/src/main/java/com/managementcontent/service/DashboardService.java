@@ -45,11 +45,11 @@ public class DashboardService {
     public DashboardDTO getSystemDashboardStatistics() {
         DashboardDTO dashboard = new DashboardDTO().initializeCollections();
 
-        // Tổng số văn bản
+        // Tổng số công văn
         long totalDocs = documentRepository.count();
         dashboard.setTotalDocuments((int) totalDocs);
 
-        // Thống kê theo loại văn bản
+        // Thống kê theo loại công văn
         long incomingDocs = incomingDocumentRepository.count();
         long outgoingDocs = outgoingDocumentRepository.count();
         dashboard.setIncomingDocumentCount((int) incomingDocs);
@@ -67,7 +67,7 @@ public class DashboardService {
         Map<String, Integer> docsByMonth = getDocumentCountByRecentMonths(6);
         dashboard.setDocumentsByMonth(docsByMonth);
 
-        // Các văn bản đang chờ xử lý
+        // Các công văn đang chờ xử lý
         List<Document> pendingDocs = documentRepository.findByStatusIn(Arrays.asList(
                 DocumentProcessingStatus.REGISTERED,
                 DocumentProcessingStatus.DISTRIBUTED,
@@ -95,11 +95,11 @@ public class DashboardService {
         Department department = departmentRepository.findById(departmentId)
                 .orElseThrow(() -> new RuntimeException("Department not found with ID: " + departmentId));
 
-        // Tổng số văn bản liên quan đến phòng ban
+        // Tổng số công văn liên quan đến phòng ban
         List<Document> departmentDocs = getDepartmentDocuments(department, departmentId);
         dashboard.setTotalDocuments(departmentDocs.size());
 
-        // Thống kê theo loại văn bản
+        // Thống kê theo loại công văn
         long incomingDocs = departmentDocs.stream()
                 .filter(doc -> "incoming_document".equals(doc.getType()))
                 .count();
@@ -123,7 +123,7 @@ public class DashboardService {
         Map<String, Integer> docsByMonth = getDocumentCountByRecentMonthsForDepartment(departmentId, 6);
         dashboard.setDocumentsByMonth(docsByMonth);
 
-        // Các văn bản đang chờ xử lý
+        // Các công văn đang chờ xử lý
         List<Document> pendingDocs = departmentDocs.stream()
                 .filter(doc -> Arrays.asList(
                         DocumentProcessingStatus.REGISTERED,
@@ -175,11 +175,11 @@ public class DashboardService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
 
-        // Tổng số văn bản được giao cho người dùng (từ lịch sử văn bản)
+        // Tổng số công văn được giao cho người dùng (từ lịch sử công văn)
         List<Document> userDocs = getUserDocuments(userId);
         dashboard.setTotalDocuments(userDocs.size());
 
-        // Thống kê theo loại văn bản
+        // Thống kê theo loại công văn
         long incomingDocs = userDocs.stream()
                 .filter(doc -> "incoming_document".equals(doc.getType()))
                 .count();
@@ -199,7 +199,7 @@ public class DashboardService {
         }
         dashboard.setDocumentsByStatus(docsByStatus);
 
-        // Các văn bản đang chờ xử lý
+        // Các công văn đang chờ xử lý
         List<Document> pendingDocs = userDocs.stream()
                 .filter(doc -> Arrays.asList(
                         DocumentProcessingStatus.SPECIALIST_PROCESSING).contains(doc.getStatus()))
@@ -207,7 +207,7 @@ public class DashboardService {
         dashboard.setPendingDocuments(convertToDocumentSummaries(pendingDocs, 10));
         dashboard.setPendingDocumentCount(pendingDocs.size());
 
-        // Các văn bản gần đến hạn (còn 3 ngày hoặc ít hơn) - FIX Date comparison
+        // Các công văn gần đến hạn (còn 3 ngày hoặc ít hơn) - FIX Date comparison
         Date now = new Date();
         Date threeDaysFromNow = new Date(System.currentTimeMillis() + (3 * 24 * 60 * 60 * 1000L));
         List<Document> upcomingDeadlineDocs = userDocs.stream()
@@ -281,19 +281,19 @@ public class DashboardService {
         stats.put("departmentName", currentUser.getDepartment() != null ? 
                    currentUser.getDepartment().getName() : null);
 
-        // Văn bản đến statistics - IMPROVED with role-based filtering
+        // công văn đến statistics - IMPROVED with role-based filtering
         stats.put("incomingDocuments", getIncomingDocumentStats(currentUser));
         
-        // Văn bản đi statistics - IMPROVED with role-based filtering
+        // công văn đi statistics - IMPROVED with role-based filtering
         stats.put("outgoingDocuments", getOutgoingDocumentStats(currentUser));
         
-        // Văn bản nội bộ statistics - IMPROVED with proper logic
+        // công văn nội bộ statistics - IMPROVED with proper logic
         stats.put("internalDocuments", getInternalDocumentStats(currentUser));
         
         // Tổng quan chung
         stats.put("overallStats", getOverallStats(currentUser));
         
-        // Văn bản gần đây
+        // công văn gần đây
         stats.put("recentDocuments", getRecentDocuments(currentUser));
         
         // Thống kê theo thời gian
@@ -743,10 +743,10 @@ public class DashboardService {
     }
 
     /**
-     * Lấy tất cả văn bản liên quan đến một phòng ban
+     * Lấy tất cả công văn liên quan đến một phòng ban
      */
     private List<Document> getDepartmentDocuments(Department department, Long departmentId) {
-        // Thực tế cần thực hiện query phức tạp hơn để lấy văn bản liên quan đến phòng
+        // Thực tế cần thực hiện query phức tạp hơn để lấy công văn liên quan đến phòng
         // ban
         // Đây là phiên bản giản lược
 
@@ -763,10 +763,10 @@ public class DashboardService {
     }
 
     /**
-     * Lấy tất cả văn bản liên quan đến một người dùng
+     * Lấy tất cả công văn liên quan đến một người dùng
      */
     private List<Document> getUserDocuments(Long userId) {
-        // Thực tế cần thực hiện query phức tạp hơn để lấy văn bản được giao cho người
+        // Thực tế cần thực hiện query phức tạp hơn để lấy công văn được giao cho người
         // dùng
         // Đây là phiên bản giản lược
         return documentRepository.findAll().stream()
@@ -853,7 +853,7 @@ public class DashboardService {
     }
 
     /**
-     * Lấy số lượng văn bản theo tháng cho n tháng gần đây
+     * Lấy số lượng công văn theo tháng cho n tháng gần đây
      */
     private Map<String, Integer> getDocumentCountByRecentMonths(int numberOfMonths) {
         Map<String, Integer> result = new LinkedHashMap<>();
@@ -875,7 +875,7 @@ public class DashboardService {
     }
 
     /**
-     * Lấy số lượng văn bản theo tháng cho n tháng gần nhất cho một phòng ban
+     * Lấy số lượng công văn theo tháng cho n tháng gần nhất cho một phòng ban
      */
     private Map<String, Integer> getDocumentCountByRecentMonthsForDepartment(Long departmentId, int numberOfMonths) {
         Map<String, Integer> result = new LinkedHashMap<>();
@@ -911,12 +911,12 @@ public class DashboardService {
     private Map<String, Object> calculateSystemPerformanceMetrics() {
         Map<String, Object> metrics = new HashMap<>();
 
-        // Tổng số văn bản đã xử lý (COMPLETED hoặc ARCHIVED)
+        // Tổng số công văn đã xử lý (COMPLETED hoặc ARCHIVED)
         long completedDocs = documentRepository.countByStatusIn(Arrays.asList(
                 DocumentProcessingStatus.COMPLETED,
                 DocumentProcessingStatus.ARCHIVED));
 
-        // Tổng số văn bản
+        // Tổng số công văn
         long totalDocs = documentRepository.count();
 
         // Tỷ lệ xử lý
@@ -927,7 +927,7 @@ public class DashboardService {
         metrics.put("averageProcessingTime", "3.5 ngày");
 
         // Tốc độ xử lý (đơn giản hóa)
-        metrics.put("processingVelocity", "5.2 văn bản/ngày");
+        metrics.put("processingVelocity", "5.2 công văn/ngày");
 
         return metrics;
     }
@@ -941,14 +941,14 @@ public class DashboardService {
                 .orElseThrow(() -> new RuntimeException("Department not found with ID: " + departmentId));
         List<Document> departmentDocs = getDepartmentDocuments(department, departmentId);
 
-        // Tổng số văn bản đã xử lý (COMPLETED hoặc ARCHIVED)
+        // Tổng số công văn đã xử lý (COMPLETED hoặc ARCHIVED)
         long completedDocs = departmentDocs.stream()
                 .filter(doc -> Arrays.asList(
                         DocumentProcessingStatus.COMPLETED,
                         DocumentProcessingStatus.ARCHIVED).contains(doc.getStatus()))
                 .count();
 
-        // Tổng số văn bản của phòng ban
+        // Tổng số công văn của phòng ban
         long totalDocs = departmentDocs.size();
 
         // Tỷ lệ xử lý
@@ -959,7 +959,7 @@ public class DashboardService {
         metrics.put("averageProcessingTime", "2.7 ngày");
 
         // Tốc độ xử lý (đơn giản hóa)
-        metrics.put("processingVelocity", "4.1 văn bản/ngày");
+        metrics.put("processingVelocity", "4.1 công văn/ngày");
 
         return metrics;
     }
@@ -971,14 +971,14 @@ public class DashboardService {
         Map<String, Object> metrics = new HashMap<>();
         List<Document> userDocs = getUserDocuments(userId);
 
-        // Tổng số văn bản đã xử lý (COMPLETED hoặc ARCHIVED)
+        // Tổng số công văn đã xử lý (COMPLETED hoặc ARCHIVED)
         long completedDocs = userDocs.stream()
                 .filter(doc -> Arrays.asList(
                         DocumentProcessingStatus.COMPLETED,
                         DocumentProcessingStatus.ARCHIVED).contains(doc.getStatus()))
                 .count();
 
-        // Tổng số văn bản của người dùng
+        // Tổng số công văn của người dùng
         long totalDocs = userDocs.size();
 
         // Tỷ lệ xử lý
@@ -989,7 +989,7 @@ public class DashboardService {
         metrics.put("averageProcessingTime", "2.2 ngày");
 
         // Tốc độ xử lý (đơn giản hóa)
-        metrics.put("processingVelocity", "3.8 văn bản/ngày");
+        metrics.put("processingVelocity", "3.8 công văn/ngày");
 
         return metrics;
     }

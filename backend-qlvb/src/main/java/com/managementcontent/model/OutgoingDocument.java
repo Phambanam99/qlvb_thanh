@@ -80,14 +80,14 @@ public class OutgoingDocument extends Document {
     private Department draftingDepartmentEntity;
 
     /**
-     * Độ mật của văn bản
+     * Độ mật của công văn
      */
     @Enumerated(EnumType.STRING)
     @Column
     private SecurityLevel securityLevel = SecurityLevel.NORMAL;
 
     /**
-     * Người ký văn bản
+     * Người ký công văn
      */
     @ManyToOne
     @JoinColumn(name = "document_signer_id")
@@ -100,7 +100,7 @@ public class OutgoingDocument extends Document {
     private Boolean isSecureTransmission = false;
 
     /**
-     * Hạn xử lý văn bản
+     * Hạn xử lý công văn
      */
     @Column
     private LocalDateTime processingDeadline;
@@ -126,7 +126,7 @@ public class OutgoingDocument extends Document {
     private Integer numberOfCopies;
 
     /**
-     * Số tờ của văn bản
+     * Số tờ của công văn
      */
     @Column
     private Integer numberOfPages;

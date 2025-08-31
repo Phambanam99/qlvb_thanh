@@ -43,7 +43,7 @@ export const SYSTEM_ROLES = [
 
 // Nhóm các vai trò theo quyền hạn
 
-// Vai trò có quyền xem tất cả văn bản/thông tin
+// Vai trò có quyền xem tất cả công văn/thông tin
 export const FULL_ACCESS_ROLES = [
   ...SYSTEM_ROLES,
   ...CLERK_ROLES,

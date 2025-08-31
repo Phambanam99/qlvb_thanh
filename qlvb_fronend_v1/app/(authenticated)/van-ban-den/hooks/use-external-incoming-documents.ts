@@ -1,5 +1,5 @@
 /**
- * Custom hook for managing external documents (văn bản bên ngoài đến)
+ * Custom hook for managing external documents (công văn bên ngoài đến)
  * Handle search, pagination for external incoming documents
  */
 
@@ -61,7 +61,7 @@ export function useExternalIncomingDocuments({
       console.error("Error fetching external incoming documents:", error);
       toast({
         title: "Lỗi",
-        description: "Không thể tải dữ liệu văn bản bên ngoài. Vui lòng thử lại sau.",
+        description: "Không thể tải dữ liệu công văn bên ngoài. Vui lòng thử lại sau.",
         variant: "destructive",
       });
       setDocuments([]);

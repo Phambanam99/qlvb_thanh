@@ -130,14 +130,14 @@ function EditOutgoingDocumentPage() {
       });
     }
   };
-  // Hàm kiểm tra quyền chỉnh sửa văn bản
+  // Hàm kiểm tra quyền chỉnh sửa công văn
   const checkEditPermission = (documentData: any) => {
-    // Nếu không có dữ liệu văn bản
+    // Nếu không có dữ liệu công văn
     if (!documentData || !documentData.data) return false;
 
     const doc = documentData.data;
 
-    // Nếu là người tạo văn bản và văn bản đang ở trạng thái nháp hoặc đã bị từ chối
+    // Nếu là người tạo công văn và công văn đang ở trạng thái nháp hoặc đã bị từ chối
     if (
       hasRole(["ROLE_DRAF", "ROLE_TRO_LY"]) &&
       (doc.status === "draft" || doc.status === "leader_commented")
@@ -145,7 +145,7 @@ function EditOutgoingDocumentPage() {
       return true;
     }
 
-    // Kiểm tra xem văn bản có bị từ chối không
+    // Kiểm tra xem công văn có bị từ chối không
     const wasRejected = doc.history?.some(
       (item: any) =>
         item.newStatus === "leader_commented" ||
@@ -166,12 +166,12 @@ function EditOutgoingDocumentPage() {
             item.description.toLowerCase().includes("chỉnh sửa thể thức")))
     );
 
-    // Nếu là trợ lý và văn bản đã bị từ chối
+    // Nếu là trợ lý và công văn đã bị từ chối
     if (hasRole("ROLE_TRO_LY") && (wasRejected || wasReturnedByClerk)) {
       return true;
     }
 
-    // Nếu là văn thư và văn bản đã được phê duyệt bởi thủ trưởng
+    // Nếu là văn thư và công văn đã được phê duyệt bởi thủ trưởng
     if (
       hasRole("ROLE_VAN_THU") &&
       (doc.status === "approved" || doc.status === "leader_approved")
@@ -220,7 +220,7 @@ function EditOutgoingDocumentPage() {
         if (!hasEditPermission) {
           toast({
             title: "Không có quyền chỉnh sửa",
-            description: "Bạn không có quyền chỉnh sửa văn bản này.",
+            description: "Bạn không có quyền chỉnh sửa công văn này.",
             variant: "destructive",
           });
           router.push(`/van-ban-di/${documentId}`);
@@ -271,7 +271,7 @@ function EditOutgoingDocumentPage() {
           toast({
             title: "Lỗi",
             description:
-              "Không thể tải thông tin văn bản. Vui lòng thử lại sau.",
+              "Không thể tải thông tin công văn. Vui lòng thử lại sau.",
             variant: "destructive",
           });
         }
@@ -400,7 +400,7 @@ function EditOutgoingDocumentPage() {
 
       toast({
         title: "Thành công",
-        description: "Văn bản đã được cập nhật thành công",
+        description: "công văn đã được cập nhật thành công",
       });
 
       // Navigate back to document details
@@ -408,7 +408,7 @@ function EditOutgoingDocumentPage() {
     } catch (error) {
       toast({
         title: "Lỗi",
-        description: "Không thể cập nhật văn bản. Vui lòng thử lại sau.",
+        description: "Không thể cập nhật công văn. Vui lòng thử lại sau.",
         variant: "destructive",
       });
     } finally {
@@ -423,7 +423,7 @@ function EditOutgoingDocumentPage() {
 
       toast({
         title: "Thành công",
-        description: "Văn bản đã được xóa thành công",
+        description: "công văn đã được xóa thành công",
       });
 
       // Navigate back to documents list
@@ -431,7 +431,7 @@ function EditOutgoingDocumentPage() {
     } catch (error) {
       toast({
         title: "Lỗi",
-        description: "Không thể xóa văn bản. Vui lòng thử lại sau.",
+        description: "Không thể xóa công văn. Vui lòng thử lại sau.",
         variant: "destructive",
       });
     } finally {
@@ -450,9 +450,9 @@ function EditOutgoingDocumentPage() {
   if (!_document) {
     return (
       <div className="flex h-[calc(100vh-4rem)] w-full flex-col items-center justify-center gap-2">
-        <h2 className="text-xl font-semibold">Không tìm thấy văn bản</h2>
+        <h2 className="text-xl font-semibold">Không tìm thấy công văn</h2>
         <p className="text-muted-foreground">
-          Văn bản không tồn tại hoặc đã bị xóa
+          công văn không tồn tại hoặc đã bị xóa
         </p>
         <Button variant="outline" asChild>
           <Link href="/van-ban-di">
@@ -469,12 +469,12 @@ function EditOutgoingDocumentPage() {
       <div className="flex h-[calc(100vh-4rem)] w-full flex-col items-center justify-center gap-2">
         <h2 className="text-xl font-semibold">Không có quyền chỉnh sửa</h2>
         <p className="text-muted-foreground">
-          Bạn không có quyền chỉnh sửa văn bản này hoặc văn bản đã được gửi
+          Bạn không có quyền chỉnh sửa công văn này hoặc công văn đã được gửi
         </p>
         <Button variant="outline" asChild>
           <Link href={`/van-ban-di/${documentId}`}>
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Quay lại chi tiết văn bản
+            Quay lại chi tiết công văn
           </Link>
         </Button>
       </div>
@@ -490,7 +490,7 @@ function EditOutgoingDocumentPage() {
           </Link>
         </Button>
         <h1 className="text-2xl font-bold tracking-tight text-primary">
-          Chỉnh sửa văn bản đi
+          Chỉnh sửa công văn đi
         </h1>
       </div>
 
@@ -498,19 +498,19 @@ function EditOutgoingDocumentPage() {
         <div className="grid gap-6 md:grid-cols-2">
           <Card className="bg-card md:col-span-1">
             <CardHeader className="bg-primary/5 border-b">
-              <CardTitle>Thông tin văn bản</CardTitle>
-              <CardDescription>Thông tin cơ bản của văn bản đi</CardDescription>
+              <CardTitle>Thông tin công văn</CardTitle>
+              <CardDescription>Thông tin cơ bản của công văn đi</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6 pt-6">
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
-                  <Label htmlFor="documentNumber">Số văn bản</Label>
+                  <Label htmlFor="documentNumber">Số công văn</Label>
                   <Input
                     id="documentNumber"
                     name="documentNumber"
                     value={formData.documentNumber}
                     onChange={handleInputChange}
-                    placeholder="Nhập số văn bản"
+                    placeholder="Nhập số công văn"
                     required
                   />
                 </div>
@@ -533,7 +533,7 @@ function EditOutgoingDocumentPage() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="documentType">Loại văn bản</Label>
+                  <Label htmlFor="documentType">Loại công văn</Label>
                   <Select
                     name="documentType"
                     value={formData.documentType}
@@ -542,7 +542,7 @@ function EditOutgoingDocumentPage() {
                     }
                   >
                     <SelectTrigger id="documentType">
-                      <SelectValue placeholder="Chọn loại văn bản" />
+                      <SelectValue placeholder="Chọn loại công văn" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="official">Công văn</SelectItem>
@@ -562,7 +562,7 @@ function EditOutgoingDocumentPage() {
                   name="title"
                   value={formData.title}
                   onChange={handleInputChange}
-                  placeholder="Nhập trích yếu văn bản"
+                  placeholder="Nhập trích yếu công văn"
                   required
                 />
               </div>
@@ -573,7 +573,7 @@ function EditOutgoingDocumentPage() {
                   name="content"
                   value={formData.content}
                   onChange={handleInputChange}
-                  placeholder="Nhập nội dung văn bản"
+                  placeholder="Nhập nội dung công văn"
                   rows={10}
                   required
                 />
@@ -835,16 +835,16 @@ function EditOutgoingDocumentPage() {
             ) : (
               <>
                 <Trash className="mr-2 h-4 w-4" />
-                Xóa văn bản
+                Xóa công văn
               </>
             )}
           </Button>
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Xác nhận xóa văn bản</AlertDialogTitle>
+            <AlertDialogTitle>Xác nhận xóa công văn</AlertDialogTitle>
             <AlertDialogDescription>
-              Bạn có chắc chắn muốn xóa văn bản này? Hành động này không thể
+              Bạn có chắc chắn muốn xóa công văn này? Hành động này không thể
               hoàn tác.
             </AlertDialogDescription>
           </AlertDialogHeader>

@@ -73,7 +73,7 @@ const formatFileSize = (bytes: number): string => {
 
 const FILE_CATEGORIES = [
   { value: "overview", label: "Tổng quan hệ thống" },
-  { value: "documents", label: "Quản lý văn bản" },
+  { value: "documents", label: "Quản lý công văn" },
   { value: "schedule", label: "Lịch công tác" },
   { value: "users", label: "Quản lý người dùng" },
   { value: "other", label: "Khác" },

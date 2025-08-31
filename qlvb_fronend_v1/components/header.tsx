@@ -55,13 +55,13 @@ export const Header = () => {
   // Định nghĩa các mục menu chính
   const mainNavItems = [
     {
-      title: "Văn bản đến",
+      title: "công văn đến",
       href: "/van-ban-den",
       icon: FileText,
       permission: null, // Tất cả người dùng đều có thể xem
     },
     {
-      title: "Văn bản đi",
+      title: "công văn đi",
       href: "/van-ban-di",
       icon: Send,
       permission: null, // Tất cả người dùng đều có thể xem
@@ -89,7 +89,7 @@ export const Header = () => {
       permission: "ROLE_ADMIN",
     },
     {
-      title: "Loại văn bản",
+      title: "Loại công văn",
       href: "/loai-van-ban",
       icon: FileType,
       permission: "ROLE_ADMIN",
@@ -138,7 +138,7 @@ export const Header = () => {
           <Link href="/" className="flex items-center space-x-2">
             <FileText className="h-6 w-6 text-primary" />
             <span className="font-bold text-lg text-primary hidden md:block">
-              Quản lý Văn bản
+              Quản lý công văn
             </span>
           </Link>
         </div>

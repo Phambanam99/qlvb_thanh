@@ -1,12 +1,12 @@
 
-Tôi sẽ hướng dẫn bạn cách sử dụng Internal Documents API cho một workflow hoàn chỉnh từ tạo văn bản đến tương tác với nó.
+Tôi sẽ hướng dẫn bạn cách sử dụng Internal Documents API cho một workflow hoàn chỉnh từ tạo công văn đến tương tác với nó.
 
 ## 🔄 **Workflow Hoàn Chỉnh của Internal Documents**
 
-### 1. **📝 Tạo Văn Bản Mới**
+### 1. **📝 Tạo công văn Mới**
 
 ```bash
-# Tạo văn bản với file đính kèm
+# Tạo công văn với file đính kèm
 curl -X POST http://localhost:8080/api/internal-documents \
   -H "Authorization: Bearer YOUR_TOKEN" \
   -F 'document={
@@ -45,14 +45,14 @@ curl -X POST http://localhost:8080/api/internal-documents \
 }
 ```
 
-### 2. **📨 Nhận và Xem Văn Bản**
+### 2. **📨 Nhận và Xem công văn**
 
 ```bash
-# Xem danh sách văn bản nhận được
+# Xem danh sách công văn nhận được
 curl -X GET "http://localhost:8080/api/internal-documents/received?page=0&size=10" \
   -H "Authorization: Bearer YOUR_TOKEN"
 
-# Xem văn bản cụ thể (tự động đánh dấu đã đọc)
+# Xem công văn cụ thể (tự động đánh dấu đã đọc)
 curl -X GET http://localhost:8080/api/internal-documents/123 \
   -H "Authorization: Bearer YOUR_TOKEN"
 ```
@@ -72,10 +72,10 @@ curl -X POST http://localhost:8080/api/internal-documents/123/mark-read \
 }
 ```
 
-### 4. **💬 Trả Lời Văn Bản**
+### 4. **💬 Trả Lời công văn**
 
 ```bash
-# Trả lời văn bản gốc
+# Trả lời công văn gốc
 curl -X POST http://localhost:8080/api/internal-documents/123/reply \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_TOKEN" \
@@ -124,7 +124,7 @@ curl -X POST http://localhost:8080/api/internal-documents/124/reply \
 ### 6. **📎 Thêm File Đính Kèm Sau**
 
 ```bash
-# Thêm file đính kèm vào văn bản đã tạo
+# Thêm file đính kèm vào công văn đã tạo
 curl -X POST http://localhost:8080/api/internal-documents/123/attachments \
   -H "Authorization: Bearer YOUR_TOKEN" \
   -F "file=@additional_document.pdf" \
@@ -142,9 +142,9 @@ curl -X GET http://localhost:8080/api/internal-documents/123/attachments/1 \
 
 ## 📊 **Theo Dõi và Quản Lý**
 
-### **📈 Thống Kê Văn Bản**
+### **📈 Thống Kê công văn**
 ```bash
-# Đếm văn bản chưa đọc
+# Đếm công văn chưa đọc
 curl -X GET http://localhost:8080/api/internal-documents/unread/count \
   -H "Authorization: Bearer YOUR_TOKEN"
 
@@ -153,7 +153,7 @@ curl -X GET http://localhost:8080/api/internal-documents/statistics \
   -H "Authorization: Bearer YOUR_TOKEN"
 ```
 
-### **🔍 Tìm Kiếm Văn Bản**
+### **🔍 Tìm Kiếm công văn**
 ```bash
 # Tìm kiếm cơ bản
 curl -X GET "http://localhost:8080/api/internal-documents/search?keyword=họp" \
@@ -166,11 +166,11 @@ curl -X GET "http://localhost:8080/api/internal-documents/search/advanced?priori
 
 ### **📂 Lọc Theo Loại**
 ```bash
-# Văn bản đã gửi
+# công văn đã gửi
 curl -X GET http://localhost:8080/api/internal-documents/sent \
   -H "Authorization: Bearer YOUR_TOKEN"
 
-# Văn bản chưa đọc
+# công văn chưa đọc
 curl -X GET http://localhost:8080/api/internal-documents/unread \
   -H "Authorization: Bearer YOUR_TOKEN"
 
@@ -232,7 +232,7 @@ POST /api/internal-documents/125/reply # Trả lời câu hỏi
 - Đếm số lượng chưa đọc
 
 ### **🔗 Reply Chain Tracking**
-- `replyToId` để theo dõi văn bản gốc
+- `replyToId` để theo dõi công văn gốc
 - `replyCount` để biết số lượng reply
 - Tạo chuỗi conversation hoàn chỉnh
 

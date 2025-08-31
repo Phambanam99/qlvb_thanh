@@ -60,7 +60,7 @@ public class DocumentClassificationController {
             Optional<Document> document = documentRepository.findById(documentId);
             if (document.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body(ResponseDTO.error("Không tìm thấy văn bản với ID: " + documentId));
+                        .body(ResponseDTO.error("Không tìm thấy công văn với ID: " + documentId));
             }
 
             // Classify document
@@ -77,7 +77,7 @@ public class DocumentClassificationController {
             return ResponseEntity.ok(ResponseDTO.success(response));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ResponseDTO.error("Lỗi khi phân loại văn bản: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi phân loại công văn: " + e.getMessage()));
         }
     }
 
@@ -113,7 +113,7 @@ public class DocumentClassificationController {
             return ResponseEntity.ok(ResponseDTO.success(response));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ResponseDTO.error("Lỗi khi lấy tóm tắt văn bản: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi lấy tóm tắt công văn: " + e.getMessage()));
         }
     }
 
@@ -160,7 +160,7 @@ public class DocumentClassificationController {
             Optional<Document> document = documentRepository.findById(documentId);
             if (document.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body(ResponseDTO.error("Không tìm thấy văn bản với ID: " + documentId));
+                        .body(ResponseDTO.error("Không tìm thấy công văn với ID: " + documentId));
             }
 
             // Classify document
@@ -177,7 +177,7 @@ public class DocumentClassificationController {
             return ResponseEntity.ok(ResponseDTO.success(response));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ResponseDTO.error("Lỗi khi phân loại văn bản: " + e.getMessage()));
+                    .body(ResponseDTO.error("Lỗi khi phân loại công văn: " + e.getMessage()));
         }
     }
 

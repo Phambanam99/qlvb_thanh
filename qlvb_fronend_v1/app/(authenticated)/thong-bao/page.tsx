@@ -39,7 +39,7 @@ export default function NotificationsPage() {
         const newNotification: NotificationDTO = {
           id: notification.id,
           userId: notification.user?.id || 0,
-          title: 'Văn bản mới',
+          title: 'công văn mới',
           message: notification.content,
           content: notification.content,
           type: notification.type,
@@ -93,7 +93,7 @@ export default function NotificationsPage() {
       console.log('📤 Document sent notification:', notification)
       
       toast({
-        title: "📤 Đã gửi văn bản",
+        title: "📤 Đã gửi công văn",
         description: notification.content,
         duration: 3000,
       })
@@ -102,7 +102,7 @@ export default function NotificationsPage() {
       console.log('📝 Document updated notification:', notification)
       
       toast({
-        title: "📝 Văn bản đã cập nhật", 
+        title: "📝 công văn đã cập nhật", 
         description: notification.content,
         duration: 3000,
       })
@@ -369,7 +369,7 @@ export default function NotificationsPage() {
                                 className="text-sm font-medium text-primary hover:underline"
                                 onClick={(e) => e.stopPropagation()}
                               >
-                                Xem văn bản
+                                Xem công văn
                               </Link>
                             </div>
                           )}
@@ -432,7 +432,7 @@ export default function NotificationsPage() {
                                 className="text-sm font-medium text-primary hover:underline"
                                 onClick={(e) => e.stopPropagation()}
                               >
-                                Xem văn bản
+                                Xem công văn
                               </Link>
                             </div>
                           )}

@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * Controller để quản lý dữ liệu demo cho văn bản nội bộ
+ * Controller để quản lý dữ liệu demo cho công văn nội bộ
  */
 @RestController
 @RequestMapping("/api/demo/internal-documents")
@@ -22,10 +22,10 @@ public class InternalDocumentDemoController {
     private final InternalDocumentDemoService demoService;
 
     /**
-     * Tạo 1000 văn bản nội bộ demo
+     * Tạo 1000 công văn nội bộ demo
      */
-    @Operation(summary = "Tạo 1000 văn bản nội bộ demo", 
-               description = "Tạo 1000 văn bản nội bộ với dữ liệu ngẫu nhiên nhưng thực tế")
+    @Operation(summary = "Tạo 1000 công văn nội bộ demo", 
+               description = "Tạo 1000 công văn nội bộ với dữ liệu ngẫu nhiên nhưng thực tế")
     @ApiResponses({
         @ApiResponse(responseCode = "200", description = "Tạo dữ liệu demo thành công"),
         @ApiResponse(responseCode = "500", description = "Lỗi khi tạo dữ liệu demo")
@@ -34,7 +34,7 @@ public class InternalDocumentDemoController {
     public ResponseEntity<ResponseDTO<String>> createDemoDocuments() {
         try {
             demoService.createDemoInternalDocuments();
-            return ResponseEntity.ok(ResponseDTO.success("Đã tạo thành công 1000 văn bản nội bộ demo"));
+            return ResponseEntity.ok(ResponseDTO.success("Đã tạo thành công 1000 công văn nội bộ demo"));
         } catch (Exception e) {
             return ResponseEntity.internalServerError()
                 .body(ResponseDTO.error("Lỗi khi tạo dữ liệu demo: " + e.getMessage()));
@@ -42,10 +42,10 @@ public class InternalDocumentDemoController {
     }
 
     /**
-     * Xóa tất cả văn bản demo
+     * Xóa tất cả công văn demo
      */
-    @Operation(summary = "Xóa tất cả văn bản demo", 
-               description = "Xóa tất cả văn bản demo đã tạo (để test lại)")
+    @Operation(summary = "Xóa tất cả công văn demo", 
+               description = "Xóa tất cả công văn demo đã tạo (để test lại)")
     @ApiResponses({
         @ApiResponse(responseCode = "200", description = "Xóa dữ liệu demo thành công"),
         @ApiResponse(responseCode = "500", description = "Lỗi khi xóa dữ liệu demo")
@@ -54,7 +54,7 @@ public class InternalDocumentDemoController {
     public ResponseEntity<ResponseDTO<String>> clearDemoDocuments() {
         try {
             demoService.deleteAllDemoDocuments();
-            return ResponseEntity.ok(ResponseDTO.success("Đã xóa tất cả văn bản demo"));
+            return ResponseEntity.ok(ResponseDTO.success("Đã xóa tất cả công văn demo"));
         } catch (Exception e) {
             return ResponseEntity.internalServerError()
                 .body(ResponseDTO.error("Lỗi khi xóa dữ liệu demo: " + e.getMessage()));
@@ -62,10 +62,10 @@ public class InternalDocumentDemoController {
     }
 
     /**
-     * Kiểm tra số lượng văn bản hiện có
+     * Kiểm tra số lượng công văn hiện có
      */
-    @Operation(summary = "Kiểm tra số lượng văn bản", 
-               description = "Trả về tổng số văn bản nội bộ hiện có trong hệ thống")
+    @Operation(summary = "Kiểm tra số lượng công văn", 
+               description = "Trả về tổng số công văn nội bộ hiện có trong hệ thống")
     @ApiResponses({
         @ApiResponse(responseCode = "200", description = "Lấy thông tin thành công")
     })
@@ -76,7 +76,7 @@ public class InternalDocumentDemoController {
             return ResponseEntity.ok(ResponseDTO.success(count));
         } catch (Exception e) {
             return ResponseEntity.internalServerError()
-                .body(ResponseDTO.error("Lỗi khi đếm văn bản: " + e.getMessage()));
+                .body(ResponseDTO.error("Lỗi khi đếm công văn: " + e.getMessage()));
         }
     }
 }

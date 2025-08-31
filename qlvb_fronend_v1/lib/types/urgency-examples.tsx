@@ -24,9 +24,9 @@ import {
 
 export function DocumentListExample() {
   const documents = [
-    { id: 1, title: "Văn bản A", urgencyLevel: URGENCY_LEVELS.KHAN },
-    { id: 2, title: "Văn bản B", urgencyLevel: URGENCY_LEVELS.HOA_TOC_HEN_GIO },
-    { id: 3, title: "Văn bản C", urgencyLevel: URGENCY_LEVELS.THUONG_KHAN },
+    { id: 1, title: "công văn A", urgencyLevel: URGENCY_LEVELS.KHAN },
+    { id: 2, title: "công văn B", urgencyLevel: URGENCY_LEVELS.HOA_TOC_HEN_GIO },
+    { id: 3, title: "công văn C", urgencyLevel: URGENCY_LEVELS.THUONG_KHAN },
   ];
 
   // Sắp xếp theo độ ưu tiên
@@ -35,7 +35,7 @@ export function DocumentListExample() {
   return (
     <div className="space-y-2">
       <h3 className="font-semibold">
-        Danh sách văn bản (đã sắp xếp theo độ khẩn)
+        Danh sách công văn (đã sắp xếp theo độ khẩn)
       </h3>
       {sortedDocuments.map((doc) => (
         <div
@@ -58,20 +58,20 @@ export function DocumentFormExample() {
 
   return (
     <div className="space-y-4">
-      <h3 className="font-semibold">Form tạo văn bản</h3>
+      <h3 className="font-semibold">Form tạo công văn</h3>
 
       <UrgencySelect
         value={urgencyLevel}
         onValueChange={setUrgencyLevel}
         label="Độ khẩn"
-        description="Chọn mức độ khẩn cấp của văn bản"
+        description="Chọn mức độ khẩn cấp của công văn"
         required
       />
 
       {isHighPriority && (
         <div className="bg-red-50 border border-red-200 rounded-md p-3">
           <p className="text-red-800 text-sm">
-            ⚠️ Văn bản có độ khẩn cao! Vui lòng xem xét thời hạn xử lý.
+            ⚠️ công văn có độ khẩn cao! Vui lòng xem xét thời hạn xử lý.
           </p>
         </div>
       )}
@@ -109,11 +109,11 @@ export function DocumentTableExample() {
 
   return (
     <div className="space-y-4">
-      <h3 className="font-semibold">Bảng văn bản với độ khẩn</h3>
+      <h3 className="font-semibold">Bảng công văn với độ khẩn</h3>
       <table className="w-full border border-gray-200 rounded">
         <thead className="bg-gray-50">
           <tr>
-            <th className="p-3 text-left">Số văn bản</th>
+            <th className="p-3 text-left">Số công văn</th>
             <th className="p-3 text-left">Tiêu đề</th>
             <th className="p-3 text-left">Độ khẩn</th>
           </tr>
@@ -194,10 +194,10 @@ export function UrgencyFilterExample() {
   >();
 
   const allDocuments = [
-    { id: 1, title: "Văn bản 1", urgencyLevel: URGENCY_LEVELS.KHAN },
-    { id: 2, title: "Văn bản 2", urgencyLevel: URGENCY_LEVELS.THUONG_KHAN },
-    { id: 3, title: "Văn bản 3", urgencyLevel: URGENCY_LEVELS.HOA_TOC },
-    { id: 4, title: "Văn bản 4", urgencyLevel: URGENCY_LEVELS.HOA_TOC_HEN_GIO },
+    { id: 1, title: "công văn 1", urgencyLevel: URGENCY_LEVELS.KHAN },
+    { id: 2, title: "công văn 2", urgencyLevel: URGENCY_LEVELS.THUONG_KHAN },
+    { id: 3, title: "công văn 3", urgencyLevel: URGENCY_LEVELS.HOA_TOC },
+    { id: 4, title: "công văn 4", urgencyLevel: URGENCY_LEVELS.HOA_TOC_HEN_GIO },
   ];
 
   const filteredDocuments = selectedUrgency
@@ -223,7 +223,7 @@ export function UrgencyFilterExample() {
 
       <div className="space-y-2">
         <p className="text-sm text-gray-600">
-          Hiển thị {filteredDocuments.length} / {allDocuments.length} văn bản
+          Hiển thị {filteredDocuments.length} / {allDocuments.length} công văn
         </p>
         {filteredDocuments.map((doc) => (
           <div
@@ -273,11 +273,11 @@ export function UrgencyStatsExample() {
 
   return (
     <div className="space-y-4">
-      <h3 className="font-semibold">Thống kê văn bản theo độ khẩn</h3>
+      <h3 className="font-semibold">Thống kê công văn theo độ khẩn</h3>
 
       <div className="bg-red-50 border border-red-200 rounded-md p-3">
         <p className="text-red-800 font-medium">
-          🚨 Có {totalHigh} văn bản độ khẩn cao cần xử lý ưu tiên
+          🚨 Có {totalHigh} công văn độ khẩn cao cần xử lý ưu tiên
         </p>
       </div>
 

@@ -241,7 +241,7 @@ export function NotificationSection({
               Thông báo toàn đơn vị
             </div>
             <div className="text-xs text-blue-700 mt-1">
-              Văn bản sẽ được thông báo đến tất cả phòng ban và cán bộ trong đơn
+              công văn sẽ được thông báo đến tất cả phòng ban và cán bộ trong đơn
               vị. Không cần chọn phòng ban cụ thể.
             </div>
           </div>

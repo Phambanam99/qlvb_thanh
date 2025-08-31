@@ -50,7 +50,7 @@ export function ActionButtons({
         ) : (
           <>
             <Send className="mr-2 h-4 w-4" />
-            {documentScope === "INTERNAL" ? "Gửi văn bản" : "Gửi phê duyệt"}
+            {documentScope === "INTERNAL" ? "Gửi công văn" : "Gửi phê duyệt"}
           </>
         )}
       </Button>

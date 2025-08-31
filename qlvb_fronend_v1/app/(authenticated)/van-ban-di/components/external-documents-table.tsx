@@ -38,22 +38,31 @@ export function ExternalDocumentsTable({
   universalReadStatus,
   onDocumentClick,
 }: ExternalDocumentsTableProps) {
+  const mapSecurityLevel = (level: string | undefined | null): string => {
+    if (!level) return "-";
+    const v = String(level).toUpperCase();
+    if (v === "NORMAL") return "Thường";
+    if (v === "CONFIDENTIAL") return "Mật";
+    if (v === "SECRET") return "Tối mật";
+    if (v === "TOP_SECRET" || v === "TOP-SECRET") return "Tuyệt mật";
+    return level;
+  };
   return (
     <Card className="border-primary/10 shadow-sm">
       <CardContent className="p-0">
         <Table>
           <TableHeader className="bg-accent/50">
             <TableRow>
-              <TableHead className="w-16">STT</TableHead>
-              <TableHead>Số văn bản</TableHead>
-              <TableHead className="hidden md:table-cell">Ngày gửi</TableHead>
+              <TableHead className="w-16">Stt</TableHead>
+              <TableHead>Số cv</TableHead>
+              <TableHead>Ngày cv</TableHead>
+              <TableHead>Loại cv</TableHead>
+              <TableHead>Cơ quan ban hành</TableHead>
               <TableHead>Trích yếu</TableHead>
-              <TableHead className="hidden md:table-cell">Nơi nhận</TableHead>
-              <TableHead>Trạng thái đọc</TableHead>
-              {hasFullAccess && (
-                <TableHead className="hidden md:table-cell">Đơn vị</TableHead>
-              )}
-              <TableHead className="text-right">Thao tác</TableHead>
+              <TableHead>Người gửi</TableHead>
+              <TableHead>Độ mật</TableHead>
+              <TableHead>Số trang</TableHead>
+              <TableHead>Tệp đính kèm</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -76,10 +85,10 @@ export function ExternalDocumentsTable({
                     <TableCell className="text-center text-muted-foreground">
                       {index + 1}
                     </TableCell>
-                    <TableCell className="font-medium">{doc.number}</TableCell>
-                    <TableCell className="hidden md:table-cell">
-                      {doc.sentDate}
-                    </TableCell>
+                    <TableCell className="font-medium">{doc.number || doc.documentNumber || "-"}</TableCell>
+                    <TableCell>{doc.sentDate}</TableCell>
+                    <TableCell>{doc.type || doc.documentType || "-"}</TableCell>
+                    <TableCell>{doc.departmentName || doc.recipient || "-"}</TableCell>
                     <TableCell className="max-w-[300px] truncate">
                       <div className="flex items-center gap-2">
                         {!isRead && (
@@ -90,59 +99,19 @@ export function ExternalDocumentsTable({
                         </span>
                       </div>
                     </TableCell>
-                    <TableCell className="hidden md:table-cell">
-                      {doc.recipient}
-                    </TableCell>
-                    <TableCell>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className={`${
-                          isRead
-                            ? "text-green-600 hover:text-green-700"
-                            : "text-blue-600 hover:text-blue-700"
-                        }`}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          universalReadStatus.toggleReadStatus(
-                            Number(doc.id),
-                            "OUTGOING_EXTERNAL"
-                          );
-                        }}
-                      >
-                        {isRead ? "Đã đọc" : "Chưa đọc"}
-                      </Button>
-                    </TableCell>
-                    {hasFullAccess && (
-                      <TableCell className="hidden md:table-cell">
-                        {doc.departmentName}
-                      </TableCell>
-                    )}
-                    <TableCell className="text-right">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="hover:bg-primary/10 hover:text-primary"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          onDocumentClick(doc);
-                        }}
-                      >
-                        Chi tiết
-                      </Button>
-                    </TableCell>
+                    <TableCell>{doc.senderName || "-"}</TableCell>
+                    <TableCell>{mapSecurityLevel(doc.securityLevel)}</TableCell>
+                    <TableCell>{doc.numberOfPages || doc.pages || doc.pageCount || "-"}</TableCell>
+                    <TableCell>{(doc.attachments && doc.attachments.length) || doc.attachmentCount || 0}</TableCell>
                   </TableRow>
                 );
               })
             ) : (
               <TableRow>
-                <TableCell
-                  colSpan={hasFullAccess ? 8 : 7}
-                  className="h-24 text-center"
-                >
+                <TableCell colSpan={10} className="h-24 text-center">
                   {documents.length === 0 && !isLoading
-                    ? "Chưa có văn bản bên ngoài nào"
-                    : "Không có văn bản nào phù hợp với điều kiện tìm kiếm"}
+                    ? "Chưa có công văn bên ngoài nào"
+                    : "Không có công văn nào phù hợp với điều kiện tìm kiếm"}
                 </TableCell>
               </TableRow>
             )}

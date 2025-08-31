@@ -19,7 +19,7 @@ import java.util.List;
 @Builder
 public class CreateInternalDocumentDTO {
 
-    @NotBlank(message = "Số văn bản không được để trống")
+    @NotBlank(message = "Số công văn không được để trống")
     private String documentNumber;
 
     @NotBlank(message = "Tiêu đề không được để trống")

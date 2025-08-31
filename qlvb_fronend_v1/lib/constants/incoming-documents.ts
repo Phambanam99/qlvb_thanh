@@ -1,4 +1,4 @@
-// Role có quyền xem toàn bộ văn bản
+// Role có quyền xem toàn bộ công văn
 export const FULL_ACCESS_ROLES = [
   "ROLE_ADMIN",
   "ROLE_VAN_THU",
@@ -97,17 +97,17 @@ export const SIMPLE_STATUS_TABS = {
   not_processed: {
     code: "not_processed",
     displayName: "Chưa xử lý",
-    description: "Văn bản chưa được xử lý",
+    description: "công văn chưa được xử lý",
   },
   pending: {
     code: "pending",
     displayName: "Đang xử lý",
-    description: "Văn bản đang được xử lý",
+    description: "công văn đang được xử lý",
   },
   completed: {
     code: "completed",
     displayName: "Đã hoàn thành",
-    description: "Văn bản đã hoàn thành xử lý",
+    description: "công văn đã hoàn thành xử lý",
   },
 } as const;
 

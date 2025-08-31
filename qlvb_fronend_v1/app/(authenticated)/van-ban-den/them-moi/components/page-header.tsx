@@ -33,7 +33,7 @@ export function PageHeader({
                 href="/van-ban-den"
                 className="text-gray-700 hover:text-primary"
               >
-                Văn bản đến
+                công văn đến
               </Link>
             </div>
           </li>
@@ -55,7 +55,7 @@ export function PageHeader({
             </Link>
           </Button>
           <h1 className="text-2xl font-bold tracking-tight text-primary">
-            Thêm văn bản đến mới
+            Thêm công văn đến mới
           </h1>
         </div>
         <div className="flex items-center space-x-2">
@@ -76,7 +76,7 @@ export function PageHeader({
             ) : (
               <>
                 <Save className="mr-2 h-4 w-4" />
-                Lưu văn bản
+                Lưu công văn
               </>
             )}
           </Button>

@@ -214,7 +214,7 @@ export default function UpdateInternalOutgoingDocumentPage() {
         setDocumentTypes([]);
         toast({
           title: "Lỗi",
-          description: "Không thể tải danh sách loại văn bản",
+          description: "Không thể tải danh sách loại công văn",
           variant: "destructive",
         });
       } finally {
@@ -319,13 +319,13 @@ export default function UpdateInternalOutgoingDocumentPage() {
 
           toast({
             title: "Thành công",
-            description: "Đã tải dữ liệu văn bản để chỉnh sửa",
+            description: "Đã tải dữ liệu công văn để chỉnh sửa",
           });
         } catch (error) {
           console.error('Error loading document for update:', error);
           toast({
             title: "Lỗi",
-            description: "Không thể tải dữ liệu văn bản để chỉnh sửa",
+            description: "Không thể tải dữ liệu công văn để chỉnh sửa",
             variant: "destructive",
           });
           // Redirect back if document not found
@@ -340,7 +340,7 @@ export default function UpdateInternalOutgoingDocumentPage() {
       // Invalid document ID, redirect back
       toast({
         title: "Lỗi",
-        description: "ID văn bản không hợp lệ",
+        description: "ID công văn không hợp lệ",
         variant: "destructive",
       });
       router.push('/van-ban-di');
@@ -587,7 +587,7 @@ export default function UpdateInternalOutgoingDocumentPage() {
     const errors: Record<string, string> = {};
 
     if (!formData.documentNumber.trim()) {
-      errors.documentNumber = "Số văn bản là bắt buộc";
+      errors.documentNumber = "Số công văn là bắt buộc";
     }
 
     if (!formData.title.trim()) {
@@ -678,14 +678,14 @@ export default function UpdateInternalOutgoingDocumentPage() {
       );
 
       addNotification({
-        title: "Văn bản đã được cập nhật",
-        message: `Văn bản "${formData.title}" đã được cập nhật thành công.`,
+        title: "công văn đã được cập nhật",
+        message: `công văn "${formData.title}" đã được cập nhật thành công.`,
         type: "success",
       });
 
       toast({
         title: "Thành công",
-        description: "Văn bản đã được cập nhật thành công",
+        description: "công văn đã được cập nhật thành công",
       });
 
       router.push("/van-ban-di");
@@ -702,7 +702,7 @@ export default function UpdateInternalOutgoingDocumentPage() {
 
       toast({
         title: "Lỗi",
-        description: error.message || "Không thể cập nhật văn bản",
+        description: error.message || "Không thể cập nhật công văn",
         variant: "destructive",
       });
     } finally {
@@ -722,12 +722,12 @@ export default function UpdateInternalOutgoingDocumentPage() {
             <Loader2 className="h-8 w-8 animate-spin text-amber-600" />
             <div>
               <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                {isLoadingDocumentData ? "Đang tải dữ liệu văn bản..." : "Đang khởi tạo dữ liệu..."}
+                {isLoadingDocumentData ? "Đang tải dữ liệu công văn..." : "Đang khởi tạo dữ liệu..."}
               </h2>
               <div className="text-sm text-gray-600 dark:text-gray-400 mt-2 space-y-1">
                 <div className="flex items-center space-x-2">
                   <div className={`w-2 h-2 rounded-full ${!isLoadingDocumentTypes ? 'bg-green-500' : 'bg-yellow-500'}`}></div>
-                  <span>Loại văn bản {!isLoadingDocumentTypes ? '✓' : '...'}</span>
+                  <span>Loại công văn {!isLoadingDocumentTypes ? '✓' : '...'}</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <div className={`w-2 h-2 rounded-full ${!isLoadingDepartmentList && departments.length > 0 ? 'bg-green-500' : 'bg-yellow-500'}`}></div>
@@ -735,7 +735,7 @@ export default function UpdateInternalOutgoingDocumentPage() {
                 </div>
                 <div className="flex items-center space-x-2">
                   <div className={`w-2 h-2 rounded-full ${!isLoadingDocumentData ? 'bg-green-500' : 'bg-yellow-500'}`}></div>
-                  <span>Dữ liệu văn bản {!isLoadingDocumentData ? '✓' : '...'}</span>
+                  <span>Dữ liệu công văn {!isLoadingDocumentData ? '✓' : '...'}</span>
                 </div>
               </div>
               <p className="text-xs text-gray-500 dark:text-gray-500 mt-3">
@@ -762,10 +762,10 @@ export default function UpdateInternalOutgoingDocumentPage() {
               </Button>
               <div>
                 <h1 className="text-2xl font-bold tracking-tight text-amber-700 dark:text-amber-300">
-                  Cập nhật văn bản nội bộ
+                  Cập nhật công văn nội bộ
                 </h1>
                 <p className="text-sm mt-1 text-amber-600 dark:text-amber-400">
-                  Đang chỉnh sửa văn bản: {formData.documentNumber || documentId}
+                  Đang chỉnh sửa công văn: {formData.documentNumber || documentId}
                 </p>
               </div>
             </div>
@@ -789,7 +789,7 @@ export default function UpdateInternalOutgoingDocumentPage() {
                 ) : (
                   <>
                     <Save className="mr-2 h-4 w-4" />
-                    Cập nhật văn bản
+                    Cập nhật công văn
                   </>
                 )}
               </Button>
@@ -804,14 +804,14 @@ export default function UpdateInternalOutgoingDocumentPage() {
               <div className="grid gap-6 md:grid-cols-3">
                 <div className="space-y-2">
                   <Label htmlFor="documentNumber">
-                    Số văn bản <span className="text-red-500">*</span>
+                    Số công văn <span className="text-red-500">*</span>
                   </Label>
                   <Input
                     id="documentNumber"
                     name="documentNumber"
                     value={formData.documentNumber}
                     onChange={handleInputChange}
-                    placeholder="Nhập số văn bản"
+                    placeholder="Nhập số công văn"
                     required
                     className={
                       validationErrors.documentNumber ? "border-red-500" : ""
@@ -833,7 +833,7 @@ export default function UpdateInternalOutgoingDocumentPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="documentType">Loại văn bản</Label>
+                  <Label htmlFor="documentType">Loại công văn</Label>
                   <SearchableSelect
                     items={(documentTypes || []).map((type): SearchableSelectItem => ({
                       value: type.name,
@@ -843,11 +843,11 @@ export default function UpdateInternalOutgoingDocumentPage() {
                     onValueChange={(value) =>
                       handleSelectChange("documentType", value)
                     }
-                    placeholder="Chọn loại văn bản"
-                    searchPlaceholder="Tìm kiếm loại văn bản..."
-                    emptyMessage="Không tìm thấy loại văn bản phù hợp"
+                    placeholder="Chọn loại công văn"
+                    searchPlaceholder="Tìm kiếm loại công văn..."
+                    emptyMessage="Không tìm thấy loại công văn phù hợp"
                     loading={isLoadingDocumentTypes}
-                    loadingMessage="Đang tải danh sách loại văn bản..."
+                    loadingMessage="Đang tải danh sách loại công văn..."
                     disabled={isLoadingDocumentTypes}
                   />
                 </div>
@@ -863,7 +863,7 @@ export default function UpdateInternalOutgoingDocumentPage() {
                     name="title"
                     value={formData.title}
                     onChange={handleInputChange}
-                    placeholder="Nhập tiêu đề văn bản"
+                    placeholder="Nhập tiêu đề công văn"
                     required
                     className={validationErrors.title ? "border-red-500" : ""}
                   />
@@ -1061,12 +1061,12 @@ export default function UpdateInternalOutgoingDocumentPage() {
               <Card className="h-full">
                 <CardContent className="pt-6 h-full">
                   <div className="space-y-2 h-full flex flex-col">
-                    <Label htmlFor="content">Nội dung văn bản</Label>
+                    <Label htmlFor="content">Nội dung công văn</Label>
                     <div className="flex-1">
                       <RichTextEditor
                         content={formData.summary}
                         onChange={handleRichTextChange("summary")}
-                        placeholder="Nhập nội dung văn bản"
+                        placeholder="Nhập nội dung công văn"
                         minHeight="500px"
                       />
                     </div>

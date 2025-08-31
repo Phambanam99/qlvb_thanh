@@ -45,7 +45,7 @@ export default function UtilitiesPage() {
           Tiện ích
         </h1>
         <p className="text-muted-foreground">
-          Các công cụ hỗ trợ xử lý tài liệu và văn bản
+          Các công cụ hỗ trợ xử lý tài liệu và công văn
         </p>
       </div>
 

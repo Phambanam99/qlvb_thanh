@@ -227,12 +227,12 @@ export default function DocumentResponseList({
 
       toast({
         title: "Thành công",
-        description: "Đã chấp nhận văn bản trả lời",
+        description: "Đã chấp nhận công văn trả lời",
       });
     } catch (error) {
       toast({
         title: "Lỗi",
-        description: "Không thể chấp nhận văn bản. Vui lòng thử lại sau.",
+        description: "Không thể chấp nhận công văn. Vui lòng thử lại sau.",
         variant: "destructive",
       });
     } finally {
@@ -250,7 +250,7 @@ export default function DocumentResponseList({
         rejectionReason
       );
 
-      // Cập nhật danh sách văn bản
+      // Cập nhật danh sách công văn
       setResponses(
         responses.map((response) => {
           if (response.id === selectedResponseId) {
@@ -266,7 +266,7 @@ export default function DocumentResponseList({
 
       toast({
         title: "Thành công",
-        description: "Đã từ chối văn bản trả lời",
+        description: "Đã từ chối công văn trả lời",
       });
 
       // Reset form
@@ -275,7 +275,7 @@ export default function DocumentResponseList({
     } catch (error) {
       toast({
         title: "Lỗi",
-        description: "Không thể từ chối văn bản. Vui lòng thử lại sau.",
+        description: "Không thể từ chối công văn. Vui lòng thử lại sau.",
         variant: "destructive",
       });
     } finally {
@@ -283,7 +283,7 @@ export default function DocumentResponseList({
     }
   };
 
-  // Hàm mới: Văn thư trả lại văn bản cho trợ lý khi chưa đạt thể thức yêu cầu
+  // Hàm mới: Văn thư trả lại công văn cho trợ lý khi chưa đạt thể thức yêu cầu
   const handleReturnToSpecialist = async () => {
     if (!selectedResponseId) return;
 
@@ -295,10 +295,10 @@ export default function DocumentResponseList({
       comments: returnToSpecialistReason,
     };
     try {
-      // Gọi API để trả lại văn bản cho trợ lý
+      // Gọi API để trả lại công văn cho trợ lý
       await workflowAPI.returnDocumentToSpecialist(selectedResponseId, cmt);
 
-      // Cập nhật danh sách văn bản với trạng thái mới
+      // Cập nhật danh sách công văn với trạng thái mới
       setResponses(
         responses.map((response) => {
           if (response.id === selectedResponseId) {
@@ -312,14 +312,14 @@ export default function DocumentResponseList({
         })
       );
 
-      // Thông báo cho người tạo văn bản
+      // Thông báo cho người tạo công văn
       const selectedResponse = responses.find(
         (r) => r.id === selectedResponseId
       );
       if (selectedResponse?.creator?.id) {
         addNotification({
-          title: "Văn bản cần chỉnh sửa thể thức",
-          message: `Văn bản ${
+          title: "công văn cần chỉnh sửa thể thức",
+          message: `công văn ${
             selectedResponse.documentNumber || "#"
           } đã được văn thư trả lại để chỉnh sửa theo yêu cầu`,
           type: "warning",
@@ -329,7 +329,7 @@ export default function DocumentResponseList({
 
       toast({
         title: "Thành công",
-        description: "Đã trả lại văn bản cho trợ lý để chỉnh sửa",
+        description: "Đã trả lại công văn cho trợ lý để chỉnh sửa",
       });
 
       // Reset form
@@ -339,7 +339,7 @@ export default function DocumentResponseList({
       toast({
         title: "Lỗi",
         description:
-          "Không thể trả lại văn bản cho trợ lý. Vui lòng thử lại sau.",
+          "Không thể trả lại công văn cho trợ lý. Vui lòng thử lại sau.",
         variant: "destructive",
       });
     } finally {
@@ -350,17 +350,17 @@ export default function DocumentResponseList({
   const handlePublishDocument = async (responseId: number) => {
     setIsSubmitting(true);
     try {
-      // Gọi API để ban hành văn bản
+      // Gọi API để ban hành công văn
       await outgoingDocumentsAPI.issueDocument(responseId);
 
       const workflow: DocumentWorkflowDTO = {
         documentId: responseId,
         status: "completed",
         statusDisplayName: "Đã hoàn thành",
-        comments: "Văn bản đã hoàn thành",
+        comments: "công văn đã hoàn thành",
       };
       await workflowAPI.changeDocumentStatus(documentId, workflow);
-      // Cập nhật danh sách văn bản với trạng thái mới
+      // Cập nhật danh sách công văn với trạng thái mới
       setResponses(
         responses.map((response) => {
           if (response.id === responseId) {
@@ -372,19 +372,19 @@ export default function DocumentResponseList({
 
       // Hiển thị thông báo thành công
       addNotification({
-        title: "Văn bản đã được ban hành",
-        message: "Văn bản đã được ban hành thành công",
+        title: "công văn đã được ban hành",
+        message: "công văn đã được ban hành thành công",
         type: "success",
       });
 
       toast({
         title: "Thành công",
-        description: "Văn bản đã được ban hành thành công",
+        description: "công văn đã được ban hành thành công",
       });
     } catch (error) {
       toast({
         title: "Lỗi",
-        description: "Không thể ban hành văn bản. Vui lòng thử lại sau.",
+        description: "Không thể ban hành công văn. Vui lòng thử lại sau.",
         variant: "destructive",
       });
     } finally {
@@ -397,7 +397,7 @@ export default function DocumentResponseList({
       {responses.length === 0 ? (
         <Card>
           <CardContent className="flex flex-col items-center justify-center p-6">
-            <p className="text-muted-foreground">Chưa có văn bản trả lời nào</p>
+            <p className="text-muted-foreground">Chưa có công văn trả lời nào</p>
           </CardContent>
         </Card>
       ) : (
@@ -406,7 +406,7 @@ export default function DocumentResponseList({
             <CardHeader className="pb-2">
               <div className="flex items-center justify-between">
                 <CardTitle className="text-base">
-                  Văn bản trả lời {response.documentNumber}
+                  công văn trả lời {response.documentNumber}
                 </CardTitle>
                 {getStatusBadge(response.status)}
               </div>
@@ -520,9 +520,9 @@ export default function DocumentResponseList({
                       </DialogTrigger>
                       <DialogContent>
                         <DialogHeader>
-                          <DialogTitle>Từ chối văn bản trả lời</DialogTitle>
+                          <DialogTitle>Từ chối công văn trả lời</DialogTitle>
                           <DialogDescription>
-                            Vui lòng nhập lý do từ chối văn bản trả lời này.
+                            Vui lòng nhập lý do từ chối công văn trả lời này.
                           </DialogDescription>
                         </DialogHeader>
                         <Textarea
@@ -549,7 +549,7 @@ export default function DocumentResponseList({
                     </Dialog>
                   </div>
                 )}
-              {/* Nút Ban hành và Trả lại - Chỉ hiển thị cho văn thư khi văn bản đã được phê duyệt */}
+              {/* Nút Ban hành và Trả lại - Chỉ hiển thị cho văn thư khi công văn đã được phê duyệt */}
               {response.status === "leader_approved" &&
                 hasRole("ROLE_VAN_THU") && (
                   <div className="flex justify-end space-x-2 mt-3">
@@ -568,9 +568,9 @@ export default function DocumentResponseList({
                       </DialogTrigger>
                       <DialogContent>
                         <DialogHeader>
-                          <DialogTitle>Trả lại văn bản cho trợ lý</DialogTitle>
+                          <DialogTitle>Trả lại công văn cho trợ lý</DialogTitle>
                           <DialogDescription>
-                            Văn bản cần được chỉnh sửa thể thức để đạt yêu cầu
+                            công văn cần được chỉnh sửa thể thức để đạt yêu cầu
                             của Thủ trưởng cục. Vui lòng nêu rõ nội dung cần
                             chỉnh sửa.
                           </DialogDescription>
@@ -650,7 +650,7 @@ export default function DocumentResponseList({
                     <AlertDialogHeader>
                       <AlertDialogTitle>Xác nhận xóa</AlertDialogTitle>
                       <AlertDialogDescription>
-                        Bạn có chắc chắn muốn xóa văn bản phản hồi này không?
+                        Bạn có chắc chắn muốn xóa công văn phản hồi này không?
                         Hành động này không thể hoàn tác.
                       </AlertDialogDescription>
                     </AlertDialogHeader>

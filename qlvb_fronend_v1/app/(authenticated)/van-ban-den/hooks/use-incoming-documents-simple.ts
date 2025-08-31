@@ -137,8 +137,8 @@ export const useIncomingDocumentsDataSimple = (
       } catch (error) {
         const errorMessage =
           activeTab === "internal"
-            ? "Không thể tải dữ liệu văn bản nội bộ. Vui lòng thử lại sau."
-            : "Không thể tải dữ liệu văn bản. Vui lòng thử lại sau.";
+            ? "Không thể tải dữ liệu công văn nội bộ. Vui lòng thử lại sau."
+            : "Không thể tải dữ liệu công văn. Vui lòng thử lại sau.";
 
         setError(errorMessage);
         toast({

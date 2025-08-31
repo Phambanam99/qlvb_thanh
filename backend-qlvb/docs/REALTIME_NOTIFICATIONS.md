@@ -18,7 +18,7 @@
   "content": "Document status changed",
   "document": {
     "id": 456,
-    "title": "Văn bản số 1234"
+    "title": "công văn số 1234"
   },
   "createdAt": "2025-05-09T10:00:00Z",
   "read": false,
@@ -148,15 +148,15 @@ Hệ thống thông báo xoay quanh các thành phần chính trong package `com
     *   `createdAt`: Thời điểm tạo thông báo.
     *   `isRead`: Trạng thái đã đọc hay chưa.
     *   `user`: Người dùng nhận thông báo.
-    *   `document`: Văn bản liên quan đến thông báo (nếu có).
+    *   `document`: công văn liên quan đến thông báo (nếu có).
 
 *   **Enum NotificationType.java**: Định nghĩa các loại thông báo mà hệ thống có thể tạo ra:
-    *   `STATUS_CHANGE`: Thay đổi trạng thái của văn bản.
+    *   `STATUS_CHANGE`: Thay đổi trạng thái của công văn.
     *   `DEADLINE_REMINDER`: Nhắc nhở khi sắp đến hạn xử lý.
-    *   `NEW_DOCUMENT`: Có văn bản mới được tạo.
-    *   `ASSIGNMENT`: Được giao xử lý một văn bản.
-    *   `NEW_COMMENT`: Có bình luận mới trong văn bản.
-    *   `DOCUMENT_UPDATE`: Thông tin văn bản được cập nhật.
+    *   `NEW_DOCUMENT`: Có công văn mới được tạo.
+    *   `ASSIGNMENT`: Được giao xử lý một công văn.
+    *   `NEW_COMMENT`: Có bình luận mới trong công văn.
+    *   `DOCUMENT_UPDATE`: Thông tin công văn được cập nhật.
 
 *   **Repository NotificationRepository.java**: Cung cấp các phương thức truy vấn cơ sở dữ liệu cho `Notification`, bao gồm:
     *   `findByUser(User user, Pageable pageable)`: Lấy danh sách thông báo của người dùng theo phân trang.
@@ -172,17 +172,17 @@ Hệ thống thông báo xoay quanh các thành phần chính trong package `com
     *   Điều này cho phép giao diện người dùng (frontend) có thể nhận và hiển thị thông báo ngay lập tức mà không cần tải lại trang.
 
 *   **Nguồn kích hoạt thông báo**:
-    *   **DocumentWorkflowService.java**: Đây là nơi chính kích hoạt việc tạo thông báo. Ví dụ, khi trạng thái của một văn bản thay đổi (`changeDocumentStatus`), service này sẽ gọi `notificationService.createAndSendNotification` để thông báo cho người dùng liên quan.
+    *   **DocumentWorkflowService.java**: Đây là nơi chính kích hoạt việc tạo thông báo. Ví dụ, khi trạng thái của một công văn thay đổi (`changeDocumentStatus`), service này sẽ gọi `notificationService.createAndSendNotification` để thông báo cho người dùng liên quan.
     *   **DocumentEvent.java**: Hệ thống cũng sử dụng cơ chế sự kiện của Spring (`ApplicationEvent`). `DocumentEvent` được tạo ra cho các hành động như `STATUS_CHANGE`, `ASSIGNMENT`, `DOCUMENT_CREATED`. Rất có thể có một `EventListener` (không xuất hiện trong kết quả tìm kiếm) lắng nghe các sự kiện này và gọi `NotificationService` để gửi thông báo tương ứng.
 
 ### 3. Tích hợp phía Frontend và Real-time
 
 Tài liệu REALTIME_NOTIFICATIONS.md cung cấp một hướng dẫn chi tiết cho việc tích hợp phía frontend:
 
-*   **Cấu trúc tin nhắn (Message Structure)**: Định nghĩa rõ ràng cấu trúc JSON cho các tin nhắn WebSocket, bao gồm tin nhắn xác thực (AUTH) và payload của thông báo. Payload chứa đầy đủ thông tin cần thiết để hiển thị, như `id`, `type`, `content`, thông tin văn bản, và `metadata` (ví dụ: trạng thái cũ và mới).
+*   **Cấu trúc tin nhắn (Message Structure)**: Định nghĩa rõ ràng cấu trúc JSON cho các tin nhắn WebSocket, bao gồm tin nhắn xác thực (AUTH) và payload của thông báo. Payload chứa đầy đủ thông tin cần thiết để hiển thị, như `id`, `type`, `content`, thông tin công văn, và `metadata` (ví dụ: trạng thái cũ và mới).
 *   **Luồng hoạt động (Sequence Flow)**: Mô tả quá trình kết nối WebSocket, xác thực, và nhận thông báo từ backend.
 *   **Xử lý theo loại thông báo**: Cung cấp các đoạn mã JavaScript mẫu để xử lý từng loại thông báo khác nhau trên giao diện, ví dụ:
-    *   `handleStatusChange`: Cập nhật trạng thái văn bản trên UI và hiển thị toast notification.
+    *   `handleStatusChange`: Cập nhật trạng thái công văn trên UI và hiển thị toast notification.
     *   `handleAssignment`: Thêm công việc mới vào danh sách của người dùng.
     *   `handleNewComment`: Hiển thị bình luận mới.
     *   `handleDeadline`: Hiển thị cảnh báo sắp đến hạn.
@@ -194,4 +194,4 @@ Tài liệu REALTIME_NOTIFICATIONS.md cung cấp một hướng dẫn chi tiết
 
 ### Tổng kết
 
-Hệ thống thông báo được thiết kế theo kiến trúc hướng sự kiện và thời gian thực, tích hợp chặt chẽ với các quy trình nghiệp vụ chính (đặc biệt là quy trình xử lý văn bản). Việc sử dụng WebSocket giúp nâng cao trải nghiệm người dùng bằng cách cung cấp phản hồi tức thì. Tài liệu rõ ràng cũng là một điểm cộng, giúp cho việc phát triển và bảo trì phía frontend trở nên dễ dàng hơn.
+Hệ thống thông báo được thiết kế theo kiến trúc hướng sự kiện và thời gian thực, tích hợp chặt chẽ với các quy trình nghiệp vụ chính (đặc biệt là quy trình xử lý công văn). Việc sử dụng WebSocket giúp nâng cao trải nghiệm người dùng bằng cách cung cấp phản hồi tức thì. Tài liệu rõ ràng cũng là một điểm cộng, giúp cho việc phát triển và bảo trì phía frontend trở nên dễ dàng hơn.

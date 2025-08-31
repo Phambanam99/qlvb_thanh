@@ -190,10 +190,10 @@ export default function DocumentDetailPage({
       setDocument(documentData);
       setError(null);
     } catch (err: any) {
-      setError(err.message || "Không thể tải thông tin văn bản");
+      setError(err.message || "Không thể tải thông tin công văn");
       toast({
         title: "Lỗi",
-        description: "Không thể tải thông tin văn bản",
+        description: "Không thể tải thông tin công văn",
         variant: "destructive",
       });
     } finally {
@@ -221,7 +221,7 @@ export default function DocumentDetailPage({
     if (!documentId) {
       toast({
         title: "Lỗi",
-        description: "Không xác định được ID văn bản",
+        description: "Không xác định được ID công văn",
         variant: "destructive",
       });
       return;
@@ -284,7 +284,7 @@ export default function DocumentDetailPage({
     if (!documentId) {
       toast({
         title: "Lỗi",
-        description: "Không xác định được ID văn bản",
+        description: "Không xác định được ID công văn",
         variant: "destructive",
       });
       return;
@@ -461,19 +461,19 @@ export default function DocumentDetailPage({
         status: "SPECIALIST_PROCESSING",
         statusDisplayName: "Chuyên viên đang xử lý",
         assignedToId: Number(user.id),
-        comments: "Bắt đầu xử lý văn bản",
+        comments: "Bắt đầu xử lý công văn",
       });
 
       toast({
         title: "Thành công",
-        description: "Đã bắt đầu xử lý văn bản",
+        description: "Đã bắt đầu xử lý công văn",
       });
 
       router.push(`/van-ban-di/them-moi?replyToId=${_document.id}`);
     } catch (error) {
       toast({
         title: "Lỗi",
-        description: "Không thể bắt đầu xử lý văn bản. Vui lòng thử lại sau.",
+        description: "Không thể bắt đầu xử lý công văn. Vui lòng thử lại sau.",
         variant: "destructive",
       });
     } finally {
@@ -497,13 +497,13 @@ export default function DocumentDetailPage({
       _document.processingStatus
     );
 
-    // Kiểm tra xem phòng ban hiện tại có được gán cho văn bản này không
+    // Kiểm tra xem phòng ban hiện tại có được gán cho công văn này không
     const currentDeptId = Number(user?.departmentId);
     const isCurrentDepartmentAssigned =
       Array.isArray(departments) &&
       departments.some((dept) => dept.id === currentDeptId);
 
-    // Kiểm tra văn bản có được chuyển từ đơn vị con lên không
+    // Kiểm tra công văn có được chuyển từ đơn vị con lên không
     const isForwardedFromChildDept =
       _document.sourceDepartmentId &&
       _document.processingStatus === "parent_dept_review";
@@ -513,7 +513,7 @@ export default function DocumentDetailPage({
     // Sử dụng tiếp cận đơn giản hơn: tạo key riêng để theo dõi xem phòng đã phân công chưa
     const processKey = `document_${_document.id}_dept_${currentDeptId}_assigned`;
 
-    // Kiểm tra trong localStorage xem phòng đã phân công cho văn bản này chưa
+    // Kiểm tra trong localStorage xem phòng đã phân công cho công văn này chưa
     const isDeptAssigned =
       typeof window !== "undefined"
         ? localStorage.getItem(processKey) === "true"
@@ -526,7 +526,7 @@ export default function DocumentDetailPage({
       }
     };
 
-    // Phòng ban hiện tại có thể phân công nếu được giao xử lý văn bản và chưa được đánh dấu là đã phân công
+    // Phòng ban hiện tại có thể phân công nếu được giao xử lý công văn và chưa được đánh dấu là đã phân công
     const canAssignToUsers = isCurrentDepartmentAssigned && !isDeptAssigned;
 
     if (
@@ -593,7 +593,7 @@ export default function DocumentDetailPage({
     if (hasDepartmentAccess) {
       return (
         <>
-          {/* Hiển thị nút Phân công nếu phòng ban được giao xử lý văn bản và đang ở trạng thái phù hợp */}
+          {/* Hiển thị nút Phân công nếu phòng ban được giao xử lý công văn và đang ở trạng thái phù hợp */}
           {canAssignToUsers &&
             [
               "PENDING",
@@ -628,7 +628,7 @@ export default function DocumentDetailPage({
               </Button>
             )}
 
-          {/* Hiển thị nút Xem xét từ đơn vị con nếu văn bản được chuyển từ đơn vị con lên */}
+          {/* Hiển thị nút Xem xét từ đơn vị con nếu công văn được chuyển từ đơn vị con lên */}
           {isForwardedFromChildDept && _document.latestResponseId && (
             <Button
               variant="outline"
@@ -687,12 +687,12 @@ export default function DocumentDetailPage({
     }
 
     if (hasRole(["ROLE_TRO_LY", "ROLE_NHAN_VIEN"])) {
-      // Kiểm tra xem người dùng hiện tại có được phân công xử lý văn bản này không
+      // Kiểm tra xem người dùng hiện tại có được phân công xử lý công văn này không
       const isAssignedToCurrentUser =
         _document.assignedToIds &&
         Array.isArray(_document.assignedToIds) &&
         _document.assignedToIds.includes(user.id);
-      // kiểm tra xem người dùng đã trả lời văn bản trong lịch sử chưa
+      // kiểm tra xem người dùng đã trả lời công văn trong lịch sử chưa
 
       
 
@@ -793,7 +793,7 @@ export default function DocumentDetailPage({
   if (error || !_document) {
     return (
       <div className="flex flex-col items-center justify-center h-[calc(100vh-200px)]">
-        <p className="text-red-500 mb-4">{error || "Không tìm thấy văn bản"}</p>
+        <p className="text-red-500 mb-4">{error || "Không tìm thấy công văn"}</p>
         <Button asChild>
           <Link href="/van-ban-den">Quay lại danh sách</Link>
         </Button>
@@ -816,7 +816,7 @@ export default function DocumentDetailPage({
             </Link>
           </Button>
           <h1 className="text-2xl font-bold tracking-tight text-primary">
-            Chi tiết văn bản đến
+            Chi tiết công văn đến
           </h1>
         </div>
         <div className="flex items-center space-x-2">
@@ -862,7 +862,7 @@ export default function DocumentDetailPage({
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <p className="text-sm font-medium text-muted-foreground">
-                    Loại văn bản
+                    Loại công văn
                   </p>
                   <p>{_document.documentType || "Chưa phân loại"}</p>
                 </div>
@@ -1092,7 +1092,7 @@ export default function DocumentDetailPage({
                 value="responses"
                 className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
               >
-                Văn bản trả lời
+                công văn trả lời
               </TabsTrigger>
               <TabsTrigger
                 value="history"
@@ -1268,10 +1268,10 @@ export default function DocumentDetailPage({
               {hasRole(["ROLE_TRUONG_PHONG", "ROLE_PHO_PHONG"]) &&
                 // Chỉ kiểm tra phân công trong phòng của trưởng phòng hiện tại
                 (() => {
-                  // Sử dụng trường hợp đơn giản nhất: kiểm tra xem phòng ban hiện tại có được liệt kê trong danh sách các phòng ban được phân công xử lý văn bản này hay không
+                  // Sử dụng trường hợp đơn giản nhất: kiểm tra xem phòng ban hiện tại có được liệt kê trong danh sách các phòng ban được phân công xử lý công văn này hay không
                   const currentDeptId = Number(user?.departmentId);
 
-                  // Kiểm tra xem phòng ban hiện tại có trong danh sách các phòng ban xử lý văn bản hay không
+                  // Kiểm tra xem phòng ban hiện tại có trong danh sách các phòng ban xử lý công văn hay không
                   const hasAssignedToCurrentDepartment =
                     Array.isArray(departments) &&
                     departments.some((dept) => dept.id === currentDeptId);
@@ -1283,7 +1283,7 @@ export default function DocumentDetailPage({
                     _document.assignedToIds.length > 0 &&
                     hasAssignedToCurrentDepartment; //_document Đã có phòng được phân công
 
-                  // Nếu chưa có ai trong phòng được phân công hoặc văn bản đang ở trạng thái chờ xử lý
+                  // Nếu chưa có ai trong phòng được phân công hoặc công văn đang ở trạng thái chờ xử lý
                   if (
                     !hasAssignedToUserInCurrentDept &&
                     [
@@ -1316,7 +1316,7 @@ export default function DocumentDetailPage({
                   } else {
                     return (
                       <div className="w-full text-center text-amber-600 text-sm py-1">
-                        Văn bản đã được phân công cho cán bộ của{" "}
+                        công văn đã được phân công cho cán bộ của{" "}
                         {user?.departmentName} xử lý
                       </div>
                     );
@@ -1325,7 +1325,7 @@ export default function DocumentDetailPage({
               {/* Chỉ hiển thị nút Cập nhật thông tin xử lý cho nhân viên/trợ lý được phân công xử lý */}
               {hasRole(["ROLE_TRO_LY", "ROLE_NHAN_VIEN"]) && (
                 <>
-                  {/* Kiểm tra người dùng có được phân công xử lý văn bản này không */}
+                  {/* Kiểm tra người dùng có được phân công xử lý công văn này không */}
                   {(() => {
                     // Giống như cách kiểm tra ở nút Trả lời
                     const isAssignedToCurrentUser =
