@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.ArrayList;
 import java.time.LocalDateTime;
 
 @Service
@@ -153,11 +152,11 @@ public class DocumentReadStatusService {
     /**
      * Delete read status records for a document
      */
-    @Transactional
-    public void deleteReadStatusForDocument(Long documentId, DocumentType documentType) {
-        readStatusRepository.deleteByDocumentIdAndDocumentType(documentId, documentType);
-        log.info("Deleted read status records for document {} of type {}", documentId, documentType);
-    }
+//    @Transactional
+//    public void deleteReadStatusForDocument(Long documentId, DocumentType documentType) {
+//        readStatusRepository.deleteByDocumentIdAndDocumentType(documentId, documentType);
+//        log.info("Deleted read status records for document {} of type {}", documentId, documentType);
+//    }
 
     /**
      * Get list of users who have read a document with their details

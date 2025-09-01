@@ -135,7 +135,12 @@ public class InternalDocument {
     @Column
     @Builder.Default
     private Boolean noPaperCopy = false;
-
+    /**
+     * coong van chung
+     */
+    @Column(name = "is_publicly_available")
+    @Builder.Default
+    private Boolean isPublicly = false;
     // Quan hệ với người nhận
     @OneToMany(mappedBy = "document", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude

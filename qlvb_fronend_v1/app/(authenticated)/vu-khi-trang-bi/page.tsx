@@ -158,7 +158,7 @@ export default function EquipmentPage() {
   const departmentSelectDisabled = !isAdmin;
 
   return (
-    <AuthGuard allowedRoles={["ROLE_ADMIN", ...DEPARTMENT_HEAD_ROLES]}>
+    <AuthGuard>
       <div className="container mx-auto max-w-full px-4 py-6">
         <div className="flex items-center justify-between">
           <div className="space-y-1">
@@ -173,7 +173,9 @@ export default function EquipmentPage() {
               <RefreshCw className={`h-4 w-4 mr-2 ${isLoading ? "animate-spin" : ""}`} />
               Làm mới
             </Button>
-            <Button onClick={openCreate}><Plus className="h-4 w-4 mr-2" />Thêm trang bị</Button>
+            {isAdmin && (
+              <Button onClick={openCreate}><Plus className="h-4 w-4 mr-2" />Thêm trang bị</Button>
+            )}
           </div>
         </div>
 
@@ -234,10 +236,12 @@ export default function EquipmentPage() {
                           <TableCell>{it.quantity ?? "—"}</TableCell>
                           <TableCell>{it.departmentName || "—"}</TableCell>
                           <TableCell className="text-right">
-                            <div className="flex gap-2 justify-end">
-                              <Button size="sm" variant="outline" onClick={() => openEdit(it)}><Edit className="h-4 w-4 mr-1" />Sửa</Button>
-                              <Button size="sm" variant="destructive" onClick={() => handleDelete(it)}><Trash2 className="h-4 w-4 mr-1" />Xóa</Button>
-                            </div>
+                            {isAdmin && (
+                              <div className="flex gap-2 justify-end">
+                                <Button size="sm" variant="outline" onClick={() => openEdit(it)}><Edit className="h-4 w-4 mr-1" />Sửa</Button>
+                                <Button size="sm" variant="destructive" onClick={() => handleDelete(it)}><Trash2 className="h-4 w-4 mr-1" />Xóa</Button>
+                              </div>
+                            )}
                           </TableCell>
                         </TableRow>
                       ))}

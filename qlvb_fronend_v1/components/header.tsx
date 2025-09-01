@@ -52,7 +52,35 @@ export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDataLibraryOpen, setIsDataLibraryOpen] = useState(false);
 
-  // Định nghĩa các mục menu chính
+  // Định nghĩa các tab module ở header (theo thiết kế)
+  const moduleNavItems = [
+    {
+      title: "Quản lý công văn",
+      href: "/van-ban-den",
+      icon: FileText,
+      permission: null,
+    },
+    {
+      title: "Quản lý tổ chức biên chế",
+      href: "/phong-ban",
+      icon: Building,
+      permission: null,
+    },
+    {
+      title: "Quản lý vũ khí - TBKT",
+      href: "/vu-khi-trang-bi",
+      icon: Wrench,
+      permission: null,
+    },
+    {
+      title: "Quản lý dữ liệu",
+      href: "/nguoi-dung",
+      icon: Database,
+      permission: null,
+    },
+  ];
+
+  // Định nghĩa các mục menu chính (submenu cho Quản lý công văn)
   const mainNavItems = [
     {
       title: "công văn đến",
@@ -65,6 +93,12 @@ export const Header = () => {
       href: "/van-ban-di",
       icon: Send,
       permission: null, // Tất cả người dùng đều có thể xem
+    },
+    {
+      title: "công văn chung",
+      href: "/cong-van-chung",
+      icon: ClipboardList,
+      permission: null,
     }
   ];
 
@@ -114,6 +148,9 @@ export const Header = () => {
   ];
 
   // Lọc các mục menu dựa trên quyền hạn
+  const filteredModuleNavItems = moduleNavItems.filter(
+    (item) => item.permission === null || hasPermission(item.permission)
+  );
   const filteredMainNavItems = mainNavItems.filter(
     (item) => item.permission === null || hasPermission(item.permission)
   );
@@ -135,7 +172,7 @@ export const Header = () => {
       <div className="flex h-16 items-center px-4">
         {/* Logo */}
         <div className="mr-6">
-          <Link href="/" className="flex items-center space-x-2">
+          <Link href="/van-ban-den" className="flex items-center space-x-2">
             <FileText className="h-6 w-6 text-primary" />
             <span className="font-bold text-lg text-primary hidden md:block">
               Quản lý công văn
@@ -145,39 +182,57 @@ export const Header = () => {
 
         {/* Desktop Navigation */}
         <nav className="hidden xl:flex items-center space-x-1 flex-1">
-          {/* Main navigation items */}
-          {filteredMainNavItems.map((item) => {
-            const isActive =
-              pathname === item.href || pathname.startsWith(`${item.href}/`);
-            
-            // Render external link differently
-            if (item.external) {
+          {/* Module tabs */}
+          {filteredModuleNavItems.map((item) => {
+            const isDocsGroup = item.title === "Quản lý công văn";
+            const isActiveBase = pathname === item.href || pathname.startsWith(`${item.href}/`);
+            const isDocsActive = pathname.startsWith("/van-ban-den") || pathname.startsWith("/van-ban-di") || pathname.startsWith("/cong-van-chung");
+            const isActive = isDocsGroup ? isDocsActive : isActiveBase;
+
+            if (isDocsGroup) {
               return (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={cn(
-                    "flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-md transition-colors hover:bg-accent hover:text-accent-foreground",
-                    "text-muted-foreground"
-                  )}
-                >
-                  <item.icon className="h-4 w-4" />
-                  {item.title}
-                </a>
+                <DropdownMenu key={item.href}>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      className={cn(
+                        "flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-md transition-colors hover:bg-accent hover:text-accent-foreground",
+                        isActive ? "bg-accent text-accent-foreground" : "text-muted-foreground"
+                      )}
+                    >
+                      <item.icon className="h-4 w-4" />
+                      {item.title}
+                      <ChevronDown className="h-3 w-3" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="start" className="w-56">
+                    <DropdownMenuItem asChild>
+                      <Link href="/van-ban-den" className="flex items-center gap-2">
+                        <FileText className="h-4 w-4" /> Công văn đến
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/van-ban-di" className="flex items-center gap-2">
+                        <Send className="h-4 w-4" /> Công văn đi
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/cong-van-chung" className="flex items-center gap-2">
+                        <ClipboardList className="h-4 w-4" /> Công văn chung
+                      </Link>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               );
             }
-            
+
             return (
               <Link
                 key={item.href}
                 href={item.href}
                 className={cn(
                   "flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-md transition-colors hover:bg-accent hover:text-accent-foreground",
-                  isActive
-                    ? "bg-accent text-accent-foreground"
-                    : "text-muted-foreground"
+                  isActive ? "bg-accent text-accent-foreground" : "text-muted-foreground"
                 )}
               >
                 <item.icon className="h-4 w-4" />
@@ -253,29 +308,32 @@ export const Header = () => {
               <DropdownMenuLabel>Chức năng</DropdownMenuLabel>
               <DropdownMenuSeparator />
 
+              {/* Module tabs (mobile) */}
+              {filteredModuleNavItems.map((item) => {
+                const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
+                return (
+                  <DropdownMenuItem key={item.href} asChild>
+                    <Link
+                      href={item.href}
+                      className={cn("flex items-center gap-2 w-full", isActive && "bg-accent")}
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      <item.icon className="h-4 w-4" />
+                      {item.title}
+                    </Link>
+                  </DropdownMenuItem>
+                );
+              })}
+
+              <DropdownMenuSeparator />
+
               {/* Main navigation items for mobile */}
               {filteredMainNavItems.map((item) => {
                 const isActive =
                   pathname === item.href ||
                   pathname.startsWith(`${item.href}/`);
                 
-                // Render external link differently for mobile
-                if (item.external) {
-                  return (
-                    <DropdownMenuItem key={item.href} asChild>
-                      <a
-                        href={item.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 w-full"
-                        onClick={() => setIsMenuOpen(false)}
-                      >
-                        <item.icon className="h-4 w-4" />
-                        {item.title}
-                      </a>
-                    </DropdownMenuItem>
-                  );
-                }
+                // Only internal app links are used on mobile
                 
                 return (
                   <DropdownMenuItem key={item.href} asChild>

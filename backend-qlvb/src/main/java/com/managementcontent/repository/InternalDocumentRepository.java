@@ -195,4 +195,5 @@ public interface InternalDocumentRepository extends JpaRepository<InternalDocume
                         @Param("endDate") LocalDateTime endDate,
                         @Param("keyword") String keyword,
                         Pageable pageable);
+
 }

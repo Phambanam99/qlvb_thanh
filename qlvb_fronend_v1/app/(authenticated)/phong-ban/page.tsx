@@ -111,18 +111,21 @@ export default function DepartmentsPage() {
     return null;
   }
 
+  const isAdmin = !!user?.roles?.includes("ROLE_ADMIN")
   return (
-    <AuthGuard allowedRoles={["ROLE_ADMIN"]}>
+    <AuthGuard>
       <div className="container mx-auto max-w-full px-4 py-6">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold">Quản lý phòng ban</h1>
-        {(user?.roles?.includes("ROLE_ADMIN") ||
-          hasRoleInGroup(user?.roles || [], DEPARTMENT_MANAGEMENT_ROLES)) && (
+        <div className="flex items-center gap-2">
+          <Button variant="secondary" onClick={() => router.push("/phong-ban/so-do")}>Xem sơ đồ tổ chức</Button>
+        {isAdmin && (
           <Button onClick={handleAddNew}>
             <PlusIcon className="mr-2 h-4 w-4" />
             Thêm mới
           </Button>
         )}
+        </div>
       </div>
 
       <Card className="mt-6">
