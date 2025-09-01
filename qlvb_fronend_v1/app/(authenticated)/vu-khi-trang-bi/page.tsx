@@ -16,6 +16,7 @@ import { departmentsAPI } from "@/lib/api";
 import AuthGuard from "@/components/auth-guard";
 import { useAuth } from "@/lib/auth-context";
 import { DEPARTMENT_HEAD_ROLES } from "@/lib/role-utils";
+import { equipmentInventoryAPI, WeaponInventoryRow, AmmunitionInventoryRow, VehicleInventoryRow } from "@/lib/api/equipment-inventory";
 
 export default function EquipmentPage() {
   const { toast } = useToast();
@@ -157,6 +158,31 @@ export default function EquipmentPage() {
 
   const departmentSelectDisabled = !isAdmin;
 
+  // Sidebar state & data for inventory sections
+  const [section, setSection] = useState<"weapons" | "ammo" | "vehicles" | "engineering" | "power">("weapons");
+  const [query, setQuery] = useState("");
+  const [weaponRows, setWeaponRows] = useState<WeaponInventoryRow[]>([]);
+  const [ammoRows, setAmmoRows] = useState<AmmunitionInventoryRow[]>([]);
+  const [vehicleRows, setVehicleRows] = useState<VehicleInventoryRow[]>([]);
+  const [engineeringRows, setEngineeringRows] = useState<VehicleInventoryRow[]>([]);
+  const [powerRows, setPowerRows] = useState<any[]>([]);
+
+  // Edit dialog state
+  const [editOpen, setEditOpen] = useState(false);
+  const [editSection, setEditSection] = useState<typeof section>("weapons");
+  const [editRecord, setEditRecord] = useState<any>(null);
+
+  useEffect(() => {
+    const load = async () => {
+      if (section === "weapons") setWeaponRows(await equipmentInventoryAPI.getWeapons(query));
+      if (section === "ammo") setAmmoRows(await equipmentInventoryAPI.getAmmunitions(query));
+      if (section === "vehicles") setVehicleRows(await equipmentInventoryAPI.getVehicles(query));
+      if (section === "engineering") setEngineeringRows(await equipmentInventoryAPI.getEngineeringVehicles(query));
+      if (section === "power") setPowerRows(await equipmentInventoryAPI.getPowerStations(query));
+    };
+    load();
+  }, [section, query]);
+
   return (
     <AuthGuard>
       <div className="container mx-auto max-w-full px-4 py-6">
@@ -179,7 +205,383 @@ export default function EquipmentPage() {
           </div>
         </div>
 
-        <Tabs defaultValue="list" className="mt-6">
+        {/* Inventory with left sidebar */}
+        <div className="mt-6 grid grid-cols-1 md:grid-cols-[240px_1fr] gap-4">
+          <Card>
+            <CardHeader className="pb-2"><CardTitle className="text-base">Danh mục</CardTitle></CardHeader>
+            <CardContent className="space-y-2">
+              <Button variant={section === "weapons" ? "default" : "outline"} className="w-full justify-start" onClick={() => setSection("weapons")}>Súng</Button>
+              <Button variant={section === "ammo" ? "default" : "outline"} className="w-full justify-start" onClick={() => setSection("ammo")}>Đạn dược</Button>
+              <Button variant={section === "vehicles" ? "default" : "outline"} className="w-full justify-start" onClick={() => setSection("vehicles")}>Ô tô</Button>
+              <Button variant={section === "engineering" ? "default" : "outline"} className="w-full justify-start" onClick={() => setSection("engineering")}>Xe máy công binh</Button>
+              <Button variant={section === "power" ? "default" : "outline"} className="w-full justify-start" onClick={() => setSection("power")}>Tạm nguồn điện</Button>
+            </CardContent>
+          </Card>
+
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <Input
+                placeholder={section === "weapons" ? "Tìm theo tên/ nước sản xuất/ phân cấp/ đơn vị" : section === "ammo" ? "Tìm theo tên đạn/ phân cấp/ đơn vị" : section === "vehicles" ? "Tìm theo số đăng ký/ biên chế/ chất lượng/ trạng thái" : section === "engineering" ? "Tìm theo số đăng ký/ biên chế/ đơn vị/ phân cấp/ chất lượng/ trạng thái sd" : "Tìm theo tên trạm nguồn/ số đăng ký trạm/ cấp chất lượng/ mục đích sd/ trạng thái sd/ đơn vị"}
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                className="max-w-xl"
+              />
+              <Button variant="outline" size="sm" onClick={() => setQuery("")}>Xóa</Button>
+            </div>
+
+            {section === "weapons" && (
+              <Card>
+                <CardHeader>
+                  <CardTitle>Súng</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead rowSpan={2} className="w-[48px] text-center align-middle">TT</TableHead>
+                        <TableHead rowSpan={2}>Tên súng pháo, khí tài</TableHead>
+                        <TableHead rowSpan={2}>Nước sản xuất</TableHead>
+                        <TableHead rowSpan={2}>ĐVT</TableHead>
+                        <TableHead rowSpan={2}>Phân cấp</TableHead>
+                        <TableHead rowSpan={2}>Số lượng</TableHead>
+                        <TableHead colSpan={6} className="text-center">Thực lực ở các đơn vị</TableHead>
+                        <TableHead rowSpan={2}>Ghi chú</TableHead>
+                      </TableRow>
+                      <TableRow>
+                        <TableHead>Cộng</TableHead>
+                        <TableHead>TM</TableHead>
+                        <TableHead>D1</TableHead>
+                        <TableHead>D2</TableHead>
+                        <TableHead>D3</TableHead>
+                        <TableHead>Kho lữ</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {weaponRows.map((r, idx) => (
+                        <TableRow key={r.id}>
+                          <TableCell className="text-center">{idx + 1}</TableCell>
+                          <TableCell className="font-medium">{r.name}</TableCell>
+                          <TableCell>{r.origin || ""}</TableCell>
+                          <TableCell>{r.unit}</TableCell>
+                          <TableCell>{r.grade || ""}</TableCell>
+                          <TableCell className="text-center">{r.quantity}</TableCell>
+                          <TableCell className="text-center">{r.distribution.total}</TableCell>
+                          <TableCell className="text-center">{r.distribution.tm}</TableCell>
+                          <TableCell className="text-center">{r.distribution.d1}</TableCell>
+                          <TableCell className="text-center">{r.distribution.d2}</TableCell>
+                          <TableCell className="text-center">{r.distribution.d3}</TableCell>
+                          <TableCell className="text-center">{r.distribution.khoLu}</TableCell>
+                          <TableCell className="flex justify-between items-center">
+                            <span>{r.note || ""}</span>
+                            {isAdmin && (
+                              <Button size="sm" variant="outline" onClick={() => { setEditSection("weapons"); setEditRecord(r); setEditOpen(true); }}>Sửa</Button>
+                            )}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </CardContent>
+              </Card>
+            )}
+
+            {section === "ammo" && (
+              <Card>
+                <CardHeader>
+                  <CardTitle>Đạn dược</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead rowSpan={2} className="w-[48px] text-center align-middle">TT</TableHead>
+                        <TableHead rowSpan={2}>Tên đạn dược</TableHead>
+                        <TableHead rowSpan={2}>Đơn vị tính</TableHead>
+                        <TableHead rowSpan={2}>Phân cấp</TableHead>
+                        <TableHead rowSpan={2}>Số lượng</TableHead>
+                        <TableHead rowSpan={2}>Khối lượng (tấn)</TableHead>
+                        <TableHead colSpan={6} className="text-center">Số lượng phân bổ ở các đơn vị</TableHead>
+                      </TableRow>
+                      <TableRow>
+                        <TableHead>TM</TableHead>
+                        <TableHead>d1</TableHead>
+                        <TableHead>d2</TableHead>
+                        <TableHead>d3</TableHead>
+                        <TableHead>Kho lữ</TableHead>
+                        <TableHead>Kho K820</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {ammoRows.map((r, idx) => (
+                        <TableRow key={r.id}>
+                          <TableCell className="text-center">{idx + 1}</TableCell>
+                          <TableCell className="font-medium">{r.name}</TableCell>
+                          <TableCell>{r.unit}</TableCell>
+                          <TableCell>{r.grade || ""}</TableCell>
+                          <TableCell className="text-right">{r.quantity}</TableCell>
+                          <TableCell className="text-right">{r.weightTon?.toLocaleString(undefined, { minimumFractionDigits: 3 }) || "0"}</TableCell>
+                          <TableCell className="text-right">{r.distribution.tm}</TableCell>
+                          <TableCell className="text-right">{r.distribution.d1}</TableCell>
+                          <TableCell className="text-right">{r.distribution.d2}</TableCell>
+                          <TableCell className="text-right">{r.distribution.d3}</TableCell>
+                          <TableCell className="text-right">{r.distribution.khoLu}</TableCell>
+                          <TableCell className="text-right">{r.distribution.khoK820 ?? 0}</TableCell>
+                          {isAdmin && (
+                            <TableCell className="text-right">
+                              <Button size="sm" variant="outline" onClick={() => { setEditSection("ammo"); setEditRecord(r); setEditOpen(true); }}>Sửa</Button>
+                            </TableCell>
+                          )}
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </CardContent>
+              </Card>
+            )}
+
+            {section === "vehicles" && (
+              <Card>
+                <CardHeader>
+                  <CardTitle>Ô tô</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="w-[48px] text-center">TT</TableHead>
+                        <TableHead>Số đăng ký</TableHead>
+                        <TableHead>Nhãn xe cơ sở</TableHead>
+                        <TableHead>Số khung</TableHead>
+                        <TableHead>Số máy</TableHead>
+                        <TableHead>Năm s.xuất</TableHead>
+                        <TableHead>Năm b.s. dụng</TableHead>
+                        <TableHead>Nguồn gốc</TableHead>
+                        <TableHead>B.chế ở (e,f,lữ,.)</TableHead>
+                        <TableHead>Phân cấp CL</TableHead>
+                        <TableHead>Trạng thái SD</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {vehicleRows.map((v, idx) => (
+                        <TableRow key={v.id}>
+                          <TableCell className="text-center">{idx + 1}</TableCell>
+                          <TableCell className="font-medium">{v.registration}</TableCell>
+                          <TableCell>{v.makeModel}</TableCell>
+                          <TableCell>{v.chassisNo || ""}</TableCell>
+                          <TableCell>{v.engineNo || ""}</TableCell>
+                          <TableCell>{v.manufactureYear || ""}</TableCell>
+                          <TableCell>{v.startUseYear || ""}</TableCell>
+                          <TableCell>{v.origin || ""}</TableCell>
+                          <TableCell>{v.stationedAt || ""}</TableCell>
+                          <TableCell>{v.qualityGrade || ""}</TableCell>
+                          <TableCell className="flex justify-between items-center">
+                            <span>{v.status || ""}</span>
+                            {isAdmin && (
+                              <Button size="sm" variant="outline" onClick={() => { setEditSection("vehicles"); setEditRecord(v); setEditOpen(true); }}>Sửa</Button>
+                            )}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </CardContent>
+              </Card>
+            )}
+
+            {section === "engineering" && (
+              <Card>
+                <CardHeader>
+                  <CardTitle>Xe máy công binh</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="w-[48px] text-center">TT</TableHead>
+                        <TableHead>Số đăng ký</TableHead>
+                        <TableHead>Nhãn xe cơ sở</TableHead>
+                        <TableHead>Số khung</TableHead>
+                        <TableHead>Số máy</TableHead>
+                        <TableHead>Năm s.xuất</TableHead>
+                        <TableHead>Năm b.s. dụng</TableHead>
+                        <TableHead>Nguồn gốc</TableHead>
+                        <TableHead>B.chế ở (e,f,lữ,.)</TableHead>
+                        <TableHead>Phân cấp CL</TableHead>
+                        <TableHead>Trạng thái SD</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {engineeringRows.map((v, idx) => (
+                        <TableRow key={v.id}>
+                          <TableCell className="text-center">{idx + 1}</TableCell>
+                          <TableCell className="font-medium">{v.registration}</TableCell>
+                          <TableCell>{v.makeModel}</TableCell>
+                          <TableCell>{v.chassisNo || ""}</TableCell>
+                          <TableCell>{v.engineNo || ""}</TableCell>
+                          <TableCell>{v.manufactureYear || ""}</TableCell>
+                          <TableCell>{v.startUseYear || ""}</TableCell>
+                          <TableCell>{v.origin || ""}</TableCell>
+                          <TableCell>{v.stationedAt || ""}</TableCell>
+                          <TableCell>{v.qualityGrade || ""}</TableCell>
+                          <TableCell className="flex justify-between items-center">
+                            <span>{v.status || ""}</span>
+                            {isAdmin && (
+                              <Button size="sm" variant="outline" onClick={() => { setEditSection("engineering"); setEditRecord(v); setEditOpen(true); }}>Sửa</Button>
+                            )}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </CardContent>
+              </Card>
+            )}
+
+            {section === "power" && (
+              <Card>
+                <CardHeader>
+                  <CardTitle>Tạm nguồn điện</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="w-[48px] text-center">TT</TableHead>
+                        <TableHead>Tên trạm nguồn</TableHead>
+                        <TableHead>Nhiên liệu SD</TableHead>
+                        <TableHead>Số hiệu trạm</TableHead>
+                        <TableHead>Năm sản xuất</TableHead>
+                        <TableHead>Năm BĐ SD</TableHead>
+                        <TableHead>Cấp CL</TableHead>
+                        <TableHead>M/đích SD</TableHead>
+                        <TableHead>T/thái SD</TableHead>
+                        <TableHead>Đơn vị</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {powerRows.map((p: any, idx: number) => (
+                        <TableRow key={p.id}>
+                          <TableCell className="text-center">{idx + 1}</TableCell>
+                          <TableCell className="font-medium">{p.name}</TableCell>
+                          <TableCell>{p.fuel}</TableCell>
+                          <TableCell>{p.stationCode || ""}</TableCell>
+                          <TableCell>{p.manufactureYear || ""}</TableCell>
+                          <TableCell>{p.startUseYear || ""}</TableCell>
+                          <TableCell>{p.qualityLevel ?? ""}</TableCell>
+                          <TableCell>{p.purpose || ""}</TableCell>
+                          <TableCell>{p.status || ""}</TableCell>
+                          <TableCell className="flex justify-between items-center">
+                            <span>{p.unitName || ""}</span>
+                            {isAdmin && (
+                              <Button size="sm" variant="outline" onClick={() => { setEditSection("power"); setEditRecord(p); setEditOpen(true); }}>Sửa</Button>
+                            )}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Edit Dialog */}
+            <Dialog open={editOpen} onOpenChange={(o) => setEditOpen(o)}>
+              <DialogContent className="sm:max-w-[700px]">
+                <DialogHeader>
+                  <DialogTitle>Chỉnh sửa</DialogTitle>
+                  <DialogDescription>Cập nhật thông tin theo mục</DialogDescription>
+                </DialogHeader>
+                {editRecord && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {editSection === "weapons" && (
+                      <>
+                        <div className="grid gap-2"><Label>Tên</Label><Input value={editRecord.name || ""} onChange={(e) => setEditRecord({ ...editRecord, name: e.target.value })} /></div>
+                        <div className="grid gap-2"><Label>Nước sản xuất</Label><Input value={editRecord.origin || ""} onChange={(e) => setEditRecord({ ...editRecord, origin: e.target.value })} /></div>
+                        <div className="grid gap-2"><Label>ĐVT</Label><Input value={editRecord.unit || ""} onChange={(e) => setEditRecord({ ...editRecord, unit: e.target.value })} /></div>
+                        <div className="grid gap-2"><Label>Phân cấp</Label><Input value={editRecord.grade || ""} onChange={(e) => setEditRecord({ ...editRecord, grade: e.target.value })} /></div>
+                        <div className="grid gap-2"><Label>Số lượng</Label><Input type="number" value={editRecord.quantity || 0} onChange={(e) => setEditRecord({ ...editRecord, quantity: Number(e.target.value) })} /></div>
+                        <div className="md:col-span-2 grid grid-cols-2 md:grid-cols-6 gap-3 p-3 rounded border">
+                          <div className="grid gap-1"><Label>Cộng</Label><Input type="number" value={editRecord.distribution?.total || 0} onChange={(e) => setEditRecord({ ...editRecord, distribution: { ...editRecord.distribution, total: Number(e.target.value) } })} /></div>
+                          <div className="grid gap-1"><Label>TM</Label><Input type="number" value={editRecord.distribution?.tm || 0} onChange={(e) => setEditRecord({ ...editRecord, distribution: { ...editRecord.distribution, tm: Number(e.target.value) } })} /></div>
+                          <div className="grid gap-1"><Label>D1</Label><Input type="number" value={editRecord.distribution?.d1 || 0} onChange={(e) => setEditRecord({ ...editRecord, distribution: { ...editRecord.distribution, d1: Number(e.target.value) } })} /></div>
+                          <div className="grid gap-1"><Label>D2</Label><Input type="number" value={editRecord.distribution?.d2 || 0} onChange={(e) => setEditRecord({ ...editRecord, distribution: { ...editRecord.distribution, d2: Number(e.target.value) } })} /></div>
+                          <div className="grid gap-1"><Label>D3</Label><Input type="number" value={editRecord.distribution?.d3 || 0} onChange={(e) => setEditRecord({ ...editRecord, distribution: { ...editRecord.distribution, d3: Number(e.target.value) } })} /></div>
+                          <div className="grid gap-1"><Label>Kho lữ</Label><Input type="number" value={editRecord.distribution?.khoLu || 0} onChange={(e) => setEditRecord({ ...editRecord, distribution: { ...editRecord.distribution, khoLu: Number(e.target.value) } })} /></div>
+                        </div>
+                        <div className="grid gap-2 md:col-span-2"><Label>Ghi chú</Label><Input value={editRecord.note || ""} onChange={(e) => setEditRecord({ ...editRecord, note: e.target.value })} /></div>
+                      </>
+                    )}
+                    {editSection === "ammo" && (
+                      <>
+                        <div className="grid gap-2"><Label>Tên đạn</Label><Input value={editRecord.name || ""} onChange={(e) => setEditRecord({ ...editRecord, name: e.target.value })} /></div>
+                        <div className="grid gap-2"><Label>Đơn vị tính</Label><Input value={editRecord.unit || ""} onChange={(e) => setEditRecord({ ...editRecord, unit: e.target.value })} /></div>
+                        <div className="grid gap-2"><Label>Phân cấp</Label><Input value={editRecord.grade || ""} onChange={(e) => setEditRecord({ ...editRecord, grade: e.target.value })} /></div>
+                        <div className="grid gap-2"><Label>Số lượng</Label><Input type="number" value={editRecord.quantity || 0} onChange={(e) => setEditRecord({ ...editRecord, quantity: Number(e.target.value) })} /></div>
+                        <div className="grid gap-2"><Label>Khối lượng (tấn)</Label><Input type="number" step="0.001" value={editRecord.weightTon || 0} onChange={(e) => setEditRecord({ ...editRecord, weightTon: Number(e.target.value) })} /></div>
+                        <div className="md:col-span-2 grid grid-cols-2 md:grid-cols-6 gap-3 p-3 rounded border">
+                          <div className="grid gap-1"><Label>TM</Label><Input type="number" value={editRecord.distribution?.tm || 0} onChange={(e) => setEditRecord({ ...editRecord, distribution: { ...editRecord.distribution, tm: Number(e.target.value) } })} /></div>
+                          <div className="grid gap-1"><Label>d1</Label><Input type="number" value={editRecord.distribution?.d1 || 0} onChange={(e) => setEditRecord({ ...editRecord, distribution: { ...editRecord.distribution, d1: Number(e.target.value) } })} /></div>
+                          <div className="grid gap-1"><Label>d2</Label><Input type="number" value={editRecord.distribution?.d2 || 0} onChange={(e) => setEditRecord({ ...editRecord, distribution: { ...editRecord.distribution, d2: Number(e.target.value) } })} /></div>
+                          <div className="grid gap-1"><Label>d3</Label><Input type="number" value={editRecord.distribution?.d3 || 0} onChange={(e) => setEditRecord({ ...editRecord, distribution: { ...editRecord.distribution, d3: Number(e.target.value) } })} /></div>
+                          <div className="grid gap-1"><Label>Kho lữ</Label><Input type="number" value={editRecord.distribution?.khoLu || 0} onChange={(e) => setEditRecord({ ...editRecord, distribution: { ...editRecord.distribution, khoLu: Number(e.target.value) } })} /></div>
+                          <div className="grid gap-1"><Label>Kho K820</Label><Input type="number" value={editRecord.distribution?.khoK820 || 0} onChange={(e) => setEditRecord({ ...editRecord, distribution: { ...editRecord.distribution, khoK820: Number(e.target.value) } })} /></div>
+                        </div>
+                      </>
+                    )}
+                    {(editSection === "vehicles" || editSection === "engineering") && (
+                      <>
+                        <div className="grid gap-2"><Label>Số đăng ký</Label><Input value={editRecord.registration || ""} onChange={(e) => setEditRecord({ ...editRecord, registration: e.target.value })} /></div>
+                        <div className="grid gap-2"><Label>Nhãn xe cơ sở</Label><Input value={editRecord.makeModel || ""} onChange={(e) => setEditRecord({ ...editRecord, makeModel: e.target.value })} /></div>
+                        <div className="grid gap-2"><Label>Số khung</Label><Input value={editRecord.chassisNo || ""} onChange={(e) => setEditRecord({ ...editRecord, chassisNo: e.target.value })} /></div>
+                        <div className="grid gap-2"><Label>Số máy</Label><Input value={editRecord.engineNo || ""} onChange={(e) => setEditRecord({ ...editRecord, engineNo: e.target.value })} /></div>
+                        <div className="grid gap-2"><Label>Năm s.xuất</Label><Input type="number" value={editRecord.manufactureYear || 0} onChange={(e) => setEditRecord({ ...editRecord, manufactureYear: Number(e.target.value) })} /></div>
+                        <div className="grid gap-2"><Label>Năm b.s. dụng</Label><Input type="number" value={editRecord.startUseYear || 0} onChange={(e) => setEditRecord({ ...editRecord, startUseYear: Number(e.target.value) })} /></div>
+                        <div className="grid gap-2"><Label>Nguồn gốc</Label><Input value={editRecord.origin || ""} onChange={(e) => setEditRecord({ ...editRecord, origin: e.target.value })} /></div>
+                        <div className="grid gap-2"><Label>B.chế ở</Label><Input value={editRecord.stationedAt || ""} onChange={(e) => setEditRecord({ ...editRecord, stationedAt: e.target.value })} /></div>
+                        <div className="grid gap-2"><Label>Phân cấp CL</Label><Input value={editRecord.qualityGrade || ""} onChange={(e) => setEditRecord({ ...editRecord, qualityGrade: e.target.value })} /></div>
+                        <div className="grid gap-2"><Label>Trạng thái SD</Label><Input value={editRecord.status || ""} onChange={(e) => setEditRecord({ ...editRecord, status: e.target.value })} /></div>
+                      </>
+                    )}
+                    {editSection === "power" && (
+                      <>
+                        <div className="grid gap-2"><Label>Tên trạm nguồn</Label><Input value={editRecord.name || ""} onChange={(e) => setEditRecord({ ...editRecord, name: e.target.value })} /></div>
+                        <div className="grid gap-2"><Label>Nhiên liệu SD</Label><Input value={editRecord.fuel || ""} onChange={(e) => setEditRecord({ ...editRecord, fuel: e.target.value })} /></div>
+                        <div className="grid gap-2"><Label>Số hiệu trạm</Label><Input value={editRecord.stationCode || ""} onChange={(e) => setEditRecord({ ...editRecord, stationCode: e.target.value })} /></div>
+                        <div className="grid gap-2"><Label>Năm sản xuất</Label><Input type="number" value={editRecord.manufactureYear || 0} onChange={(e) => setEditRecord({ ...editRecord, manufactureYear: Number(e.target.value) })} /></div>
+                        <div className="grid gap-2"><Label>Năm BĐ SD</Label><Input type="number" value={editRecord.startUseYear || 0} onChange={(e) => setEditRecord({ ...editRecord, startUseYear: Number(e.target.value) })} /></div>
+                        <div className="grid gap-2"><Label>Cấp CL</Label><Input value={editRecord.qualityLevel || ""} onChange={(e) => setEditRecord({ ...editRecord, qualityLevel: e.target.value })} /></div>
+                        <div className="grid gap-2"><Label>M/đích SD</Label><Input value={editRecord.purpose || ""} onChange={(e) => setEditRecord({ ...editRecord, purpose: e.target.value })} /></div>
+                        <div className="grid gap-2"><Label>T/thái SD</Label><Input value={editRecord.status || ""} onChange={(e) => setEditRecord({ ...editRecord, status: e.target.value })} /></div>
+                        <div className="grid gap-2"><Label>Đơn vị</Label><Input value={editRecord.unitName || ""} onChange={(e) => setEditRecord({ ...editRecord, unitName: e.target.value })} /></div>
+                      </>
+                    )}
+                  </div>
+                )}
+                <DialogFooter>
+                  <Button variant="outline" onClick={() => setEditOpen(false)}>Hủy</Button>
+                  <Button onClick={async () => {
+                    if (!editRecord) return;
+                    if (editSection === "weapons") await equipmentInventoryAPI.updateWeapon(editRecord);
+                    if (editSection === "ammo") await equipmentInventoryAPI.updateAmmunition(editRecord);
+                    if (editSection === "vehicles") await equipmentInventoryAPI.updateVehicle(editRecord);
+                    if (editSection === "engineering") await equipmentInventoryAPI.updateEngineeringVehicle(editRecord);
+                    if (editSection === "power") await equipmentInventoryAPI.updatePowerStation(editRecord);
+                    setEditOpen(false);
+                    // Refresh current list
+                    if (section === "weapons") setWeaponRows(await equipmentInventoryAPI.getWeapons(query));
+                    if (section === "ammo") setAmmoRows(await equipmentInventoryAPI.getAmmunitions(query));
+                    if (section === "vehicles") setVehicleRows(await equipmentInventoryAPI.getVehicles(query));
+                    if (section === "engineering") setEngineeringRows(await equipmentInventoryAPI.getEngineeringVehicles(query));
+                    if (section === "power") setPowerRows(await equipmentInventoryAPI.getPowerStations(query));
+                  }}>Lưu</Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+          </div>
+        </div>
+
+        {/* Legacy tabs (kept hidden for now) */}
+        <Tabs defaultValue="list" className="mt-6 hidden">
           <TabsList>
             <TabsTrigger value="list">Danh sách</TabsTrigger>
             <TabsTrigger value="lookups">Danh mục</TabsTrigger>
