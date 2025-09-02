@@ -1,3 +1,5 @@
+import api from "./config";
+
 export interface WeaponInventoryRow {
   id: string | number;
   name: string;
@@ -48,93 +50,52 @@ export interface PowerStationRow {
   unitName?: string; // Đơn vị
 }
 
-// In-memory mocks (replace with backend later)
-const mockWeapons: WeaponInventoryRow[] = [
-  { id: 1, name: "Súng ngắn 7,62mm K54", origin: "LX", unit: "Khẩu", grade: "+", quantity: 57, distribution: { total: 57, tm: 9, d1: 0, d2: 0, d3: 12, khoLu: 36 } },
-  { id: 2, name: "Súng ngắn 9mm K59", origin: "LX", unit: "Khẩu", grade: "+", quantity: 5, distribution: { total: 5, tm: 2, d1: 0, d2: 0, d3: 0, khoLu: 3 } },
-];
-
-const mockAmmunitions: AmmunitionInventoryRow[] = [
-  { id: 1, name: "Đạn 7,62mm K51", unit: "Viên", grade: "2", quantity: 4486, weightTon: 0.063, distribution: { tm: 216, d1: 0, d2: 0, d3: 288, khoLu: 3982, khoK820: 0 } },
-  { id: 2, name: "Đạn 7,62mm K56", unit: "Viên", grade: "2", quantity: 52290, weightTon: 1.150, distribution: { tm: 4620, d1: 700, d2: 2760, d3: 5450, khoLu: 38760, khoK820: 0 } },
-];
-
-const mockVehicles: VehicleInventoryRow[] = [
-  { id: 1, registration: "BC-20-84", makeModel: "UAZ-469", chassisNo: "476191", engineNo: "2057357", manufactureYear: 1995, startUseYear: 1995, origin: "TBQP", stationedAt: "HC-KT", qualityGrade: "C3", status: "SDTX" },
-  { id: 2, registration: "BC-40-16", makeModel: "UAZ-31512", chassisNo: "3929", engineNo: "1105466", manufactureYear: 2002, startUseYear: 2004, origin: "TBQP", stationedAt: "HC-KT", qualityGrade: "C2", status: "SDTX" },
-];
-
-const mockEngineering: EngineeringVehicleRow[] = [
-  { id: 1, registration: "CB-01-01", makeModel: "UAZ-469", chassisNo: "476191", engineNo: "2057357", manufactureYear: 1995, startUseYear: 1995, origin: "TBQP", stationedAt: "HC-KT", qualityGrade: "C3", status: "SDTX" },
-  { id: 2, registration: "CB-02-16", makeModel: "UAZ-31512", chassisNo: "3929", engineNo: "1105466", manufactureYear: 2002, startUseYear: 2004, origin: "TBQP", stationedAt: "HC-KT", qualityGrade: "C2", status: "SDTX" },
-];
-
-const mockPowerStations: PowerStationRow[] = [
-  { id: 1, name: "Phát điện CUMINS-0NAN", fuel: "DIESEL", stationCode: "Đ-191", manufactureYear: 1998, startUseYear: 2000, qualityLevel: 4, purpose: "XDCT", status: "TX", unitName: "HC-KT" },
-  { id: 2, name: "Phát điện ESD-50/VS400", fuel: "DIESEL", stationCode: "Đ-166", manufactureYear: 1985, startUseYear: 1985, qualityLevel: 2, purpose: "TC", status: "NCNH", unitName: "HC-KT" },
-];
-
 export const equipmentInventoryAPI = {
   async getWeapons(query?: string): Promise<WeaponInventoryRow[]> {
-    const q = (query || "").toLowerCase();
-    return mockWeapons.filter((w) =>
-      [w.name, w.origin, w.unit, w.grade].some((v) => (v || "").toLowerCase().includes(q))
-    );
+    const res = await api.get("/equipment-inventory/weapons", { params: { q: query } });
+    return res.data.data as WeaponInventoryRow[];
   },
 
   async getAmmunitions(query?: string): Promise<AmmunitionInventoryRow[]> {
-    const q = (query || "").toLowerCase();
-    return mockAmmunitions.filter((a) =>
-      [a.name, a.unit, a.grade].some((v) => (v || "").toLowerCase().includes(q))
-    );
+    const res = await api.get("/equipment-inventory/ammunitions", { params: { q: query } });
+    return res.data.data as AmmunitionInventoryRow[];
   },
 
   async getVehicles(query?: string): Promise<VehicleInventoryRow[]> {
-    const q = (query || "").toLowerCase();
-    return mockVehicles.filter((v) =>
-      [v.registration, v.makeModel, v.stationedAt, v.qualityGrade, v.status].some((x) => (x || "").toLowerCase().includes(q))
-    );
+    const res = await api.get("/equipment-inventory/vehicles", { params: { q: query } });
+    return res.data.data as VehicleInventoryRow[];
   },
 
   async getEngineeringVehicles(query?: string): Promise<EngineeringVehicleRow[]> {
-    const q = (query || "").toLowerCase();
-    return mockEngineering.filter((v) =>
-      [v.registration, v.makeModel, v.stationedAt, v.qualityGrade, v.status].some((x) => (x || "").toLowerCase().includes(q))
-    );
+    const res = await api.get("/equipment-inventory/engineering-vehicles", { params: { q: query } });
+    return res.data.data as EngineeringVehicleRow[];
   },
 
   async getPowerStations(query?: string): Promise<PowerStationRow[]> {
-    const q = (query || "").toLowerCase();
-    return mockPowerStations.filter((p) =>
-      [p.name, p.fuel, String(p.qualityLevel), p.purpose, p.status, p.unitName].some((x) => (x || "").toLowerCase().includes(q))
-    );
+    const res = await api.get("/equipment-inventory/power-stations", { params: { q: query } });
+    return res.data.data as PowerStationRow[];
   },
 
   // Update helpers (mock persistence in memory)
   async updateWeapon(updated: WeaponInventoryRow): Promise<WeaponInventoryRow> {
-    const idx = mockWeapons.findIndex((x) => x.id === updated.id);
-    if (idx >= 0) mockWeapons[idx] = { ...mockWeapons[idx], ...updated };
-    return mockWeapons[idx];
+    const res = await api.put(`/equipment-inventory/weapons/${updated.id}`, updated);
+    return res.data.data as WeaponInventoryRow;
   },
   async updateAmmunition(updated: AmmunitionInventoryRow): Promise<AmmunitionInventoryRow> {
-    const idx = mockAmmunitions.findIndex((x) => x.id === updated.id);
-    if (idx >= 0) mockAmmunitions[idx] = { ...mockAmmunitions[idx], ...updated };
-    return mockAmmunitions[idx];
+    const res = await api.put(`/equipment-inventory/ammunitions/${updated.id}`, updated);
+    return res.data.data as AmmunitionInventoryRow;
   },
   async updateVehicle(updated: VehicleInventoryRow): Promise<VehicleInventoryRow> {
-    const idx = mockVehicles.findIndex((x) => x.id === updated.id);
-    if (idx >= 0) mockVehicles[idx] = { ...mockVehicles[idx], ...updated };
-    return mockVehicles[idx];
+    const res = await api.put(`/equipment-inventory/vehicles/${updated.id}`, updated);
+    return res.data.data as VehicleInventoryRow;
   },
   async updateEngineeringVehicle(updated: EngineeringVehicleRow): Promise<EngineeringVehicleRow> {
-    const idx = mockEngineering.findIndex((x) => x.id === updated.id);
-    if (idx >= 0) mockEngineering[idx] = { ...mockEngineering[idx], ...updated };
-    return mockEngineering[idx];
+    const res = await api.put(`/equipment-inventory/engineering-vehicles/${updated.id}`, updated);
+    return res.data.data as EngineeringVehicleRow;
   },
   async updatePowerStation(updated: PowerStationRow): Promise<PowerStationRow> {
-    const idx = mockPowerStations.findIndex((x) => x.id === updated.id);
-    if (idx >= 0) mockPowerStations[idx] = { ...mockPowerStations[idx], ...updated };
-    return mockPowerStations[idx];
+    const res = await api.put(`/equipment-inventory/power-stations/${updated.id}`, updated);
+    return res.data.data as PowerStationRow;
   },
 };
 
